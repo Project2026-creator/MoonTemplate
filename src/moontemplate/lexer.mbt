@@ -1,11 +1,12 @@
 
 pub enum Token {
   Text(String)
-  VarStart     // {{
-  VarEnd       // }}
-  TagStart     // {%
-  TagEnd       // %}
+  VarStart
+  VarEnd
+  TagStart
+  TagEnd
   Identifier(String)
+  In
   EOF
 } derive(Show, Eq)
 
@@ -36,9 +37,7 @@ pub fn Lexer::next_token(self: Lexer) -> Token {
     let mut text = ""
     while self.pos < self.input.length() {
       if self.peek(2) == "{{" || self.peek(2) == "{%" {
-        if text.length() > 0 {
-          return Text(text)
-        }
+        if text.length() > 0 { return Text(text) }
         let tag = self.peek(2)
         self.pos += 2
         self.in_tag = true
@@ -50,42 +49,28 @@ pub fn Lexer::next_token(self: Lexer) -> Token {
     return Text(text)
   }
 
-  // In tag, skip whitespaces
   while self.pos < self.input.length() && (self.peek(1) == " " || self.peek(1) == "\n" || self.peek(1) == "\t") {
     self.pos += 1
   }
-
   if self.pos >= self.input.length() { return EOF }
 
-  if self.peek(2) == "}}" {
-    self.pos += 2
-    self.in_tag = false
-    return VarEnd
-  }
-  if self.peek(2) == "%}" {
-    self.pos += 2
-    self.in_tag = false
-    return TagEnd
-  }
+  if self.peek(2) == "}}" { self.pos += 2; self.in_tag = false; return VarEnd }
+  if self.peek(2) == "%}" { self.pos += 2; self.in_tag = false; return TagEnd }
 
-  // Parse identifier
   let mut id = ""
   while self.pos < self.input.length() {
     let c = self.peek(1)
-    if c == " " || c == "\n" || c == "}" || c == "%" {
-      break
-    }
+    if c == " " || c == "\n" || c == "}" || c == "%" { break }
     id += c
     self.pos += 1
   }
   if id.length() > 0 {
+    if id == "in" { return In }
     return Identifier(id)
   }
-
   self.pos += 1
   EOF
 }
-
 pub fn Lexer::tokenize(self: Lexer) -> Array[Token] {
   let tokens = []
   loop {
