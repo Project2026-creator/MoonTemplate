@@ -9,7 +9,9 @@ pub fn Engine::new(template: String) -> Result[Engine, String] {
   let tokens = lexer.tokenize()
   let parser = Parser::new(tokens)
   let nodes = parser.parse()?
-  Ok({ nodes, filters: Map::new() })
+  
+  let filters = Map::new()
+  Ok({ nodes, filters })
 }
 
 pub fn Engine::register_filter(self: Engine, name: String, filter: (String) -> String) -> Unit {
