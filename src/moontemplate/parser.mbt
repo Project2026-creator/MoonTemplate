@@ -3,29 +3,16 @@ pub struct Parser {
   tokens: Array[Token]
   mut pos: Int
 }
-
-pub fn Parser::new(tokens: Array[Token]) -> Parser {
-  { tokens, pos: 0 }
-}
-
+pub fn Parser::new(tokens: Array[Token]) -> Parser { { tokens, pos: 0 } }
 fn Parser::peek(self: Parser) -> Token {
-  if self.pos >= self.tokens.length() {
-    EOF
-  } else {
-    self.tokens[self.pos]
-  }
+  if self.pos >= self.tokens.length() { EOF } else { self.tokens[self.pos] }
 }
-
 fn Parser::advance(self: Parser) -> Token {
-  let tok = self.peek()
-  self.pos += 1
-  tok
+  let tok = self.peek(); self.pos += 1; tok
 }
-
 pub fn Parser::parse(self: Parser) -> Result[Array[Node], String] {
   self.parse_until("EOF")
 }
-
 fn Parser::parse_until(self: Parser, end_token_ident: String) -> Result[Array[Node], String] {
   let nodes = []
   while self.peek() != EOF {
@@ -39,7 +26,6 @@ fn Parser::parse_until(self: Parser, end_token_ident: String) -> Result[Array[No
       }
       if is_end { break }
     }
-
     let node = self.parse_node()?
     match node {
       Some(n) => nodes.push(n)
@@ -48,7 +34,6 @@ fn Parser::parse_until(self: Parser, end_token_ident: String) -> Result[Array[No
   }
   Ok(nodes)
 }
-
 fn Parser::parse_node(self: Parser) -> Result[Node?, String] {
   let tok = self.advance()
   match tok {
@@ -74,13 +59,29 @@ fn Parser::parse_node(self: Parser) -> Result[Node?, String] {
               Identifier(cond) => {
                 if self.advance() != TagEnd { return Err("Expected %}") }
                 let true_branch = self.parse_until("endif")?
-                self.advance() // TagStart
-                self.advance() // Identifier("endif")
-                self.advance() // TagEnd
+                self.advance(); self.advance(); self.advance();
                 Ok(Some(If(cond, true_branch, [])))
               }
               _ => Err("Expected condition in if")
             }
+          } else if cmd == "for" {
+             let var_tok = self.advance()
+             match var_tok {
+               Identifier(v) => {
+                 if self.advance() != In { return Err("Expected in") }
+                 let iter_tok = self.advance()
+                 match iter_tok {
+                   Identifier(iter) => {
+                     if self.advance() != TagEnd { return Err("Expected %}") }
+                     let body = self.parse_until("endfor")?
+                     self.advance(); self.advance(); self.advance();
+                     Ok(Some(For(v, iter, body)))
+                   }
+                   _ => Err("Expected iterable in for loop")
+                 }
+               }
+               _ => Err("Expected variable name in for loop")
+             }
           } else {
             Err("Unknown tag command")
           }
