@@ -26,10 +26,10 @@ fn Parser::parse_until(self: Parser, end_token_ident: String) -> Result[Array[No
       }
       if is_end { break }
     }
-    let node = self.parse_node()?
-    match node {
-      Some(n) => nodes.push(n)
-      None => break
+    match self.parse_node() {
+      Ok(Some(n)) => nodes.push(n)
+      Ok(None) => break
+      Err(e) => return Err(e)
     }
   }
   Ok(nodes)
@@ -58,9 +58,13 @@ fn Parser::parse_node(self: Parser) -> Result[Node?, String] {
             match cond_tok {
               Identifier(cond) => {
                 if self.advance() != TagEnd { return Err("Expected %}") }
-                let true_branch = self.parse_until("endif")?
-                self.advance(); self.advance(); self.advance();
-                Ok(Some(If(cond, true_branch, [])))
+                match self.parse_until("endif") {
+                  Ok(true_branch) => {
+                    let _ = self.advance(); let _ = self.advance(); let _ = self.advance();
+                    Ok(Some(If(cond, true_branch, [])))
+                  }
+                  Err(e) => Err(e)
+                }
               }
               _ => Err("Expected condition in if")
             }
@@ -73,9 +77,13 @@ fn Parser::parse_node(self: Parser) -> Result[Node?, String] {
                  match iter_tok {
                    Identifier(iter) => {
                      if self.advance() != TagEnd { return Err("Expected %}") }
-                     let body = self.parse_until("endfor")?
-                     self.advance(); self.advance(); self.advance();
-                     Ok(Some(For(v, iter, body)))
+                     match self.parse_until("endfor") {
+                       Ok(body) => {
+                         let _ = self.advance(); let _ = self.advance(); let _ = self.advance();
+                         Ok(Some(For(v, iter, body)))
+                       }
+                       Err(e) => Err(e)
+                     }
                    }
                    _ => Err("Expected iterable in for loop")
                  }

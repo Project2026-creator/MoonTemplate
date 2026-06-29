@@ -8,10 +8,13 @@ pub fn Engine::new(template: String) -> Result[Engine, String] {
   let lexer = Lexer::new(template)
   let tokens = lexer.tokenize()
   let parser = Parser::new(tokens)
-  let nodes = parser.parse()?
-  
-  let filters = Map::new()
-  Ok({ nodes, filters })
+  match parser.parse() {
+    Ok(nodes) => {
+      let filters : Map[String, (String) -> String] = {}
+      Ok({ nodes, filters })
+    }
+    Err(e) => Err(e)
+  }
 }
 
 pub fn Engine::register_filter(self: Engine, name: String, filter: (String) -> String) -> Unit {
@@ -28,7 +31,7 @@ fn Engine::render_nodes(self: Engine, nodes: Array[Node], context: Map[String, S
     match node {
       Text(s) => result += s
       Variable(name) => {
-        let mut val = match context.get(name) {
+        let val = match context.get(name) {
           Some(v) => v
           None => ""
         }
@@ -45,7 +48,22 @@ fn Engine::render_nodes(self: Engine, nodes: Array[Node], context: Map[String, S
           result += self.render_nodes(false_branch, context)
         }
       }
-      _ => ()
+      For(var_name, iterable, body) => {
+        match context.get(iterable) {
+          Some(val) => {
+            let items = val.split(",")
+            for item in items {
+              let new_ctx : Map[String, String] = {}
+              for k, v in context {
+                new_ctx.set(k, v)
+              }
+              new_ctx.set(var_name, item.to_string())
+              result += self.render_nodes(body, new_ctx)
+            }
+          }
+          None => ()
+        }
+      }
     }
   }
   result

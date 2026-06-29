@@ -1,5 +1,5 @@
 
-pub enum Token {
+pub(all) enum Token {
   Text(String)
   VarStart
   VarEnd
@@ -22,9 +22,9 @@ pub fn Lexer::new(input: String) -> Lexer {
 
 fn Lexer::peek(self: Lexer, n: Int) -> String {
   if self.pos + n > self.input.length() {
-    self.input.substring(start=self.pos)
+    self.input[self.pos : self.input.length()].to_string()
   } else {
-    self.input.substring(start=self.pos, end=self.pos + n)
+    self.input[self.pos : self.pos + n].to_string()
   }
 }
 
@@ -33,7 +33,7 @@ pub fn Lexer::next_token(self: Lexer) -> Token {
     return EOF
   }
 
-  if not(self.in_tag) {
+  if !self.in_tag {
     let mut text = ""
     while self.pos < self.input.length() {
       if self.peek(2) == "{{" || self.peek(2) == "{%" {
@@ -73,7 +73,7 @@ pub fn Lexer::next_token(self: Lexer) -> Token {
 }
 pub fn Lexer::tokenize(self: Lexer) -> Array[Token] {
   let tokens = []
-  loop {
+  while true {
     let tok = self.next_token()
     tokens.push(tok)
     if tok == EOF { break }

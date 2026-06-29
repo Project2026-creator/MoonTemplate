@@ -1,5 +1,5 @@
 
-pub enum Node {
+pub(all) enum Node {
   Text(String)
   Variable(String)
   If(String, Array[Node], Array[Node]) // condition, true_branch, false_branch
