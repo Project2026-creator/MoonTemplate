@@ -7,7 +7,7 @@
     <img alt="MoonBit Version" src="https://img.shields.io/badge/MoonBit-0.1.20260624-orange?logo=moonbit&style=flat-square">
     <img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square">
     <img alt="Tests" src="https://img.shields.io/badge/Tests-100%25%20Passing-success?style=flat-square">
-    <img alt="Version" src="https://img.shields.io/badge/mooncakes.io-v1.0.0-purple?style=flat-square">
+    <img alt="Version" src="https://img.shields.io/badge/mooncakes.io-v0.2.0-purple?style=flat-square">
   </p>
 </div>
 

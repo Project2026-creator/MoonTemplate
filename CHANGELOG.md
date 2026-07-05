@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.0] - 2026-07-05
+## [0.2.0] - 2026-07-05
 ### Added
 - Complete AST parsing and compilation pipeline.
 - Full support for `{% if %}` and `{% for %}` control flows.
