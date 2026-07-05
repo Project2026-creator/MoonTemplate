@@ -1,0 +1,7 @@
+import {
+  "Project2026-creator/moontemplate/src/moontemplate",
+}
+
+options(
+  is_main: true,
+)
