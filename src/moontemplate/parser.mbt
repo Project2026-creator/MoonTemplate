@@ -19,6 +19,16 @@ fn Parser::peek(self : Parser) -> Token {
 }
 
 ///|
+fn Parser::peek_n(self : Parser, offset : Int) -> Token {
+  let index = self.pos + offset
+  if index >= self.tokens.length() {
+    EOF
+  } else {
+    self.tokens[index]
+  }
+}
+
+///|
 fn Parser::advance(self : Parser) -> Token {
   let tok = self.peek()
   self.pos += 1
@@ -27,27 +37,19 @@ fn Parser::advance(self : Parser) -> Token {
 
 ///|
 pub fn Parser::parse(self : Parser) -> Result[Array[Node], String] {
-  self.parse_until("EOF")
+  self.parse_until([])
 }
 
 ///|
 fn Parser::parse_until(
   self : Parser,
-  end_token_ident : String,
+  end_token_idents : Array[String],
 ) -> Result[Array[Node], String] {
   let nodes = []
   while self.peek() != EOF {
-    if self.peek() == TagStart {
-      let mut is_end = false
-      if self.pos + 1 < self.tokens.length() {
-        match self.tokens[self.pos + 1] {
-          Identifier(id) => if id == end_token_ident { is_end = true }
-          _ => ()
-        }
-      }
-      if is_end {
-        break
-      }
+    match self.peek_tag_identifier() {
+      Some(id) if end_token_idents.contains(id) => break
+      _ => ()
     }
     match self.parse_node() {
       Ok(Some(n)) => nodes.push(n)
@@ -56,6 +58,61 @@ fn Parser::parse_until(
     }
   }
   Ok(nodes)
+}
+
+///|
+fn Parser::peek_tag_identifier(self : Parser) -> String? {
+  if self.peek() != TagStart {
+    return None
+  }
+  match self.peek_n(1) {
+    Identifier(id) => Some(id)
+    _ => None
+  }
+}
+
+///|
+fn Parser::consume_token(
+  self : Parser,
+  expected : Token,
+  message : String,
+) -> Result[Unit, String] {
+  let actual = self.advance()
+  if actual == expected {
+    Ok(())
+  } else {
+    Err(message)
+  }
+}
+
+///|
+fn Parser::consume_tag_command(
+  self : Parser,
+  command : String,
+  message : String,
+) -> Result[Unit, String] {
+  match self.consume_token(TagStart, message) {
+    Ok(_) => ()
+    Err(err) => return Err(err)
+  }
+  match self.advance() {
+    Identifier(name) if name == command => ()
+    _ => return Err(message)
+  }
+  self.consume_token(TagEnd, message)
+}
+
+///|
+fn Parser::parse_filters(self : Parser) -> Result[Array[String], String] {
+  let filters = []
+  while self.peek() == Pipe {
+    let _ = self.advance()
+    match self.advance() {
+      Identifier(name) => filters.push(name)
+      _ => return Err("Expected filter name after |")
+    }
+  }
+  Ok(filters)
 }
 
 ///|
@@ -68,10 +125,15 @@ fn Parser::parse_node(self : Parser) -> Result[Node?, String] {
       let id_tok = self.advance()
       match id_tok {
         Identifier(name) => {
-          if self.advance() != VarEnd {
-            return Err("Expected }}")
+          let filters = match self.parse_filters() {
+            Ok(value) => value
+            Err(err) => return Err(err)
           }
-          Ok(Some(Variable(name)))
+          match self.consume_token(VarEnd, "Expected }}") {
+            Ok(_) => ()
+            Err(err) => return Err(err)
+          }
+          Ok(Some(Variable(name, filters)))
         }
         _ => Err("Expected identifier inside {{ }}")
       }
@@ -84,17 +146,37 @@ fn Parser::parse_node(self : Parser) -> Result[Node?, String] {
             let cond_tok = self.advance()
             match cond_tok {
               Identifier(cond) => {
-                if self.advance() != TagEnd {
-                  return Err("Expected %}")
+                match self.consume_token(TagEnd, "Expected %}") {
+                  Ok(_) => ()
+                  Err(err) => return Err(err)
                 }
-                match self.parse_until("endif") {
-                  Ok(true_branch) => {
-                    let _ = self.advance()
-                    let _ = self.advance()
-                    let _ = self.advance()
-                    Ok(Some(If(cond, true_branch, [])))
+                let true_branch = match self.parse_until(["else", "endif"]) {
+                  Ok(value) => value
+                  Err(err) => return Err(err)
+                }
+                if self.peek_tag_identifier() == Some("else") {
+                  match
+                    self.consume_tag_command("else", "Expected {% else %}") {
+                    Ok(_) => ()
+                    Err(err) => return Err(err)
                   }
-                  Err(e) => Err(e)
+                  let false_branch = match self.parse_until(["endif"]) {
+                    Ok(value) => value
+                    Err(err) => return Err(err)
+                  }
+                  match
+                    self.consume_tag_command("endif", "Expected {% endif %}") {
+                    Ok(_) => ()
+                    Err(err) => return Err(err)
+                  }
+                  Ok(Some(If(cond, true_branch, false_branch)))
+                } else {
+                  match
+                    self.consume_tag_command("endif", "Expected {% endif %}") {
+                    Ok(_) => ()
+                    Err(err) => return Err(err)
+                  }
+                  Ok(Some(If(cond, true_branch, [])))
                 }
               }
               _ => Err("Expected condition in if")
@@ -109,18 +191,22 @@ fn Parser::parse_node(self : Parser) -> Result[Node?, String] {
                 let iter_tok = self.advance()
                 match iter_tok {
                   Identifier(iter) => {
-                    if self.advance() != TagEnd {
-                      return Err("Expected %}")
+                    match self.consume_token(TagEnd, "Expected %}") {
+                      Ok(_) => ()
+                      Err(err) => return Err(err)
                     }
-                    match self.parse_until("endfor") {
-                      Ok(body) => {
-                        let _ = self.advance()
-                        let _ = self.advance()
-                        let _ = self.advance()
-                        Ok(Some(For(v, iter, body)))
-                      }
-                      Err(e) => Err(e)
+                    let body = match self.parse_until(["endfor"]) {
+                      Ok(value) => value
+                      Err(err) => return Err(err)
                     }
+                    match
+                      self.consume_tag_command(
+                        "endfor", "Expected {% endfor %}",
+                      ) {
+                      Ok(_) => ()
+                      Err(err) => return Err(err)
+                    }
+                    Ok(Some(For(v, iter, body)))
                   }
                   _ => Err("Expected iterable in for loop")
                 }

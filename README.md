@@ -1,92 +1,130 @@
-<div align="center">
-  <img src="https://www.moonbitlang.com/logo.svg" alt="MoonBit" width="100"/>
-  <h1>MoonTemplate</h1>
-  <p>A lightweight, flexible, and extensible text template engine designed exclusively for <b>MoonBit</b>.</p>
+# MoonTemplate
 
-  <p>
-    <img alt="MoonBit Version" src="https://img.shields.io/badge/MoonBit-0.1.20260624-orange?logo=moonbit&style=flat-square">
-    <img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square">
-    <img alt="Tests" src="https://img.shields.io/badge/Tests-100%25%20Passing-success?style=flat-square">
-    <img alt="Version" src="https://img.shields.io/badge/mooncakes.io-v1.0.0-purple?style=flat-square">
-  </p>
-</div>
+MoonTemplate is a MoonBit-native text template engine for generating HTML, emails, configuration files, prompts, and code snippets from simple declarative templates.
 
-## 📖 Introduction
-**MoonTemplate** is a highly extensible text templating engine built from scratch natively in MoonBit. Designed for high performance and strict type safety, it provides developers with a robust tool to generate dynamic content, ranging from HTML pages and emails to source code generation.
+[![MoonBit](https://img.shields.io/badge/MoonBit-0.1.20260703-orange?style=flat-square)](https://www.moonbitlang.com/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=flat-square)](LICENSE)
+[![GitHub CI](https://img.shields.io/badge/CI-GitHub%20Actions-success?style=flat-square)](.github/workflows/ci.yml)
+[![GitLink CI](https://img.shields.io/badge/CI-Gitea%20Actions-success?style=flat-square)](.gitea/workflows/ci.yml)
 
-## ✨ Key Features
-- **Zero Dependencies**: Pure MoonBit implementation, incredibly lightweight.
-- **Robust Parsing Engine**: Custom-built Lexer and AST Parser ensuring 100% safety and speed.
-- **Variable Interpolation**: Effortlessly inject dynamic context data (`{{ variable }}`).
-- **Control Flow**: Complex conditional rendering logic supported natively (`{% if cond %}`).
-- **Iteration (For Loops)**: Full support for array and list iteration (`{% for item in iterable %}`).
-- **Extensible Filter System**: Chainable architecture via pipes (`{{ name | uppercase | trim }}`).
-- **CLI Ready**: Seamlessly render templates directly from your terminal.
+## Why This Project
 
-## 🏗️ Architecture Design
+MoonTemplate targets the common “generate structured text from data” problem in the MoonBit ecosystem:
 
-MoonTemplate's compiler-like architecture ensures high cohesion and extreme extensibility.
+- static page generators
+- CLI report generation
+- config and manifest synthesis
+- email and notification rendering
+- code scaffolding and boilerplate generation
 
-```mermaid
-graph LR
-    A[Template String] -->|1. Tokenize| B(Lexer)
-    B -->|2. Parse| C{Parser}
-    C -->|3. Build AST| D[AST Nodes]
-    D -->|4. Render| E((Engine Runtime))
-    ctx[(Context Map)] --> E
-    E -->|Output| F[Generated String]
-    
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style E fill:#bbf,stroke:#333,stroke-width:4px
-    style F fill:#9f9,stroke:#333,stroke-width:2px
+The implementation is intentionally small, readable, and reviewable, but it already covers the core engineering surface expected from an OSC2026 acceptance repository: public source, reproducible checks, real tests, CI, a CLI entry point, API snapshots, and source-attribution documentation.
+
+## Feature Set
+
+- Variable interpolation: `{{ name }}`
+- Filter pipelines: `{{ name | trim | uppercase }}`
+- Built-in filters: `trim`, `uppercase`, `lowercase`
+- Custom filters via `Engine::register_filter`
+- Conditional rendering with `if` / `else`
+- Loop rendering with `{% for item in list %}`
+- Native CLI for file-based or inline rendering
+- Public API snapshot tracked in [`src/moontemplate/pkg.generated.mbti`](src/moontemplate/pkg.generated.mbti)
+
+## Template Syntax
+
+```text
+Hello, {{ user | trim }}!
+
+{% if is_admin %}
+Role: ADMIN
+{% else %}
+Role: USER
+{% endif %}
+
+Members:
+{% for member in users %}
+- {{ member | trim }}
+{% endfor %}
 ```
 
-## 🚀 Quick Start
+Loop variables are read from comma-separated strings in the input context. Empty items are ignored.
 
-### Installation
-Publishing to `mooncakes.io` enables you to add it via `moon add`:
+More syntax examples live in [`docs/syntax.md`](docs/syntax.md).
+
+## Quick Start
+
+### Add the library
+
 ```bash
 moon add Project2026-creator/moontemplate
 ```
 
-### Basic Variable Rendering
+### Render from MoonBit
+
 ```moonbit
-let template = "Hello, {{ user }}! Welcome to MoonBit."
+let template =
+  #|Hello, {{ user | trim }}!
+  #|{% if admin %}Welcome back, admin.{% else %}Welcome back.{% endif %}
+
 let engine = Engine::new(template).unwrap()
-let ctx = Map::new()
-ctx.set("user", "Hero001")
+let ctx = Map([], capacity=2)
+ctx.set("user", " MoonBit ")
+ctx.set("admin", "true")
 
 let output = engine.render(ctx)
-println(output) // Output: Hello, Hero001! Welcome to MoonBit.
+println(output)
 ```
 
-### Using Conditionals & Loops
+### Register a custom filter
+
 ```moonbit
-let template = 
-  #|{% if is_admin %}
-  #|Welcome Admin! Users:
-  #|{% for u in users %} - {{ u }}{% endfor %}
-  #|{% endif %}
-
-let engine = Engine::new(template).unwrap()
-// Setup your context variables here...
+let engine = Engine::new("{{ name | suffix }}").unwrap()
+engine.register_filter("suffix", fn(value) { value + "!" })
 ```
 
-### Filters
-```moonbit
-let template = "Current status: {{ status | uppercase }}"
-let engine = Engine::new(template).unwrap()
-engine.register_filter("uppercase", fn(s) { s.to_upper() })
-```
+## CLI Usage
 
-## 🛠️ CLI Usage
-MoonTemplate includes a robust CLI tool for rendering template files directly from your terminal, completely decoupled from your application code.
+The CLI package targets `native`, so it needs a system C compiler when you run it locally.
+
 ```bash
-moon run src/cli -- template.txt
+moon run src/cli --target native -- --file template.txt --var name=MoonBit
+moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
 ```
 
-## 🤝 Contributing
-Contributions make the open-source community an amazing place! Please see `CONTRIBUTING.md` for details on how to contribute, build, and test the project. All PRs should pass standard `moon test` validation.
+Supported options:
 
-## 📄 License
-This project is officially licensed under the **Apache 2.0 License** - see the `LICENSE` file for details.
+- `--file <path>` or positional file path
+- `--template <inline-template>`
+- `--var key=value` (repeatable)
+- `--help`
+
+## Quality Gates
+
+MoonTemplate is maintained against the latest locally installable MoonBit toolchain available in this workspace. As of July 10, 2026, that is `moon 0.1.20260703`; the older `0.10.3` wording seen in organizer feedback does not match the current installer output here.
+
+Local verification:
+
+```bash
+moon fmt --check
+moon info
+moon check --deny-warn
+moon test --deny-warn
+```
+
+Repository acceptance helpers:
+
+- [`docs/official-requirements.md`](docs/official-requirements.md)
+- [`docs/acceptance-checklist.md`](docs/acceptance-checklist.md)
+- [`docs/source-attribution.md`](docs/source-attribution.md)
+- [`scripts/verify_acceptance.ps1`](scripts/verify_acceptance.ps1)
+- [`scripts/check_repo_compliance.py`](scripts/check_repo_compliance.py)
+
+## Repository Links
+
+- GitHub: <https://github.com/Project2026-creator/MoonTemplate>
+- GitLink: <https://gitlink.org.cn/Hero001/moontemplate>
+- Mooncakes package name: `Project2026-creator/moontemplate`
+
+## License
+
+MoonTemplate is released under the Apache 2.0 License. See [`LICENSE`](LICENSE).

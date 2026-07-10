@@ -1,0 +1,59 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Project2026-creator/moontemplate/src/moontemplate"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub struct Engine {
+  nodes : Array[Node]
+  filters : Map[String, (String) -> String]
+}
+pub fn Engine::new(String) -> Result[Self, String]
+pub fn Engine::register_filter(Self, String, (String) -> String) -> Unit
+pub fn Engine::render(Self, Map[String, String]) -> String
+
+pub struct Lexer {
+  input : String
+  mut pos : Int
+  mut in_tag : Bool
+}
+pub fn Lexer::new(String) -> Self
+pub fn Lexer::next_token(Self) -> Token
+pub fn Lexer::tokenize(Self) -> Array[Token]
+
+pub(all) enum Node {
+  Text(String)
+  Variable(String, Array[String])
+  If(String, Array[Node], Array[Node])
+  For(String, String, Array[Node])
+} derive(Eq, @debug.Debug)
+
+pub struct Parser {
+  tokens : Array[Token]
+  mut pos : Int
+}
+pub fn Parser::new(Array[Token]) -> Self
+pub fn Parser::parse(Self) -> Result[Array[Node], String]
+
+pub(all) enum Token {
+  Text(String)
+  VarStart
+  VarEnd
+  TagStart
+  TagEnd
+  Pipe
+  Identifier(String)
+  In
+  EOF
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits
+

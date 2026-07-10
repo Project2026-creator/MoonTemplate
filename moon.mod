@@ -1,6 +1,10 @@
 name = "Project2026-creator/moontemplate"
 
-version = "1.0.0"
+version = "0.2.0"
+
+import {
+  "moonbitlang/async@0.19.4",
+}
 
 description = "A lightweight, flexible, and extensible text template engine designed exclusively for MoonBit."
 

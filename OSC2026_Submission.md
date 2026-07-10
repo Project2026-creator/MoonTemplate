@@ -1,15 +1,20 @@
 # OSC2026 项目申报材料：MoonTemplate
 
 1. **项目名称**：MoonTemplate
-2. **项目简介**：一个为 MoonBit 语言设计的轻量、灵活且可扩展的文本模板引擎。
-3. **项目方向与适用场景**：属于基础软件生态的工具库方向。适用于静态网站生成器、CLI 工具动态输出格式化、后端服务文本渲染等需要动态内容生成的场景。
-4. **拟实现的核心功能**：
-   - 包含定制的词法分析器 (Lexer) 与语法树构建 (Parser)
-   - 支持基于 `{{ variable }}` 的变量插值渲染
-   - 支持基本控制流：`{% if cond %}` 条件判断与 `{% for item in list %}` 循环
-   - 支持自定义过滤器/函数扩展架构 (Filter System)
-   - 提供标准化的命令行执行工具 (CLI)
-5. **是否为原创项目**：完全原创项目，基于 MoonBit 语法重新开发 AST 及渲染逻辑。
-6. **如为移植项目**：不适用。
-7. **GitHub 仓库链接**：https://github.com/Project2026-creator/MoonTemplate (包含完整的词法、语法解析、渲染、CLI与持续集成提交记录，共 20 余个有效 commit)
-8. **Gitlink 仓库链接**：https://gitlink.org.cn/Hero001/moontemplate
+2. **项目简介**：一个为 MoonBit 生态设计的轻量、可扩展文本模板引擎，覆盖模板解析、控制流渲染、过滤器管道和原生命令行渲染能力。
+3. **项目方向与适用场景**：属于基础软件生态中的工程工具库方向，适用于静态页面生成、CLI 报表、配置文件渲染、邮件模板、代码脚手架等文本生成场景。
+4. **核心能力**：
+   - 自研 Lexer / Parser / AST 渲染链路
+   - `{{ variable }}` 变量插值
+   - `{{ variable | trim | uppercase }}` 过滤器管道
+   - `{% if %} / {% else %} / {% endif %}` 条件分支
+   - `{% for item in list %}` 循环渲染
+   - 原生 CLI：支持模板文件和内联模板两种输入方式
+5. **原创性说明**：该项目为原创实现，不是现有模板引擎的代码搬运或逐文件移植；具体说明见 `docs/source-attribution.md`。
+6. **工程化说明**：
+   - GitHub 与 GitLink 双远程仓库
+   - GitHub Actions 与 Gitea Actions CI
+   - `moon fmt --check`、`moon info`、`moon check --deny-warn`、`moon test --deny-warn`
+   - 验收自查脚本与 API 快照文件
+7. **GitHub 仓库**：<https://github.com/Project2026-creator/MoonTemplate>
+8. **GitLink 仓库**：<https://gitlink.org.cn/Hero001/moontemplate>

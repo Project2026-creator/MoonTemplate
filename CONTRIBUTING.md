@@ -1,7 +1,14 @@
 # Contributing to MoonTemplate
 
-We love your input! We want to make contributing to this project as easy and transparent as possible.
-1. Fork the repo and create your branch from `main`.
-2. If you have added code that should be tested, add tests.
-3. Ensure the test suite passes (`moon test`).
-4. Issue that pull request!
+MoonTemplate is maintained as a competition-quality MoonBit library, so every change should keep the public repository easy to review, test, and accept.
+
+1. Fork the repository and branch from `main`.
+2. Add or update tests whenever parser, engine, CLI, or docs behavior changes.
+3. Run the local acceptance gate before opening a pull request:
+   `moon fmt --check`
+   `moon info`
+   `moon check --deny-warn`
+   `moon test --deny-warn`
+4. If you change exported APIs, commit the refreshed [`pkg.generated.mbti`](src/moontemplate/pkg.generated.mbti).
+5. Keep `_build/`, local binaries, and ad hoc output files out of version control.
+6. Open a pull request with a short summary, test evidence, and any compatibility notes.

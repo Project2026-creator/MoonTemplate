@@ -1,6 +1,11 @@
 import {
+  "moonbitlang/core/env",
   "Project2026-creator/moontemplate/src/moontemplate",
+  "moonbitlang/async",
+  "moonbitlang/async/fs",
 }
+
+supported_targets = "-all+native"
 
 options(
   is_main: true,

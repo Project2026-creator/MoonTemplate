@@ -5,10 +5,11 @@ pub(all) enum Token {
   VarEnd
   TagStart
   TagEnd
+  Pipe
   Identifier(String)
   In
   EOF
-} derive(Show, Eq)
+} derive(Debug, Eq)
 
 ///|
 pub struct Lexer {
@@ -25,9 +26,9 @@ pub fn Lexer::new(input : String) -> Lexer {
 ///|
 fn Lexer::peek(self : Lexer, n : Int) -> String {
   if self.pos + n > self.input.length() {
-    self.input[self.pos:self.input.length()].to_string()
+    self.input[self.pos:self.input.length()].to_owned()
   } else {
-    self.input[self.pos:self.pos + n].to_string()
+    self.input[self.pos:self.pos + n].to_owned()
   }
 }
 
@@ -73,11 +74,15 @@ pub fn Lexer::next_token(self : Lexer) -> Token {
     self.in_tag = false
     return TagEnd
   }
+  if self.peek(1) == "|" {
+    self.pos += 1
+    return Pipe
+  }
 
   let mut id = ""
   while self.pos < self.input.length() {
     let c = self.peek(1)
-    if c == " " || c == "\n" || c == "}" || c == "%" {
+    if c == " " || c == "\n" || c == "\t" || c == "}" || c == "%" || c == "|" {
       break
     }
     id += c

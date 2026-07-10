@@ -11,7 +11,10 @@ pub fn Engine::new(template : String) -> Result[Engine, String] {
   let parser = Parser::new(tokens)
   match parser.parse() {
     Ok(nodes) => {
-      let filters : Map[String, (String) -> String] = {}
+      let filters : Map[String, (String) -> String] = Map([], capacity=4)
+      filters.set("trim", fn(value) { value.trim().to_owned() })
+      filters.set("uppercase", fn(value) { value.to_upper() })
+      filters.set("lowercase", fn(value) { value.to_lower() })
       Ok({ nodes, filters })
     }
     Err(e) => Err(e)
@@ -42,16 +45,16 @@ fn Engine::render_nodes(
   for node in nodes {
     match node {
       Text(s) => result += s
-      Variable(name) => {
-        let val = match context.get(name) {
+      Variable(name, filters) => {
+        let base = match context.get(name) {
           Some(v) => v
           None => ""
         }
-        result += val
+        result += self.apply_filters(base, filters)
       }
       If(cond, true_branch, false_branch) => {
         let is_true = match context.get(cond) {
-          Some(val) => val != "" && val != "false" && val != "0"
+          Some(val) => val.trim() != "" && val != "false" && val != "0"
           None => false
         }
         if is_true {
@@ -62,20 +65,52 @@ fn Engine::render_nodes(
       }
       For(var_name, iterable, body) =>
         match context.get(iterable) {
-          Some(val) => {
-            let items = val.split(",")
+          Some(val) if val.trim() != "" => {
+            let items = parse_iterable(val)
             for item in items {
-              let new_ctx : Map[String, String] = {}
+              let new_ctx : Map[String, String] = Map(
+                [],
+                capacity=context.length() + 1,
+              )
               for k, v in context {
                 new_ctx.set(k, v)
               }
-              new_ctx.set(var_name, item.to_string())
+              new_ctx.set(var_name, item)
               result += self.render_nodes(body, new_ctx)
             }
           }
           None => ()
+          _ => ()
         }
     }
   }
   result
+}
+
+///|
+fn Engine::apply_filters(
+  self : Engine,
+  value : String,
+  filters : Array[String],
+) -> String {
+  let mut rendered = value
+  for filter_name in filters {
+    match self.filters.get(filter_name) {
+      Some(filter) => rendered = filter(rendered)
+      None => ()
+    }
+  }
+  rendered
+}
+
+///|
+fn parse_iterable(raw : String) -> Array[String] {
+  let items = []
+  for item in raw.split(",") {
+    let trimmed = item.trim()
+    if trimmed != "" {
+      items.push(trimmed.to_owned())
+    }
+  }
+  items
 }
