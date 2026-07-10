@@ -1,0 +1,348 @@
+{
+  "source_dir": "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate",
+  "name": "Project2026-creator/moontemplate",
+  "packages": [
+    {
+      "is-main": false,
+      "is-third-party": false,
+      "root-path": "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\cli",
+      "root": "Project2026-creator/moontemplate",
+      "rel": "src/cli",
+      "files": {
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\cli\\main.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        }
+      },
+      "wbtest-files": {},
+      "test-files": {},
+      "mbt-md-files": {},
+      "deps": [
+        {
+          "path": "Project2026-creator/moontemplate/src/moontemplate",
+          "alias": "moontemplate",
+          "fspath": "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate"
+        },
+        {
+          "path": "moonbitlang/core/prelude",
+          "alias": "prelude",
+          "fspath": "C:\\Users\\px830\\.moon\\lib\\core\\prelude"
+        }
+      ],
+      "wbtest-deps": [
+        {
+          "path": "moonbitlang/core/prelude",
+          "alias": "prelude",
+          "fspath": "C:\\Users\\px830\\.moon\\lib\\core\\prelude"
+        }
+      ],
+      "test-deps": [
+        {
+          "path": "moonbitlang/core/prelude",
+          "alias": "prelude",
+          "fspath": "C:\\Users\\px830\\.moon\\lib\\core\\prelude"
+        }
+      ],
+      "artifact": "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\src\\cli\\cli.mi",
+      "check-command": [
+        "check",
+        "-error-format",
+        "json",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\cli\\main.mbt",
+        "-o",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\src\\cli\\cli.mi",
+        "-pkg",
+        "Project2026-creator/moontemplate/src/cli",
+        "-std-path",
+        "C:\\Users\\px830\\.moon\\lib\\core\\_build\\wasm-gc\\release\\bundle",
+        "-i",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\src\\moontemplate\\moontemplate.mi:moontemplate",
+        "-i",
+        "C:\\Users\\px830\\.moon\\lib\\core\\_build\\wasm-gc\\release\\bundle\\prelude\\prelude.mi:prelude",
+        "-pkg-sources",
+        "Project2026-creator/moontemplate/src/cli:C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\cli",
+        "-target",
+        "wasm-gc",
+        "-workspace-path",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate",
+        "-all-pkgs",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\all_pkgs.json"
+      ],
+      "wbtest-check-command": null,
+      "test-check-command": [
+        "check",
+        "-error-format",
+        "json",
+        "-doctest-only",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\cli\\main.mbt",
+        "-include-doctests",
+        "-o",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\src\\cli\\cli.blackbox_test.mi",
+        "-pkg",
+        "Project2026-creator/moontemplate/src/cli_blackbox_test",
+        "-std-path",
+        "C:\\Users\\px830\\.moon\\lib\\core\\_build\\wasm-gc\\release\\bundle",
+        "-i",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\src\\cli\\cli.mi:cli",
+        "-i",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\src\\moontemplate\\moontemplate.mi:moontemplate",
+        "-i",
+        "C:\\Users\\px830\\.moon\\lib\\core\\_build\\wasm-gc\\release\\bundle\\prelude\\prelude.mi:prelude",
+        "-pkg-sources",
+        "Project2026-creator/moontemplate/src/cli_blackbox_test:C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\cli",
+        "-target",
+        "wasm-gc",
+        "-blackbox-test",
+        "-workspace-path",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate",
+        "-all-pkgs",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\all_pkgs.json"
+      ],
+      "supported-targets": [
+        "Wasm",
+        "WasmGC",
+        "Js",
+        "Native",
+        "LLVM"
+      ]
+    },
+    {
+      "is-main": false,
+      "is-third-party": false,
+      "root-path": "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate",
+      "root": "Project2026-creator/moontemplate",
+      "rel": "src/moontemplate",
+      "files": {
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\ast.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        },
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\engine.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        },
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\lexer.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        },
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\parser.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        },
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\scratch.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        }
+      },
+      "wbtest-files": {},
+      "test-files": {
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\engine_test.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        },
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\integration_test.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        },
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\lexer_test.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        },
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\parser_test.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        }
+      },
+      "mbt-md-files": {},
+      "deps": [
+        {
+          "path": "moonbitlang/core/prelude",
+          "alias": "prelude",
+          "fspath": "C:\\Users\\px830\\.moon\\lib\\core\\prelude"
+        }
+      ],
+      "wbtest-deps": [
+        {
+          "path": "moonbitlang/core/prelude",
+          "alias": "prelude",
+          "fspath": "C:\\Users\\px830\\.moon\\lib\\core\\prelude"
+        }
+      ],
+      "test-deps": [
+        {
+          "path": "moonbitlang/core/prelude",
+          "alias": "prelude",
+          "fspath": "C:\\Users\\px830\\.moon\\lib\\core\\prelude"
+        }
+      ],
+      "artifact": "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\src\\moontemplate\\moontemplate.mi",
+      "check-command": [
+        "check",
+        "-error-format",
+        "json",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\ast.mbt",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\engine.mbt",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\lexer.mbt",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\parser.mbt",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\scratch.mbt",
+        "-o",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\src\\moontemplate\\moontemplate.mi",
+        "-pkg",
+        "Project2026-creator/moontemplate/src/moontemplate",
+        "-std-path",
+        "C:\\Users\\px830\\.moon\\lib\\core\\_build\\wasm-gc\\release\\bundle",
+        "-i",
+        "C:\\Users\\px830\\.moon\\lib\\core\\_build\\wasm-gc\\release\\bundle\\prelude\\prelude.mi:prelude",
+        "-pkg-sources",
+        "Project2026-creator/moontemplate/src/moontemplate:C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate",
+        "-target",
+        "wasm-gc",
+        "-workspace-path",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate",
+        "-all-pkgs",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\all_pkgs.json"
+      ],
+      "wbtest-check-command": null,
+      "test-check-command": [
+        "check",
+        "-error-format",
+        "json",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\engine_test.mbt",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\integration_test.mbt",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\lexer_test.mbt",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\parser_test.mbt",
+        "-doctest-only",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\ast.mbt",
+        "-doctest-only",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\engine.mbt",
+        "-doctest-only",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\lexer.mbt",
+        "-doctest-only",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\parser.mbt",
+        "-doctest-only",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate\\scratch.mbt",
+        "-include-doctests",
+        "-o",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\src\\moontemplate\\moontemplate.blackbox_test.mi",
+        "-pkg",
+        "Project2026-creator/moontemplate/src/moontemplate_blackbox_test",
+        "-std-path",
+        "C:\\Users\\px830\\.moon\\lib\\core\\_build\\wasm-gc\\release\\bundle",
+        "-i",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\src\\moontemplate\\moontemplate.mi:moontemplate",
+        "-i",
+        "C:\\Users\\px830\\.moon\\lib\\core\\_build\\wasm-gc\\release\\bundle\\prelude\\prelude.mi:prelude",
+        "-pkg-sources",
+        "Project2026-creator/moontemplate/src/moontemplate_blackbox_test:C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\src\\moontemplate",
+        "-target",
+        "wasm-gc",
+        "-blackbox-test",
+        "-workspace-path",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate",
+        "-all-pkgs",
+        "C:\\Users\\px830\\Desktop\\梁丽萍的\\moontemplate\\_build\\wasm-gc\\debug\\check\\all_pkgs.json"
+      ],
+      "supported-targets": [
+        "Wasm",
+        "WasmGC",
+        "Js",
+        "Native",
+        "LLVM"
+      ]
+    }
+  ],
+  "deps": [],
+  "backend": "wasm-gc",
+  "opt_level": "debug",
+  "source": null
+}
