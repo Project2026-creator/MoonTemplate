@@ -29,6 +29,7 @@ try {
     moon info
     git diff --exit-code -- src/moontemplate/pkg.generated.mbti
   }
+  Invoke-Step "moon build" { moon build }
   Invoke-Step "moon check --deny-warn" { moon check --deny-warn }
   Invoke-Step "moon test --deny-warn" { moon test --deny-warn }
   Invoke-Step "repository compliance report" { python scripts/check_repo_compliance.py }

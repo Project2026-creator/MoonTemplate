@@ -32,11 +32,20 @@ jobs:
           moon info
           git diff --exit-code -- src/moontemplate/pkg.generated.mbti
 
+      - name: moon build
+        run: moon build
+
       - name: moon check --deny-warn
         run: moon check --deny-warn
 
       - name: moon test --deny-warn
         run: moon test --deny-warn
+
+      - name: Coverage summary
+        run: |
+          moon test --deny-warn --enable-coverage
+          moon coverage report -f summary
+          moon coverage analyze
 
       - name: Native CLI smoke test
         run: moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit

@@ -1,6 +1,6 @@
 # OSC2026 Official Requirements Notes
 
-Verified on July 10, 2026 against:
+Verified on August 6, 2026 against:
 
 - <https://moonbitlang.github.io/OSC2026/>
 - <https://www.gitlink.org.cn/competitions/track1_2026MoonBit>

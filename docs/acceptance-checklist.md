@@ -1,6 +1,6 @@
 # MoonTemplate Acceptance Checklist
 
-Status updated on July 10, 2026.
+Status updated on August 6, 2026.
 
 | Item | Status | Notes |
 | --- | --- | --- |
@@ -8,13 +8,14 @@ Status updated on July 10, 2026.
 | Default branch | Ready | `main` is the canonical branch on GitHub. |
 | README | Ready | Overview, syntax, CLI, quality gates, and acceptance docs are linked from the root README. |
 | License | Ready | Apache 2.0 full text is included in `LICENSE`. |
-| Commit history | Ready | 28 commits are currently present, all public and reviewable. |
+| Commit history | Ready | Public post-acceptance commits are present and reviewable; run the self-check script for the current count. |
 | MoonBit as main language | Ready | Core implementation lives under `src/moontemplate` and the CLI under `src/cli`. |
 | Source规模 | Ready | Current `src/**/*.mbt` source and test footprint is several hundred lines and still growing with docs and scripts. |
 | Filters | Ready | Parser and engine both support filter pipelines; built-in and custom filters are covered by tests. |
 | Control-flow edges | Ready | `if` / `else` / `for` plus missing-block error handling are covered by tests. |
 | CLI | Ready | Native CLI accepts `--file`, `--template`, and repeated `--var key=value`. |
-| CI | Ready | GitHub and Gitea workflows include `moon fmt --check`, `moon info`, `moon check --deny-warn`, and `moon test --deny-warn`. |
+| CI | Ready | GitHub and Gitea workflows include `moon fmt --check`, `moon info`, `moon build`, `moon check --deny-warn`, and `moon test --deny-warn`. |
+| Coverage and performance evidence | Ready | CI emits coverage summaries; complexity and a reproducible native benchmark procedure are documented in `docs/performance.md`. |
 | Build artifact hygiene | Ready | `_build/` and temporary outputs are excluded from version control. |
 | Public API snapshot | Ready | `src/moontemplate/pkg.generated.mbti` is tracked and checked in CI. |
 | Source attribution | Ready | See `docs/source-attribution.md`. |

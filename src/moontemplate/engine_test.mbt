@@ -68,3 +68,17 @@ test "engine false branch and empty iterable" {
     Err(_) => fail("Failed to parse template")
   }
 }
+
+///|
+test "engine missing variables render as empty" {
+  let engine = Engine::new("A{{ missing }}B").unwrap()
+  let ctx : Map[String, String] = Map([])
+  assert_eq(engine.render(ctx), "AB")
+}
+
+///|
+test "engine filters preserve empty input" {
+  let engine = Engine::new("{{ missing | trim | uppercase }}").unwrap()
+  let ctx : Map[String, String] = Map([])
+  assert_eq(engine.render(ctx), "")
+}

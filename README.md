@@ -100,13 +100,14 @@ Supported options:
 
 ## Quality Gates
 
-MoonTemplate is maintained against the latest locally installable MoonBit toolchain available in this workspace. As of July 10, 2026, that is `moon 0.1.20260703`; the older `0.10.3` wording seen in organizer feedback does not match the current installer output here.
+CI installs the current stable MoonBit toolchain from the official installer. The repository is checked with the current toolchain available at validation time; this validation used `moonc 0.10.4`, which is newer than the `0.10.3` version mentioned in the organizer feedback.
 
 Local verification:
 
 ```bash
 moon fmt --check
 moon info
+moon build
 moon check --deny-warn
 moon test --deny-warn
 ```
@@ -116,6 +117,7 @@ Repository acceptance helpers:
 - [`docs/official-requirements.md`](docs/official-requirements.md)
 - [`docs/acceptance-checklist.md`](docs/acceptance-checklist.md)
 - [`docs/source-attribution.md`](docs/source-attribution.md)
+- [`docs/performance.md`](docs/performance.md)
 - [`scripts/verify_acceptance.ps1`](scripts/verify_acceptance.ps1)
 - [`scripts/check_repo_compliance.py`](scripts/check_repo_compliance.py)
 

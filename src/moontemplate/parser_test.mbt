@@ -38,3 +38,23 @@ test "parser reports missing endif" {
     Ok(_) => fail("Expected parser error for missing endif")
   }
 }
+
+///|
+test "parser reports missing endfor" {
+  let tokens = Lexer::new("{% for item in list %}{{ item }}").tokenize()
+  let parser = Parser::new(tokens)
+  match parser.parse() {
+    Err(message) => assert_eq(message, "Expected {% endfor %}")
+    Ok(_) => fail("Expected parser error for missing endfor")
+  }
+}
+
+///|
+test "parser rejects filter without a name" {
+  let tokens = Lexer::new("{{ name | }}").tokenize()
+  let parser = Parser::new(tokens)
+  match parser.parse() {
+    Err(message) => assert_eq(message, "Expected filter name after |")
+    Ok(_) => fail("Expected parser error for missing filter name")
+  }
+}

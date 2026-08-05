@@ -61,6 +61,7 @@ def main() -> int:
     workflow_needles = [
         "moon fmt --check",
         "moon info",
+        "moon build",
         "moon check --deny-warn",
         "moon test --deny-warn",
     ]
