@@ -87,9 +87,11 @@ engine.register_filter("suffix", fn(value) { value + "!" })
 The CLI package targets `native`, so it needs a system C compiler when you run it locally.
 
 ```bash
-moon run src/cli --target native -- --file template.txt --var name=MoonBit
+moon run src/cli --target native -- --file examples/welcome.txt --var name=MoonBit
 moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
 ```
+
+The first command reads the tracked example file [`examples/welcome.txt`](examples/welcome.txt), so it can be copied and run immediately after cloning.
 
 Supported options:
 
@@ -110,7 +112,11 @@ moon info
 moon build
 moon check --deny-warn
 moon test --deny-warn
+moon check --target native --deny-warn
+moon test --target native --deny-warn
 ```
+
+The native commands require a C compiler (`build-essential` on the CI runner).
 
 Repository acceptance helpers:
 

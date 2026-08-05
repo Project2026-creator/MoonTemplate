@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- A tracked CLI example and native CI checks for file-based rendering.
 - Real filter pipeline parsing and execution with built-in `trim`, `uppercase`, and `lowercase` filters.
 - A native CLI that renders template files or inline templates with repeated `--var key=value` arguments.
 - Acceptance self-check assets: workflow gates, compliance scripts, source-attribution notes, and official requirement tracking.
@@ -12,6 +13,7 @@
 - Cleaned repository hygiene by removing generated `_build` artifacts from version control and tracking the public API with `pkg.generated.mbti`.
 
 ### Fixed
+- Fixed asynchronous template-file reading and error propagation in the native CLI.
 - Removed deprecated MoonBit APIs and syntax that triggered warnings on the latest toolchain.
 - Corrected garbled UTF-8 documentation and submission material text.
 

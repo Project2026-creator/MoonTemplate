@@ -42,8 +42,14 @@ jobs:
       - name: moon check --deny-warn
         run: moon check --deny-warn
 
+      - name: moon check --target native --deny-warn
+        run: moon check --target native --deny-warn
+
       - name: moon test --deny-warn
         run: moon test --deny-warn
+
+      - name: moon test --target native --deny-warn
+        run: moon test --target native --deny-warn
 
       - name: Coverage summary
         run: |
@@ -52,4 +58,6 @@ jobs:
           moon coverage analyze
 
       - name: Native CLI smoke test
-        run: moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
+        run: |
+          moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
+          moon run src/cli --target native -- --file examples/welcome.txt --var name=MoonBit

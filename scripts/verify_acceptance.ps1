@@ -35,8 +35,11 @@ try {
   Invoke-Step "repository compliance report" { python scripts/check_repo_compliance.py }
 
   if (Test-NativeCompiler) {
+    Invoke-Step "moon check --target native --deny-warn" { moon check --target native --deny-warn }
+    Invoke-Step "moon test --target native --deny-warn" { moon test --target native --deny-warn }
     Invoke-Step "native CLI smoke test" {
       moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
+      moon run src/cli --target native -- --file examples/welcome.txt --var name=MoonBit
     }
   } else {
     Write-Warning "Skipping native CLI smoke test because no system C compiler was found on this machine."

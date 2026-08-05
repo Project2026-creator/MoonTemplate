@@ -76,12 +76,23 @@ fn build_context(
 }
 
 ///|
-fn render_from_options(options : CliOptions) -> Result[String, String] {
+async fn read_template_file(path : String) -> Result[String, String] {
+  Ok(@fs.read_file(path).text()) catch {
+    _ => Err("Unable to read template file: \{path}")
+  }
+}
+
+///|
+async fn render_from_options(options : CliOptions) -> Result[String, String] {
   let template = match options.template_inline {
     Some(content) => content
     None =>
       match options.template_file {
-        Some(path) => @fs.read_file(path).text()
+        Some(path) =>
+          match read_template_file(path) {
+            Ok(content) => content
+            Err(message) => return Err(message)
+          }
         None => return Err("Missing template input")
       }
   }
@@ -133,11 +144,25 @@ test "cli context parser rejects malformed vars" {
 }
 
 ///|
-test "cli renders inline templates" {
+async test "cli renders inline templates" {
   let output = render_from_options({
     template_file: None,
     template_inline: Some("Hello {{ name | uppercase }}"),
     variables: ["name=moonbit"],
   }).unwrap()
   assert_eq(output, "Hello MOONBIT")
+}
+
+///|
+async test "cli reports template file read errors" {
+  let result = render_from_options({
+    template_file: Some("__moontemplate_missing_template__.txt"),
+    template_inline: None,
+    variables: [],
+  })
+  match result {
+    Err(message) =>
+      assert_true(message.contains("Unable to read template file"))
+    Ok(_) => fail("Expected missing template file to return an error")
+  }
 }
