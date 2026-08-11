@@ -23,7 +23,7 @@ The implementation is intentionally small, readable, and reviewable, but it alre
 
 - Variable interpolation: `{{ name }}`
 - Filter pipelines: `{{ name | trim | uppercase }}`
-- Built-in filters: `trim`, `uppercase`, `lowercase`
+- Built-in filters: `trim`, `uppercase`, `lowercase`, `escape_html`, `escape_json`, `slugify`
 - Custom filters via `Engine::register_filter`
 - Conditional rendering with `if` / `else`
 - Loop rendering with `{% for item in list %}`
@@ -86,6 +86,20 @@ let engine = @moontemplate.Engine::new("{{ name | suffix }}").unwrap()
 engine.register_filter("suffix", fn(value) { value + "!" })
 ```
 
+### Safe output helpers
+
+Use `escape_html` when interpolating untrusted text into HTML, `escape_json`
+when producing a JSON string value, and `slugify` when deriving a stable
+ASCII-oriented identifier:
+
+```text
+<h1 id="{{ title | slugify }}">{{ title | escape_html }}</h1>
+{{ payload | escape_json }}
+```
+
+The tracked [`examples/secure-output.txt`](examples/secure-output.txt) file
+demonstrates the HTML use case end to end.
+
 ## CLI Usage
 
 The CLI package targets `native`, so it needs a system C compiler when you run it locally.
@@ -93,6 +107,7 @@ The CLI package targets `native`, so it needs a system C compiler when you run i
 ```bash
 moon run src/cli --target native -- --file examples/welcome.txt --var name=MoonBit
 moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
+moon run src/cli --target native -- --file examples/secure-output.txt --var "title=MoonBit & Templates" --var "body=<strong>safe</strong>"
 ```
 
 The first command reads the tracked example file [`examples/welcome.txt`](examples/welcome.txt), so it can be copied and run immediately after cloning.

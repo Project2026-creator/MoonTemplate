@@ -61,6 +61,7 @@ jobs:
         run: |
           moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
           moon run src/cli --target native -- --file examples/welcome.txt --var name=MoonBit
+          moon run src/cli --target native -- --file examples/secure-output.txt --var "title=MoonBit & Templates" --var "body=<strong>safe</strong>"
 
       - name: Native CLI benchmark
         run: bash scripts/benchmark.sh 10

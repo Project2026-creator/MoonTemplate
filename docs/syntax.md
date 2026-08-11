@@ -21,6 +21,12 @@ Built-in filters:
 - `trim`
 - `uppercase`
 - `lowercase`
+- `escape_html` — escapes `&`, `<`, `>`, double quotes, and apostrophes.
+- `escape_json` — serializes the value as a quoted JSON string.
+- `slugify` — lowercases ASCII letters, keeps ASCII digits, and joins runs of separators with `-`.
+
+Filter names are applied from left to right, so escaping can be composed with
+normalization when appropriate: `{{ title | trim | slugify }}`.
 
 ## Conditionals
 

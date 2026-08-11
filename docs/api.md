@@ -23,6 +23,9 @@ Available methods:
 - `trim`
 - `uppercase`
 - `lowercase`
+- `escape_html`
+- `escape_json`
+- `slugify`
 
 ## Rendering contract
 

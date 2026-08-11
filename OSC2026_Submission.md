@@ -7,6 +7,7 @@
    - 自研 Lexer / Parser / AST 渲染链路
    - `{{ variable }}` 变量插值
    - `{{ variable | trim | uppercase }}` 过滤器管道
+   - `escape_html`、`escape_json` 和 `slugify` 安全/规范化过滤器
    - `{% if %} / {% else %} / {% endif %}` 条件分支
    - `{% for item in list %}` 循环渲染
    - 原生 CLI：支持模板文件和内联模板两种输入方式

@@ -4,9 +4,10 @@
 
 The test suite covers empty contexts, missing variables, empty iterables,
 whitespace-only iterable entries, false conditions, filter pipelines, missing
-`endif`/`endfor` terminators, a filter pipe without a filter name, and invalid
-CLI input combinations. These cases protect the parser, renderer, and command
-line boundary behavior most likely to change during feature work.
+`endif`/`endfor` terminators, a filter pipe without a filter name, escaping and
+slug normalization, and invalid CLI input combinations. These cases protect
+the parser, renderer, and command line boundary behavior most likely to change
+during feature work.
 
 Run the complete checks with:
 

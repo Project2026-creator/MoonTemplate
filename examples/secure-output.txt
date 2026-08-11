@@ -1,0 +1,4 @@
+<article id="{{ title | slugify }}">
+  <h1>{{ title | escape_html }}</h1>
+  <p>{{ body | escape_html }}</p>
+</article>

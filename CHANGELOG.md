@@ -1,7 +1,8 @@
 # Changelog
 
-## [0.2.3] - 2026-08-11
+## [0.2.4] - 2026-08-11
 ### Added
+- Security-oriented built-in filters: `escape_html`, `escape_json`, and `slugify`.
 - A tracked CLI example and native CI checks for file-based rendering.
 - A tracked native CLI benchmark workload with Linux and Windows runners.
 - Real filter pipeline parsing and execution with built-in `trim`, `uppercase`, and `lowercase` filters.

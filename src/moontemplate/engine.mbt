@@ -12,9 +12,7 @@ pub fn Engine::new(template : String) -> Result[Engine, String] {
   match parser.parse() {
     Ok(nodes) => {
       let filters : Map[String, (String) -> String] = Map([], capacity=4)
-      filters.set("trim", fn(value) { value.trim().to_owned() })
-      filters.set("uppercase", fn(value) { value.to_upper() })
-      filters.set("lowercase", fn(value) { value.to_lower() })
+      register_builtin_filters(filters)
       Ok({ nodes, filters })
     }
     Err(e) => Err(e)
