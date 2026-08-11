@@ -67,7 +67,7 @@ jobs:
 
       - name: CLI JSON diagnostics smoke test
         run: |
-          output="$(moon run src/cli --target native -- --diagnostics json --template '{{ name | truncate(\"five\") }}')"
+          output="$(moon run src/cli --target native -- --diagnostics json --template '{{ name | truncate("five") }}')"
           echo "$output"
           echo "$output" | grep -F '"code":"TMPL_FILTER"'
           echo "$output" | grep -F '"source_line"'
