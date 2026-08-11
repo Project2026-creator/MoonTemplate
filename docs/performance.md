@@ -6,8 +6,10 @@ The test suite covers empty contexts, missing variables, empty iterables,
 whitespace-only iterable entries, false conditions, filter pipelines, missing
 `endif`/`endfor` terminators, a filter pipe without a filter name, escaping and
 slug normalization, and invalid CLI input combinations. These cases protect
-the parser, renderer, and command line boundary behavior most likely to change
-during feature work.
+the parser, renderer, CLI, diagnostics, and command line boundary behavior most
+likely to change during feature work. This includes malformed filter arguments,
+Unicode truncation, comments, whitespace control, and strict unknown-filter
+handling.
 
 Run the complete checks with:
 
@@ -18,9 +20,9 @@ moon coverage report -f summary
 moon coverage analyze
 ```
 
-The current non-native validation run reports 16 passing tests and 225/254 covered lines
-(88.6%) for the implementation packages. Coverage is reported by the CI jobs
-but is not used as a brittle minimum threshold while the parser is still
+The repository currently contains 30 library and diagnostic tests; CLI tests are
+also compiled in the native package. Coverage is reported by CI and recorded as
+a summary rather than used as a brittle threshold while the parser is still
 growing.
 
 ## Performance model and reproducibility

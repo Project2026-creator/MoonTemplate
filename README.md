@@ -9,6 +9,9 @@ MoonTemplate is a MoonBit-native text template engine for generating HTML, email
 
 ## Why This Project
 
+MoonTemplate generates structured text from data for practical MoonBit tooling
+and application workflows.
+
 MoonTemplate targets the common “generate structured text from data” problem in the MoonBit ecosystem:
 
 - static page generators
@@ -22,12 +25,16 @@ The implementation is intentionally small, readable, and reviewable, but it alre
 ## Feature Set
 
 - Variable interpolation: `{{ name }}`
+- Non-nesting comments: `{# internal note #}`
+- ASCII whitespace control: `{{- name -}}` and `{%- if ok -%}`
 - Filter pipelines: `{{ name | trim | uppercase }}`
+- Parameterized filters: `replace("old", "new")`, `truncate(20)`, and `default("fallback")`
 - Built-in filters: `trim`, `uppercase`, `lowercase`, `escape_html`, `escape_json`, `slugify`
 - Custom filters via `Engine::register_filter`
 - Conditional rendering with `if` / `else`
 - Loop rendering with `{% for item in list %}`
 - Native CLI for file-based or inline rendering
+- Structured lexical, syntax, and filter diagnostics
 - Public API snapshot tracked in [`src/moontemplate/pkg.generated.mbti`](src/moontemplate/pkg.generated.mbti)
 
 ## Template Syntax
@@ -100,6 +107,20 @@ ASCII-oriented identifier:
 The tracked [`examples/secure-output.txt`](examples/secure-output.txt) file
 demonstrates the HTML use case end to end.
 
+### Parameterized filters and whitespace control
+
+```text
+{# comments are removed before rendering #}
+{{ title | replace("Moon", "Star") | truncate(20) | default("Untitled") }}
+{%- if enabled -%}
+enabled
+{%- endif -%}
+```
+
+Arguments are limited to double-quoted strings (with `\\` and `\"` escapes)
+and signed decimal integers. Calls remain encoded in the compatible
+`Node::Variable(String, Array[String])` representation.
+
 ## CLI Usage
 
 The CLI package targets `native`, so it needs a system C compiler when you run it locally.
@@ -108,6 +129,7 @@ The CLI package targets `native`, so it needs a system C compiler when you run i
 moon run src/cli --target native -- --file examples/welcome.txt --var name=MoonBit
 moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
 moon run src/cli --target native -- --file examples/secure-output.txt --var "title=MoonBit & Templates" --var "body=<strong>safe</strong>"
+moon run src/cli --target native -- --diagnostics json --template "{{ name | truncate(\"five\") }}"
 ```
 
 The first command reads the tracked example file [`examples/welcome.txt`](examples/welcome.txt), so it can be copied and run immediately after cloning.
@@ -117,10 +139,14 @@ Supported options:
 - `--file <path>` or positional file path
 - `--template <inline-template>`
 - `--var key=value` (repeatable)
+- `--diagnostics text|json` (text is the default)
 - `--help`
 
 `--file` and `--template` are mutually exclusive. A missing file, malformed
 variable assignment, parser error, or unknown option is reported as a CLI error.
+JSON diagnostics use the stable fields `code`, `kind`, `message`, `line`,
+`column`, and `source_line`; runtime-only filter failures use line and column
+zero.
 
 For a larger, repeatable native workload, run
 [`scripts/benchmark.ps1`](scripts/benchmark.ps1) on Windows or
@@ -143,6 +169,8 @@ moon check --deny-warn
 moon test --deny-warn
 moon check --target native --deny-warn
 moon test --target native --deny-warn
+moon test --deny-warn --enable-coverage
+moon coverage report -f summary
 ```
 
 The native commands require a C compiler (`build-essential` on the CI runner).

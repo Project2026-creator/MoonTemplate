@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.5] - 2026-08-11
+### Added
+- Non-nesting `{# ... #}` comments and ASCII whitespace-control markers.
+- Parameterized `replace`, Unicode-safe `truncate`, and blank-aware `default`
+  filters with constrained string/integer arguments.
+- Source-aware `DiagnosticKind`/`Diagnostic` APIs and strict rendering.
+- CLI `--diagnostics text|json` output with stable machine-readable fields.
+
+### Changed
+- Added parser position tracking without changing the public `Token` or
+  `Node::Variable(String, Array[String])` shapes.
+- Expanded CI and native smoke coverage for the new syntax and diagnostics.
+
 ## [0.2.4] - 2026-08-11
 ### Added
 - Security-oriented built-in filters: `escape_html`, `escape_json`, and `slugify`.

@@ -15,8 +15,15 @@ let engine = @moontemplate.Engine::new("Hello {{ name }}").unwrap()
 Available methods:
 
 - `Engine::new(template)` parses a template string into an executable engine.
+- `Engine::new_with_diagnostics(template)` returns source-aware diagnostics.
 - `Engine::register_filter(name, fn)` registers or overrides a filter.
 - `Engine::render(context)` renders the parsed AST using a `Map[String, String]`.
+- `Engine::render_strict(context)` rejects unknown filters with structured
+  runtime diagnostics.
+
+`Parser::parse_with_diagnostics` is available for callers that already have
+tokens. `Diagnostic` exposes `kind`, `message`, `line`, `column`, `source_line`,
+and stable `code` values (`TMPL_LEX`, `TMPL_PARSE`, and `TMPL_FILTER`).
 
 ### Built-in filters
 
@@ -26,6 +33,9 @@ Available methods:
 - `escape_html`
 - `escape_json`
 - `slugify`
+- `replace("old", "new")`
+- `truncate(limit)`
+- `default("fallback")`
 
 ## Rendering contract
 

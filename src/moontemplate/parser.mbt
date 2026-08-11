@@ -2,11 +2,62 @@
 pub struct Parser {
   tokens : Array[Token]
   mut pos : Int
+  positions : Array[Int]
+  source : String
 }
 
 ///|
 pub fn Parser::new(tokens : Array[Token]) -> Parser {
-  { tokens, pos: 0 }
+  { tokens, pos: 0, positions: [], source: "" }
+}
+
+///|
+fn Parser::new_with_positions(
+  tokens : Array[Token],
+  positions : Array[Int],
+  source : String,
+) -> Parser {
+  { tokens, pos: 0, positions, source }
+}
+
+///|
+fn Parser::current_offset(self : Parser) -> Int {
+  if self.pos < self.positions.length() {
+    self.positions[self.pos]
+  } else {
+    0
+  }
+}
+
+///|
+fn diagnostic_kind_for_message(message : String) -> DiagnosticKind {
+  if message.contains("filter") ||
+    message.contains("replace") ||
+    message.contains("truncate") ||
+    message.contains("default") {
+    Filter
+  } else {
+    Syntax
+  }
+}
+
+///|
+pub fn Parser::parse_with_diagnostics(
+  self : Parser,
+) -> Result[Array[Node], Array[Diagnostic]] {
+  let nodes = []
+  while self.peek() != EOF {
+    let offset = self.current_offset()
+    match self.parse_node() {
+      Ok(Some(node)) => nodes.push(node)
+      Ok(None) => break
+      Err(message) => {
+        let kind = diagnostic_kind_for_message(message)
+        return Err([make_diagnostic(kind, message, self.source, offset)])
+      }
+    }
+  }
+  Ok(nodes)
 }
 
 ///|
@@ -108,7 +159,11 @@ fn Parser::parse_filters(self : Parser) -> Result[Array[String], String] {
   while self.peek() == Pipe {
     let _ = self.advance()
     match self.advance() {
-      Identifier(name) => filters.push(name)
+      Identifier(name) =>
+        match validate_filter_expression(name) {
+          Ok(_) => filters.push(name)
+          Err(err) => return Err(err)
+        }
       _ => return Err("Expected filter name after |")
     }
   }

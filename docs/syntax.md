@@ -28,6 +28,10 @@ Built-in filters:
 Filter names are applied from left to right, so escaping can be composed with
 normalization when appropriate: `{{ title | trim | slugify }}`.
 
+Parameterized filters include `replace("old", "new")`, `truncate(20)`, and
+`default("fallback")`. Truncation counts Unicode characters. Arguments are
+only quoted strings or signed integers; strings accept `\\` and `\"` escapes.
+
 ## Conditionals
 
 Use `if` / `else` / `endif` blocks.
@@ -51,3 +55,14 @@ Use `for` / `endfor` blocks to iterate comma-separated context values.
 ```
 
 If `users = "alice, bob, carol"`, the loop renders three iterations.
+
+## Comments and whitespace control
+
+`{# comment #}` is a non-nesting comment and renders nothing. A leading `-`
+trims ASCII whitespace on the preceding text, while a trailing `-` trims it
+from the following text:
+
+```text
+A  {{- name -}}  B
+{%- if enabled -%}yes{%- endif -%}
+```

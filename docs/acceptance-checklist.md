@@ -23,6 +23,11 @@ Status updated on August 11, 2026.
 
 ## Local verification commands
 
+The current implementation adds comments, whitespace control, parameterized
+filters, Unicode boundary tests, structured diagnostics, and CLI JSON smoke
+coverage. The tracked source/test footprint is approximately 1.8k functional
+MoonBit lines; CI also runs native CLI and benchmark evidence.
+
 ```bash
 moon fmt --check
 moon info

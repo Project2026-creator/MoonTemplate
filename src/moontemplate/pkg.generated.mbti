@@ -10,18 +10,45 @@ import {
 // Errors
 
 // Types and methods
+pub struct Diagnostic {
+  kind : DiagnosticKind
+  message : String
+  line : Int
+  column : Int
+  source_line : String
+} derive(Eq, @debug.Debug)
+pub fn Diagnostic::code(Self) -> String
+pub fn Diagnostic::column(Self) -> Int
+pub fn Diagnostic::kind(Self) -> DiagnosticKind
+pub fn Diagnostic::line(Self) -> Int
+pub fn Diagnostic::message(Self) -> String
+pub fn Diagnostic::new(DiagnosticKind, String, Int, Int, String) -> Self
+pub fn Diagnostic::source_line(Self) -> String
+
+pub(all) enum DiagnosticKind {
+  Lexical
+  Syntax
+  Filter
+} derive(Eq, @debug.Debug)
+pub fn DiagnosticKind::as_str(Self) -> String
+
 pub struct Engine {
   nodes : Array[Node]
   filters : Map[String, (String) -> String]
 }
 pub fn Engine::new(String) -> Result[Self, String]
+pub fn Engine::new_with_diagnostics(String) -> Result[Self, Array[Diagnostic]]
 pub fn Engine::register_filter(Self, String, (String) -> String) -> Unit
 pub fn Engine::render(Self, Map[String, String]) -> String
+pub fn Engine::render_strict(Self, Map[String, String]) -> Result[String, Array[Diagnostic]]
 
 pub struct Lexer {
   input : String
   mut pos : Int
   mut in_tag : Bool
+  mut trim_next_text : Bool
+  mut lexical_error : String?
+  mut lexical_error_offset : Int
 }
 pub fn Lexer::new(String) -> Self
 pub fn Lexer::next_token(Self) -> Token
@@ -37,9 +64,12 @@ pub(all) enum Node {
 pub struct Parser {
   tokens : Array[Token]
   mut pos : Int
+  positions : Array[Int]
+  source : String
 }
 pub fn Parser::new(Array[Token]) -> Self
 pub fn Parser::parse(Self) -> Result[Array[Node], String]
+pub fn Parser::parse_with_diagnostics(Self) -> Result[Array[Node], Array[Diagnostic]]
 
 pub(all) enum Token {
   Text(String)

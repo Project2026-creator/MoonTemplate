@@ -62,6 +62,15 @@ jobs:
           moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
           moon run src/cli --target native -- --file examples/welcome.txt --var name=MoonBit
           moon run src/cli --target native -- --file examples/secure-output.txt --var "title=MoonBit & Templates" --var "body=<strong>safe</strong>"
+          moon run src/cli --target native -- --template "{# note #}A  {{- name | replace(\"Moon\",\"Bit\") -}}  B" --var name=MoonTemplate
+          moon run src/cli --target native -- --template "{{ value | truncate(5) | default(\"fallback\") }}" --var value=MoonBit
+
+      - name: CLI JSON diagnostics smoke test
+        run: |
+          output="$(moon run src/cli --target native -- --diagnostics json --template '{{ name | truncate(\"five\") }}')"
+          echo "$output"
+          echo "$output" | grep -F '"code":"TMPL_FILTER"'
+          echo "$output" | grep -F '"source_line"'
 
       - name: Native CLI benchmark
         run: bash scripts/benchmark.sh 10

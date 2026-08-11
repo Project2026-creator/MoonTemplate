@@ -1,25 +1,43 @@
 # OSC2026 项目申报材料：MoonTemplate
 
-1. **项目名称**：MoonTemplate
-2. **项目简介**：一个为 MoonBit 生态设计的轻量、可扩展文本模板引擎，覆盖模板解析、控制流渲染、过滤器管道和原生命令行渲染能力。
-3. **项目方向与适用场景**：属于基础软件生态中的工程工具库方向，适用于静态页面生成、CLI 报表、配置文件渲染、邮件模板、代码脚手架等文本生成场景。
-4. **核心能力**：
-   - 自研 Lexer / Parser / AST 渲染链路
-   - `{{ variable }}` 变量插值
-   - `{{ variable | trim | uppercase }}` 过滤器管道
-   - `escape_html`、`escape_json` 和 `slugify` 安全/规范化过滤器
-   - `{% if %} / {% else %} / {% endif %}` 条件分支
-   - `{% for item in list %}` 循环渲染
-   - 原生 CLI：支持模板文件和内联模板两种输入方式
-5. **原创性说明**：该项目为原创实现，不是现有模板引擎的代码搬运或逐文件移植；具体说明见 `docs/source-attribution.md`。
-6. **工程化说明**：
-   - GitHub 与 GitLink 双远程仓库
-   - GitHub Actions 与 Gitea Actions CI
-   - `moon fmt --check`、`moon info`、`moon build`
-   - `moon check --deny-warn`、`moon test --deny-warn`
-   - `moon check --target native --deny-warn`、`moon test --target native --deny-warn`
-   - 原生 CLI smoke test 与 10 次可重复基准测试（`scripts/benchmark.*`）
-   - 验收自查脚本与 API 快照文件
-7. **测试与边界**：覆盖变量缺失、空上下文、空迭代器、空白项、条件分支、过滤器管道、缺失块结束符、错误 CLI 参数和原生文件读取错误；CI 同时输出覆盖率摘要。
-8. **GitHub 仓库**：<https://github.com/Project2026-creator/MoonTemplate>
-9. **GitLink 仓库**：<https://gitlink.org.cn/Hero001/moontemplate>
+## 项目简介
+
+MoonTemplate 是面向 MoonBit 生态的轻量文本模板引擎，使用 MoonBit 原生
+实现 Lexer、Parser、AST、渲染器、过滤器管线和 native CLI。项目面向静态
+页面、CLI 报表、配置/清单、通知文本和代码脚手架等可复现的结构化文本生成
+场景，不依赖外部模板运行时。
+
+## 核心功能
+
+- `{{ variable }}` 插值、缺失变量空字符串语义和 `if/else`、`for` 控制流。
+- `trim`、大小写转换、HTML/JSON 转义、`slugify` 等内置过滤器。
+- `replace("old", "new")`、Unicode 字符数 `truncate(20)`、空白感知
+  `default("fallback")` 参数化过滤器。
+- `{# ... #}` 非嵌套注释和 `{{-`、`-}}`、`{%-`、`-%}` ASCII 空白控制。
+- 严格诊断 API：词法、语法、过滤器类别，1-based 行列号和源码行。
+- CLI 支持文件/内联模板、重复 `--var key=value` 和 `--diagnostics text|json`。
+
+## 工程与验证
+
+仓库包含公开 MoonBit 源码、30 个库测试、CLI 测试、边界测试、覆盖率摘要、
+native smoke test、可重复 benchmark、API 快照和双平台 CI。验证命令包括：
+
+```text
+moon fmt --check
+moon info
+moon build
+moon check --deny-warn
+moon check --target native --deny-warn
+moon test --deny-warn
+moon test --target native --deny-warn
+```
+
+GitHub 仓库：<https://github.com/Project2026-creator/MoonTemplate>
+
+GitLink 仓库：<https://gitlink.org.cn/Hero001/moontemplate>
+
+## 原创与开源合规
+
+项目为原创 MoonBit 实现，不复制或移植其他模板引擎源码。来源、第三方依赖、
+许可证和贡献规则分别记录在 `docs/source-attribution.md`、`LICENSE` 和
+`CONTRIBUTING.md` 中，发布包版本与仓库版本保持一致。
