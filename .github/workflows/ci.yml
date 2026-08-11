@@ -61,3 +61,6 @@ jobs:
         run: |
           moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
           moon run src/cli --target native -- --file examples/welcome.txt --var name=MoonBit
+
+      - name: Native CLI benchmark
+        run: bash scripts/benchmark.sh 10

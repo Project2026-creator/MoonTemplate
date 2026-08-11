@@ -1,6 +1,6 @@
 # OSC2026 Official Requirements Notes
 
-Verified on August 6, 2026 against:
+Verified on August 11, 2026 against:
 
 - <https://moonbitlang.github.io/OSC2026/>
 - <https://www.gitlink.org.cn/competitions/track1_2026MoonBit>
@@ -22,6 +22,7 @@ Verified on August 6, 2026 against:
 
 - The repo must stay clean and reviewable without relying on private files.
 - CI cannot stop at `build/test`; it needs explicit formatting, API generation, strict warning checks, and tests.
+- Native CLI paths need a compiler-backed check, test, smoke run, and a reproducible workload benchmark.
 - Generated build caches must not be committed.
 - The submission material and README must match the actual codebase.
 - Source attribution must be documented even for an original project, because the official rules explicitly ask participants to explain upstream relationships and licenses.

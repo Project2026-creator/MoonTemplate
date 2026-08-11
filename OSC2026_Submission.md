@@ -14,7 +14,11 @@
 6. **工程化说明**：
    - GitHub 与 GitLink 双远程仓库
    - GitHub Actions 与 Gitea Actions CI
-   - `moon fmt --check`、`moon info`、`moon check --deny-warn`、`moon test --deny-warn`
+   - `moon fmt --check`、`moon info`、`moon build`
+   - `moon check --deny-warn`、`moon test --deny-warn`
+   - `moon check --target native --deny-warn`、`moon test --target native --deny-warn`
+   - 原生 CLI smoke test 与 10 次可重复基准测试（`scripts/benchmark.*`）
    - 验收自查脚本与 API 快照文件
-7. **GitHub 仓库**：<https://github.com/Project2026-creator/MoonTemplate>
-8. **GitLink 仓库**：<https://gitlink.org.cn/Hero001/moontemplate>
+7. **测试与边界**：覆盖变量缺失、空上下文、空迭代器、空白项、条件分支、过滤器管道、缺失块结束符、错误 CLI 参数和原生文件读取错误；CI 同时输出覆盖率摘要。
+8. **GitHub 仓库**：<https://github.com/Project2026-creator/MoonTemplate>
+9. **GitLink 仓库**：<https://gitlink.org.cn/Hero001/moontemplate>

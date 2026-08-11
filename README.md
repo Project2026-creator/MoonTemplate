@@ -2,7 +2,7 @@
 
 MoonTemplate is a MoonBit-native text template engine for generating HTML, emails, configuration files, prompts, and code snippets from simple declarative templates.
 
-[![MoonBit](https://img.shields.io/badge/MoonBit-0.1.20260703-orange?style=flat-square)](https://www.moonbitlang.com/)
+[![MoonBit](https://img.shields.io/badge/MoonBit-current%20stable-orange?style=flat-square)](https://www.moonbitlang.com/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=flat-square)](LICENSE)
 [![GitHub CI](https://img.shields.io/badge/CI-GitHub%20Actions-success?style=flat-square)](.github/workflows/ci.yml)
 [![GitLink CI](https://img.shields.io/badge/CI-Gitea%20Actions-success?style=flat-square)](.gitea/workflows/ci.yml)
@@ -62,11 +62,13 @@ moon add Project2026-creator/moontemplate
 ### Render from MoonBit
 
 ```moonbit
+import "Project2026-creator/moontemplate/src/moontemplate" @moontemplate
+
 let template =
   #|Hello, {{ user | trim }}!
   #|{% if admin %}Welcome back, admin.{% else %}Welcome back.{% endif %}
 
-let engine = Engine::new(template).unwrap()
+let engine = @moontemplate.Engine::new(template).unwrap()
 let ctx = Map([], capacity=2)
 ctx.set("user", " MoonBit ")
 ctx.set("admin", "true")
@@ -78,7 +80,9 @@ println(output)
 ### Register a custom filter
 
 ```moonbit
-let engine = Engine::new("{{ name | suffix }}").unwrap()
+import "Project2026-creator/moontemplate/src/moontemplate" @moontemplate
+
+let engine = @moontemplate.Engine::new("{{ name | suffix }}").unwrap()
 engine.register_filter("suffix", fn(value) { value + "!" })
 ```
 
@@ -99,6 +103,16 @@ Supported options:
 - `--template <inline-template>`
 - `--var key=value` (repeatable)
 - `--help`
+
+`--file` and `--template` are mutually exclusive. A missing file, malformed
+variable assignment, parser error, or unknown option is reported as a CLI error.
+
+For a larger, repeatable native workload, run
+[`scripts/benchmark.ps1`](scripts/benchmark.ps1) on Windows or
+[`scripts/benchmark.sh`](scripts/benchmark.sh) on Linux/macOS. The same
+10-iteration benchmark runs in both CI workflows and reports total and average
+milliseconds in the job log; it is an end-to-end CLI baseline, not a hardware
+independent performance promise.
 
 ## Quality Gates
 

@@ -66,6 +66,7 @@ def main() -> int:
         "moon check --target native --deny-warn",
         "moon test --deny-warn",
         "moon test --target native --deny-warn",
+        "bash scripts/benchmark.sh 10",
     ]
     report = {
         "commit_count": int(run("git", "rev-list", "--count", "HEAD")),

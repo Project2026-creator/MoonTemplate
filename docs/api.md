@@ -7,7 +7,9 @@
 The main entry point for parsing and rendering templates.
 
 ```moonbit
-let engine = Engine::new("Hello {{ name }}").unwrap()
+import "Project2026-creator/moontemplate/src/moontemplate" @moontemplate
+
+let engine = @moontemplate.Engine::new("Hello {{ name }}").unwrap()
 ```
 
 Available methods:
@@ -31,4 +33,4 @@ Available methods:
 
 ## Public API snapshot
 
-Run `moon info` to refresh [`src/moontemplate/pkg.generated.mbti`](../src/moontemplate/pkg.generated.mbti) whenever exported APIs change.
+Run `moon info` to refresh [`src/moontemplate/pkg.generated.mbti`](../src/moontemplate/pkg.generated.mbti) whenever exported APIs change. CI checks that the committed snapshot is current.

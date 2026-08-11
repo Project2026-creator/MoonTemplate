@@ -1,6 +1,6 @@
 # MoonTemplate Acceptance Checklist
 
-Status updated on August 6, 2026.
+Status updated on August 11, 2026.
 
 | Item | Status | Notes |
 | --- | --- | --- |
@@ -15,7 +15,7 @@ Status updated on August 6, 2026.
 | Control-flow edges | Ready | `if` / `else` / `for` plus missing-block error handling are covered by tests. |
 | CLI | Ready | Native CLI accepts `--file`, `--template`, and repeated `--var key=value`. |
 | CI | Ready | GitHub and Gitea workflows include `moon fmt --check`, `moon info`, `moon build`, `moon check --deny-warn`, and `moon test --deny-warn`. |
-| Coverage and performance evidence | Ready | CI emits coverage summaries; complexity and a reproducible native benchmark procedure are documented in `docs/performance.md`. |
+| Coverage and performance evidence | Ready | CI emits coverage summaries and runs the tracked 10-iteration native workload; complexity and reproduction steps are documented in `docs/performance.md`. |
 | Build artifact hygiene | Ready | `_build/` and temporary outputs are excluded from version control. |
 | Public API snapshot | Ready | `src/moontemplate/pkg.generated.mbti` is tracked and checked in CI. |
 | Source attribution | Ready | See `docs/source-attribution.md`. |

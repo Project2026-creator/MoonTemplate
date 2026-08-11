@@ -9,6 +9,9 @@ MoonTemplate is maintained as a competition-quality MoonBit library, so every ch
    `moon info`
    `moon check --deny-warn`
    `moon test --deny-warn`
+   `moon check --target native --deny-warn`
+   `moon test --target native --deny-warn`
+   `bash scripts/benchmark.sh 10` (Linux/macOS) or `pwsh scripts/benchmark.ps1 10` (Windows)
 4. If you change exported APIs, commit the refreshed [`pkg.generated.mbti`](src/moontemplate/pkg.generated.mbti).
 5. Keep `_build/`, local binaries, and ad hoc output files out of version control.
 6. Open a pull request with a short summary, test evidence, and any compatibility notes.

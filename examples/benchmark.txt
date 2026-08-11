@@ -1,0 +1,5 @@
+Report: {{ title | trim | uppercase }}
+{% if enabled %}Status: enabled{% else %}Status: disabled{% endif %}
+Items:
+{% for item in items %}- {{ item | trim | uppercase }}
+{% endfor %}

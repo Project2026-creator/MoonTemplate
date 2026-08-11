@@ -1,8 +1,9 @@
 # Changelog
 
-## [Unreleased]
+## [0.2.3] - 2026-08-11
 ### Added
 - A tracked CLI example and native CI checks for file-based rendering.
+- A tracked native CLI benchmark workload with Linux and Windows runners.
 - Real filter pipeline parsing and execution with built-in `trim`, `uppercase`, and `lowercase` filters.
 - A native CLI that renders template files or inline templates with repeated `--var key=value` arguments.
 - Acceptance self-check assets: workflow gates, compliance scripts, source-attribution notes, and official requirement tracking.
@@ -14,6 +15,7 @@
 
 ### Fixed
 - Fixed asynchronous template-file reading and error propagation in the native CLI.
+- Rejected conflicting `--file`/`--template` inputs and unknown arguments after an inline template.
 - Removed deprecated MoonBit APIs and syntax that triggered warnings on the latest toolchain.
 - Corrected garbled UTF-8 documentation and submission material text.
 

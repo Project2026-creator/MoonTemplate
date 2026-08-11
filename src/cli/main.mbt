@@ -46,13 +46,16 @@ fn parse_cli_args(args : Array[String]) -> Result[CliOptions, String] {
         index += 2
       }
       value =>
-        if template_file is None {
+        if template_file is None && template_inline is None {
           template_file = Some(value)
           index += 1
         } else {
           return Err("Unknown argument: \{value}")
         }
     }
+  }
+  if template_file is Some(_) && template_inline is Some(_) {
+    return Err("Use only one of --file or --template")
   }
   if template_file is None && template_inline is None {
     return Err("Provide --file <path> or --template <text>")
@@ -140,6 +143,22 @@ test "cli context parser rejects malformed vars" {
   match build_context(["broken"]) {
     Err(message) => assert_eq(message, "Invalid --var entry: broken")
     Ok(_) => fail("Expected malformed variable assignment to fail")
+  }
+}
+
+///|
+test "cli rejects conflicting template inputs" {
+  match parse_cli_args(["--file", "template.txt", "--template", "Hello"]) {
+    Err(message) => assert_eq(message, "Use only one of --file or --template")
+    Ok(_) => fail("Expected conflicting template inputs to fail")
+  }
+}
+
+///|
+test "cli rejects unknown arguments after a template" {
+  match parse_cli_args(["--template", "Hello", "--unknown"]) {
+    Err(message) => assert_eq(message, "Unknown argument: --unknown")
+    Ok(_) => fail("Expected unknown argument to fail")
   }
 }
 
