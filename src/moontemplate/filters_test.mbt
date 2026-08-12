@@ -27,3 +27,33 @@ test "built-in filters preserve empty values" {
   let ctx : Map[String, String] = Map([])
   assert_eq(engine.render(ctx), "\"\"")
 }
+
+///|
+test "text utility filters support Unicode and whitespace" {
+  let engine = Engine::new(
+    "{{ title | length }}|{{ messy | collapse_whitespace }}|{{ title | capitalize }}|{{ body | newline_to_br }}",
+  ).unwrap()
+  let ctx : Map[String, String] = Map([])
+  ctx.set("title", "月亮模板")
+  ctx.set("messy", "  MoonBit\n\tTemplate  ")
+  ctx.set("body", "one\ntwo")
+  assert_eq(engine.render(ctx), "4|MoonBit Template|月亮模板|one<br>two")
+}
+
+///|
+test "parameterized prefix suffix and padding filters" {
+  let engine = Engine::new(
+    "{{ id | prefix(\"ID-\") }}|{{ id | suffix(\"-ok\") }}|{{ id | pad_left(5, \"0\") }}|{{ id | pad_right(5, \".\") }}",
+  ).unwrap()
+  let ctx : Map[String, String] = Map([])
+  ctx.set("id", "42")
+  assert_eq(engine.render(ctx), "ID-42|42-ok|00042|42...")
+}
+
+///|
+test "slice filter uses Unicode character indexes" {
+  let engine = Engine::new("{{ value | slice(1, 2) }}").unwrap()
+  let ctx : Map[String, String] = Map([])
+  ctx.set("value", "模板引擎")
+  assert_eq(engine.render(ctx), "板引")
+}

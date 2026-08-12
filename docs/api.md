@@ -20,6 +20,16 @@ Available methods:
 - `Engine::render(context)` renders the parsed AST using a `Map[String, String]`.
 - `Engine::render_strict(context)` rejects unknown filters with structured
   runtime diagnostics.
+- `Engine::stats()` returns node, filter, depth, and literal-character counts.
+- `Engine::required_variables()` and `Engine::filter_names()` expose stable
+  first-use dependency lists.
+- `Engine::audit_context(context)` reports missing and unused context keys.
+- `Engine::render_with_limits(context, limits)` returns a `RenderReport` with
+  output and runtime metrics, or `RenderFailure` when a budget is exceeded.
+
+`inspect_template(template, known_filters)` combines parsing, statistics,
+dependency collection, and lint issues into one preflight result. `LintSeverity`
+and `TemplateLintIssue` are intended for editor and CI integrations.
 
 `Parser::parse_with_diagnostics` is available for callers that already have
 tokens. `Diagnostic` exposes `kind`, `message`, `line`, `column`, `source_line`,
@@ -33,9 +43,25 @@ and stable `code` values (`TMPL_LEX`, `TMPL_PARSE`, and `TMPL_FILTER`).
 - `escape_html`
 - `escape_json`
 - `slugify`
+- `length`
+- `collapse_whitespace`
+- `capitalize`
+- `newline_to_br`
 - `replace("old", "new")`
 - `truncate(limit)`
 - `default("fallback")`
+- `prefix("text")` and `suffix("text")`
+- `pad_left(width, "fill")` and `pad_right(width, "fill")`
+- `slice(start, length)` using Unicode character indexes
+
+## Resource limits and benchmark evidence
+
+`RenderLimits::new(max_output_chars, max_iterations, max_depth)` prevents
+unbounded output, loop expansion, or recursive control-flow traversal.
+`RenderMetrics` records output characters, visited nodes, loop iterations,
+maximum depth, resolved variables, and missing variables. The deterministic
+benchmark catalog is available through `benchmark_cases()` and
+`run_benchmark_suite()`; `benchmark_report_json()` is suitable for CI artifacts.
 
 ## Rendering contract
 

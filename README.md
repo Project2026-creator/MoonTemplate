@@ -28,11 +28,14 @@ The implementation is intentionally small, readable, and reviewable, but it alre
 - Non-nesting comments: `{# internal note #}`
 - ASCII whitespace control: `{{- name -}}` and `{%- if ok -%}`
 - Filter pipelines: `{{ name | trim | uppercase }}`
-- Parameterized filters: `replace("old", "new")`, `truncate(20)`, and `default("fallback")`
-- Built-in filters: `trim`, `uppercase`, `lowercase`, `escape_html`, `escape_json`, `slugify`
+- Parameterized filters: `replace("old", "new")`, `truncate(20)`, `default("fallback")`, `prefix`, `suffix`, `pad_left`, `pad_right`, and Unicode `slice`
+- Built-in filters: `trim`, `uppercase`, `lowercase`, `escape_html`, `escape_json`, `slugify`, `length`, `collapse_whitespace`, `capitalize`, and `newline_to_br`
 - Custom filters via `Engine::register_filter`
 - Conditional rendering with `if` / `else`
 - Loop rendering with `{% for item in list %}`
+- Preflight inspection: AST statistics, required context keys, filter dependencies, lint issues, and context audits
+- Bounded rendering with output, iteration, and nesting budgets plus reproducible metrics
+- A deterministic benchmark catalog covering web, documentation, data, security, Unicode, and boundary workloads
 - Native CLI for file-based or inline rendering
 - Structured lexical, syntax, and filter diagnostics
 - Public API snapshot tracked in [`src/moontemplate/pkg.generated.mbti`](src/moontemplate/pkg.generated.mbti)
@@ -121,6 +124,15 @@ Arguments are limited to double-quoted strings (with `\\` and `\"` escapes)
 and signed decimal integers. Calls remain encoded in the compatible
 `Node::Variable(String, Array[String])` representation.
 
+### Inspection and bounded rendering
+
+Use `inspect_template` before accepting templates from users or CI. It reports
+node counts, literal character counts, referenced context keys, filter
+dependencies, and lint issues. For untrusted input, use
+`RenderLimits::new(output_chars, iterations, depth)` and inspect the returned
+`RenderReport.metrics()` counters. Limits count Unicode characters rather than
+UTF-8 bytes.
+
 ## CLI Usage
 
 The CLI package targets `native`, so it needs a system C compiler when you run it locally.
@@ -130,6 +142,9 @@ moon run src/cli --target native -- --file examples/welcome.txt --var name=MoonB
 moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
 moon run src/cli --target native -- --file examples/secure-output.txt --var "title=MoonBit & Templates" --var "body=<strong>safe</strong>"
 moon run src/cli --target native -- --diagnostics json --template "{{ name | truncate(\"five\") }}"
+moon run src/cli --target native -- --check --template "Hello {{ name | trim }}"
+moon run src/cli --target native -- --stats --template "{% for item in items %}{{ item }}{% endfor %}"
+moon run src/cli --target native -- --max-output 1000 --max-iterations 50 --max-depth 8 --template "{{ name }}" --var name=MoonBit
 ```
 
 The first command reads the tracked example file [`examples/welcome.txt`](examples/welcome.txt), so it can be copied and run immediately after cloning.
@@ -139,7 +154,11 @@ Supported options:
 - `--file <path>` or positional file path
 - `--template <inline-template>`
 - `--var key=value` (repeatable)
+- `--vars-file <path>` for `key=value` entries; blank lines and `#` comments are ignored
 - `--diagnostics text|json` (text is the default)
+- `--check` to parse and lint without rendering
+- `--stats` to emit stable template statistics JSON
+- `--max-output <N>`, `--max-iterations <N>`, and `--max-depth <N>` for bounded rendering
 - `--help`
 
 `--file` and `--template` are mutually exclusive. A missing file, malformed
@@ -155,9 +174,15 @@ For a larger, repeatable native workload, run
 milliseconds in the job log; it is an end-to-end CLI baseline, not a hardware
 independent performance promise.
 
+The library also contains a 14-case deterministic workload catalog and a
+machine-readable report API (`run_benchmark_suite` and
+`benchmark_report_json`) for CI evidence.
+
 ## Quality Gates
 
-CI installs the current stable MoonBit toolchain from the official installer. The repository is checked with the current toolchain available at validation time; this validation used `moonc 0.10.4`, which is newer than the `0.10.3` version mentioned in the organizer feedback.
+CI installs the current stable MoonBit toolchain from the official installer.
+The organizer-recommended acceptance baseline is MoonBit `0.10.3`; CI prints
+the exact installed version and checks the committed API snapshot.
 
 Local verification:
 
@@ -181,6 +206,7 @@ Repository acceptance helpers:
 - [`docs/acceptance-checklist.md`](docs/acceptance-checklist.md)
 - [`docs/source-attribution.md`](docs/source-attribution.md)
 - [`docs/performance.md`](docs/performance.md)
+- [`docs/benchmark-evidence.md`](docs/benchmark-evidence.md)
 - [`scripts/verify_acceptance.ps1`](scripts/verify_acceptance.ps1)
 - [`scripts/check_repo_compliance.py`](scripts/check_repo_compliance.py)
 

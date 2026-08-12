@@ -14,7 +14,7 @@ MoonTemplate is an original MoonBit project created for the OSC2026 competition 
 
 - MoonBit toolchain and standard ecosystem packages used through normal package imports.
 - `moonbitlang/async` is used for the native CLI package to access file-system support.
-- The repository follows the competition’s public-development and acceptance expectations documented by the official OSC2026 site and GitLink competition page.
+- The repository follows the competition's public-development and acceptance expectations documented by the official OSC2026 site and GitLink competition page.
 
 ## License scope
 

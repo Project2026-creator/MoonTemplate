@@ -2,42 +2,47 @@
 
 ## 项目简介
 
-MoonTemplate 是面向 MoonBit 生态的轻量文本模板引擎，使用 MoonBit 原生
-实现 Lexer、Parser、AST、渲染器、过滤器管线和 native CLI。项目面向静态
-页面、CLI 报表、配置/清单、通知文本和代码脚手架等可复现的结构化文本生成
-场景，不依赖外部模板运行时。
+MoonTemplate 是面向 MoonBit 生态的原生文本模板引擎，用于生成 HTML、
+邮件、配置文件、CLI 报告、提示词和代码片段等结构化文本。项目不依赖
+外部模板运行时，核心实现包括 Lexer、Parser、AST、渲染器、过滤器、诊断
+API、预检分析、资源限制和 native CLI。
 
-## 核心功能
+## 核心功能与工程量
 
-- `{{ variable }}` 插值、缺失变量空字符串语义和 `if/else`、`for` 控制流。
-- `trim`、大小写转换、HTML/JSON 转义、`slugify` 等内置过滤器。
-- `replace("old", "new")`、Unicode 字符数 `truncate(20)`、空白感知
-  `default("fallback")` 参数化过滤器。
-- `{# ... #}` 非嵌套注释和 `{{-`、`-}}`、`{%-`、`-%}` ASCII 空白控制。
-- 严格诊断 API：词法、语法、过滤器类别，1-based 行列号和源码行。
-- CLI 支持文件/内联模板、重复 `--var key=value` 和 `--diagnostics text|json`。
+- `{{ variable }}` 插值、过滤器管线、`if/else`、`for` 循环。
+- 非嵌套 `{# ... #}` 注释与 ASCII 空白控制标记。
+- Unicode 安全的 `truncate`、`slice`、`length`，以及 HTML/JSON 安全输出。
+- `replace`、`default`、`prefix`、`suffix`、`pad_left`、`pad_right` 等参数化过滤器。
+- 结构化词法/语法/过滤器诊断，支持文本和 JSON CLI 输出。
+- 模板统计、上下文依赖审计、lint 预检和输出/迭代/深度资源限制。
+- 14 个真实场景基准：产品卡片、发布说明、中文本地化、CSV、日志、Markdown、
+  安全输出、空值、密集循环、Unicode 边界和条件分支。
 
-## 工程与验证
+当前 `src/**/*.mbt` 超过 3,500 行，其中实现约 3,000 行、测试约 600 行；
+测试与基准结果通过 CI 生成可复现证据。
 
-仓库包含公开 MoonBit 源码、30 个库测试、CLI 测试、边界测试、覆盖率摘要、
-native smoke test、可重复 benchmark、API 快照和双平台 CI。验证命令包括：
+## 验证方式
 
 ```text
 moon fmt --check
 moon info
 moon build
 moon check --deny-warn
-moon check --target native --deny-warn
 moon test --deny-warn
+moon check --target native --deny-warn
 moon test --target native --deny-warn
 ```
 
-GitHub 仓库：<https://github.com/Project2026-creator/MoonTemplate>
+native CLI 可运行内联模板、模板文件、变量文件、lint/stat 模式、JSON 诊断
+模式和有界渲染模式。Linux/macOS 使用 `bash scripts/benchmark.sh 10`，
+Windows 使用 `powershell -File scripts/benchmark.ps1 10`。
 
-GitLink 仓库：<https://gitlink.org.cn/Hero001/moontemplate>
+## 开源合规与仓库
 
-## 原创与开源合规
+项目为原创 MoonBit 实现，不复制或内置其他模板引擎源码。源码、测试、来源
+说明、依赖范围和 Apache-2.0 许可证均在仓库中公开；不提交 `_build` 或本地
+构建产物。
 
-项目为原创 MoonBit 实现，不复制或移植其他模板引擎源码。来源、第三方依赖、
-许可证和贡献规则分别记录在 `docs/source-attribution.md`、`LICENSE` 和
-`CONTRIBUTING.md` 中，发布包版本与仓库版本保持一致。
+- GitHub：<https://github.com/Project2026-creator/MoonTemplate>
+- GitLink：<https://gitlink.org.cn/Hero001/moontemplate>
+- Mooncakes 包名：`Project2026-creator/moontemplate`

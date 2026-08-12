@@ -30,6 +30,14 @@ def count_mbt_lines() -> int:
     return total
 
 
+def count_mbt_lines_matching(predicate) -> int:
+    total = 0
+    for path in ROOT.glob("src/**/*.mbt"):
+        if predicate(path):
+            total += sum(1 for _ in path.open("r", encoding="utf-8"))
+    return total
+
+
 def workflow_contains(path: Path, needles: list[str]) -> bool:
     if not path.exists():
         return False
@@ -57,6 +65,9 @@ def main() -> int:
         ".gitea/workflows/ci.yml": (ROOT / ".gitea/workflows/ci.yml").exists(),
         "src/moontemplate/pkg.generated.mbti": (ROOT / "src/moontemplate/pkg.generated.mbti").exists(),
         "docs/source-attribution.md": (ROOT / "docs/source-attribution.md").exists(),
+        "docs/benchmark-evidence.md": (ROOT / "docs/benchmark-evidence.md").exists(),
+        "CONTRIBUTING.md": (ROOT / "CONTRIBUTING.md").exists(),
+        "CHANGELOG.md": (ROOT / "CHANGELOG.md").exists(),
     }
     workflow_needles = [
         "moon fmt --check",
@@ -72,6 +83,13 @@ def main() -> int:
         "commit_count": int(run("git", "rev-list", "--count", "HEAD")),
         "post_2026_04_29_commits": int(run("git", "rev-list", "--count", f"--since={RULE_START}", "HEAD")),
         "moonbit_source_lines": count_mbt_lines(),
+        "moonbit_implementation_lines": count_mbt_lines_matching(
+            lambda path: not path.name.endswith("_test.mbt")
+        ),
+        "moonbit_test_lines": count_mbt_lines_matching(
+            lambda path: path.name.endswith("_test.mbt")
+        ),
+        "current_branch": run("git", "branch", "--show-current"),
         "default_branch": {
             "github": remote_default_branch("github"),
             "origin": remote_default_branch("origin"),
@@ -88,6 +106,7 @@ def main() -> int:
         all(required_files.values())
         and all(report["workflow_checks"].values())
         and not report["tracked_build_artifacts"]
+        and report["moonbit_source_lines"] >= 3500
     )
     return 0 if ok else 1
 

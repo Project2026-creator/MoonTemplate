@@ -7,6 +7,10 @@
   filters with constrained string/integer arguments.
 - Source-aware `DiagnosticKind`/`Diagnostic` APIs and strict rendering.
 - CLI `--diagnostics text|json` output with stable machine-readable fields.
+- Template inspection, context audits, bounded rendering metrics, and typed
+  output/iteration/depth failures.
+- Unicode-safe utility filters, extended CLI workflows, and a 14-case
+  deterministic benchmark catalog with stable JSON evidence.
 
 ### Changed
 - Added parser position tracking without changing the public `Token` or

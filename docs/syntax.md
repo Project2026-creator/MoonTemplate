@@ -1,40 +1,22 @@
 # Template Syntax
 
-## Variables
+## Variables and filters
 
-Use `{{ variable_name }}` for direct interpolation.
-
-```text
-Hello, {{ user }}
-```
-
-## Filter pipelines
-
-Chain filters from left to right with `|`.
+Use `{{ variable_name }}` for interpolation and chain filters left to right:
 
 ```text
 {{ user | trim | uppercase }}
+{{ title | replace("Moon", "Star") | truncate(20) }}
 ```
 
-Built-in filters:
-
-- `trim`
-- `uppercase`
-- `lowercase`
-- `escape_html` — escapes `&`, `<`, `>`, double quotes, and apostrophes.
-- `escape_json` — serializes the value as a quoted JSON string.
-- `slugify` — lowercases ASCII letters, keeps ASCII digits, and joins runs of separators with `-`.
-
-Filter names are applied from left to right, so escaping can be composed with
-normalization when appropriate: `{{ title | trim | slugify }}`.
-
-Parameterized filters include `replace("old", "new")`, `truncate(20)`, and
-`default("fallback")`. Truncation counts Unicode characters. Arguments are
-only quoted strings or signed integers; strings accept `\\` and `\"` escapes.
+Built-in filters are `trim`, `uppercase`, `lowercase`, `escape_html`,
+`escape_json`, `slugify`, `length`, `collapse_whitespace`, `capitalize`, and
+`newline_to_br`. Parameterized filters include `replace`, `truncate`,
+`default`, `prefix`, `suffix`, `pad_left`, `pad_right`, and Unicode `slice`.
+Arguments are only double-quoted strings or signed decimal integers; strings
+support the necessary `\\`, `\"`, `\n`, `\r`, and `\t` escapes.
 
 ## Conditionals
-
-Use `if` / `else` / `endif` blocks.
 
 ```text
 {% if is_admin %}
@@ -44,9 +26,9 @@ User
 {% endif %}
 ```
 
-## Loops
+Conditions treat an empty value, `0`, and `false` as false.
 
-Use `for` / `endfor` blocks to iterate comma-separated context values.
+## Loops
 
 ```text
 {% for item in users %}
@@ -54,15 +36,18 @@ Use `for` / `endfor` blocks to iterate comma-separated context values.
 {% endfor %}
 ```
 
-If `users = "alice, bob, carol"`, the loop renders three iterations.
+Loop inputs are comma-separated strings. Empty items are ignored after trimming.
+Loop variables are local to the loop body and are not required context keys.
 
 ## Comments and whitespace control
 
 `{# comment #}` is a non-nesting comment and renders nothing. A leading `-`
-trims ASCII whitespace on the preceding text, while a trailing `-` trims it
-from the following text:
+trims ASCII whitespace on the preceding text, while a trailing `-` trims ASCII
+whitespace from the following text:
 
 ```text
 A  {{- name -}}  B
 {%- if enabled -%}yes{%- endif -%}
 ```
+
+Whitespace control never removes non-ASCII whitespace.

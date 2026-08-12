@@ -1,6 +1,6 @@
 # MoonTemplate Acceptance Checklist
 
-Status updated on August 11, 2026.
+Status updated on August 13, 2026.
 
 | Item | Status | Notes |
 | --- | --- | --- |
@@ -10,12 +10,12 @@ Status updated on August 11, 2026.
 | License | Ready | Apache 2.0 full text is included in `LICENSE`. |
 | Commit history | Ready | Public post-acceptance commits are present and reviewable; run the self-check script for the current count. |
 | MoonBit as main language | Ready | Core implementation lives under `src/moontemplate` and the CLI under `src/cli`. |
-| Source规模 | Ready | Current `src/**/*.mbt` source and test footprint is several hundred lines and still growing with docs and scripts. |
+| Source规模 | Ready | Current `src/**/*.mbt` footprint is approximately 3.6k functional MoonBit lines, with roughly 3.0k implementation lines and 0.6k test lines. |
 | Filters | Ready | Parser and engine both support filter pipelines; built-in and custom filters are covered by tests. |
 | Control-flow edges | Ready | `if` / `else` / `for` plus missing-block error handling are covered by tests. |
-| CLI | Ready | Native CLI accepts `--file`, `--template`, and repeated `--var key=value`. |
+| CLI | Ready | Native CLI accepts files, inline templates, repeated variables, variable files, text/JSON diagnostics, lint/stat modes, and resource limits. |
 | CI | Ready | GitHub and Gitea workflows include `moon fmt --check`, `moon info`, `moon build`, `moon check --deny-warn`, and `moon test --deny-warn`. |
-| Coverage and performance evidence | Ready | CI emits coverage summaries and runs the tracked 10-iteration native workload; complexity and reproduction steps are documented in `docs/performance.md`. |
+| Coverage and performance evidence | Ready | CI emits coverage summaries and runs the tracked 10-iteration native workload; the engine also has 14 deterministic benchmark cases and stable JSON evidence. |
 | Build artifact hygiene | Ready | `_build/` and temporary outputs are excluded from version control. |
 | Public API snapshot | Ready | `src/moontemplate/pkg.generated.mbti` is tracked and checked in CI. |
 | Source attribution | Ready | See `docs/source-attribution.md`. |
@@ -24,9 +24,10 @@ Status updated on August 11, 2026.
 ## Local verification commands
 
 The current implementation adds comments, whitespace control, parameterized
-filters, Unicode boundary tests, structured diagnostics, and CLI JSON smoke
-coverage. The tracked source/test footprint is approximately 1.8k functional
-MoonBit lines; CI also runs native CLI and benchmark evidence.
+filters, Unicode boundary tests, structured diagnostics, inspection metadata,
+bounded rendering, context audits, CLI JSON/check/stats workflows, and a
+14-case benchmark catalog. The tracked source/test footprint is approximately
+3.5k functional MoonBit lines; CI also runs native CLI and benchmark evidence.
 
 ```bash
 moon fmt --check

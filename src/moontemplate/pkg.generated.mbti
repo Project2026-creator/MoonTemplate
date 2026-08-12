@@ -6,10 +6,76 @@ import {
 }
 
 // Values
+pub fn benchmark_all_passed(Array[BenchmarkResult]) -> Bool
+
+pub fn benchmark_cases() -> Array[BenchmarkCase]
+
+pub fn benchmark_report_json(Array[BenchmarkResult]) -> String
+
+pub fn benchmark_total_iterations(Array[BenchmarkResult]) -> Int
+
+pub fn benchmark_total_output_chars(Array[BenchmarkResult]) -> Int
+
+pub fn inspect_template(String, Array[String]) -> Result[TemplateInspection, Array[Diagnostic]]
+
+pub fn lint_template(String, Array[String]) -> Result[Array[TemplateLintIssue], Array[Diagnostic]]
+
+pub fn run_benchmark_case(BenchmarkCase) -> Result[BenchmarkResult, String]
+
+pub fn run_benchmark_suite() -> Result[Array[BenchmarkResult], String]
 
 // Errors
 
 // Types and methods
+pub struct BenchmarkCase {
+  name : String
+  category : String
+  description : String
+  template : String
+  context_entries : Array[(String, String)]
+  expected_output : String
+  limits : RenderLimits
+} derive(Eq, @debug.Debug)
+pub fn BenchmarkCase::category(Self) -> String
+pub fn BenchmarkCase::context(Self) -> Map[String, String]
+pub fn BenchmarkCase::description(Self) -> String
+pub fn BenchmarkCase::expected_output(Self) -> String
+pub fn BenchmarkCase::limits(Self) -> RenderLimits
+pub fn BenchmarkCase::name(Self) -> String
+pub fn BenchmarkCase::template(Self) -> String
+
+pub struct BenchmarkResult {
+  name : String
+  category : String
+  passed : Bool
+  output_chars : Int
+  expected_chars : Int
+  nodes_visited : Int
+  iterations : Int
+  unicode_chars : Int
+  missing_variables : Int
+} derive(Eq, @debug.Debug)
+pub fn BenchmarkResult::category(Self) -> String
+pub fn BenchmarkResult::expected_chars(Self) -> Int
+pub fn BenchmarkResult::iterations(Self) -> Int
+pub fn BenchmarkResult::missing_variables(Self) -> Int
+pub fn BenchmarkResult::name(Self) -> String
+pub fn BenchmarkResult::nodes_visited(Self) -> Int
+pub fn BenchmarkResult::output_chars(Self) -> Int
+pub fn BenchmarkResult::passed(Self) -> Bool
+pub fn BenchmarkResult::to_json(Self) -> String
+pub fn BenchmarkResult::unicode_chars(Self) -> Int
+
+pub struct ContextAudit {
+  missing : Array[String]
+  unused : Array[String]
+  provided_count : Int
+} derive(Eq, @debug.Debug)
+pub fn ContextAudit::missing(Self) -> Array[String]
+pub fn ContextAudit::provided_count(Self) -> Int
+pub fn ContextAudit::summary(Self) -> String
+pub fn ContextAudit::unused(Self) -> Array[String]
+
 pub struct Diagnostic {
   kind : DiagnosticKind
   message : String
@@ -36,11 +102,16 @@ pub struct Engine {
   nodes : Array[Node]
   filters : Map[String, (String) -> String]
 }
+pub fn Engine::audit_context(Self, Map[String, String]) -> ContextAudit
+pub fn Engine::filter_names(Self) -> Array[String]
 pub fn Engine::new(String) -> Result[Self, String]
 pub fn Engine::new_with_diagnostics(String) -> Result[Self, Array[Diagnostic]]
 pub fn Engine::register_filter(Self, String, (String) -> String) -> Unit
 pub fn Engine::render(Self, Map[String, String]) -> String
 pub fn Engine::render_strict(Self, Map[String, String]) -> Result[String, Array[Diagnostic]]
+pub fn Engine::render_with_limits(Self, Map[String, String], RenderLimits) -> Result[RenderReport, RenderFailure]
+pub fn Engine::required_variables(Self) -> Array[String]
+pub fn Engine::stats(Self) -> TemplateStats
 
 pub struct Lexer {
   input : String
@@ -53,6 +124,12 @@ pub struct Lexer {
 pub fn Lexer::new(String) -> Self
 pub fn Lexer::next_token(Self) -> Token
 pub fn Lexer::tokenize(Self) -> Array[Token]
+
+pub(all) enum LintSeverity {
+  Info
+  Warning
+  Error
+} derive(Eq, @debug.Debug)
 
 pub(all) enum Node {
   Text(String)
@@ -70,6 +147,91 @@ pub struct Parser {
 pub fn Parser::new(Array[Token]) -> Self
 pub fn Parser::parse(Self) -> Result[Array[Node], String]
 pub fn Parser::parse_with_diagnostics(Self) -> Result[Array[Node], Array[Diagnostic]]
+
+pub(all) enum RenderFailure {
+  OutputLimitExceeded(Int, Int)
+  IterationLimitExceeded(Int)
+  DepthLimitExceeded(Int)
+} derive(Eq, @debug.Debug)
+
+pub struct RenderLimits {
+  max_output_chars : Int
+  max_iterations : Int
+  max_depth : Int
+} derive(Eq, @debug.Debug)
+pub fn RenderLimits::default() -> Self
+pub fn RenderLimits::max_depth(Self) -> Int
+pub fn RenderLimits::max_iterations(Self) -> Int
+pub fn RenderLimits::max_output_chars(Self) -> Int
+pub fn RenderLimits::new(Int, Int, Int) -> Self
+
+pub struct RenderMetrics {
+  mut output_chars : Int
+  mut nodes_visited : Int
+  mut iterations : Int
+  mut max_depth : Int
+  mut variables_resolved : Int
+  mut missing_variables : Int
+} derive(Eq, @debug.Debug)
+pub fn RenderMetrics::iterations(Self) -> Int
+pub fn RenderMetrics::max_depth(Self) -> Int
+pub fn RenderMetrics::missing_variables(Self) -> Int
+pub fn RenderMetrics::nodes_visited(Self) -> Int
+pub fn RenderMetrics::output_chars(Self) -> Int
+pub fn RenderMetrics::variables_resolved(Self) -> Int
+
+pub struct RenderReport {
+  output : String
+  metrics : RenderMetrics
+} derive(Eq, @debug.Debug)
+pub fn RenderReport::metrics(Self) -> RenderMetrics
+pub fn RenderReport::output(Self) -> String
+
+pub struct TemplateInspection {
+  stats : TemplateStats
+  required_variables : Array[String]
+  filter_names : Array[String]
+  lint_issues : Array[TemplateLintIssue]
+} derive(Eq, @debug.Debug)
+pub fn TemplateInspection::filter_names(Self) -> Array[String]
+pub fn TemplateInspection::is_clean(Self) -> Bool
+pub fn TemplateInspection::lint_issues(Self) -> Array[TemplateLintIssue]
+pub fn TemplateInspection::required_variables(Self) -> Array[String]
+pub fn TemplateInspection::stats(Self) -> TemplateStats
+
+pub struct TemplateLintIssue {
+  severity : LintSeverity
+  code : String
+  message : String
+  line : Int
+  column : Int
+  source_line : String
+} derive(Eq, @debug.Debug)
+pub fn TemplateLintIssue::code(Self) -> String
+pub fn TemplateLintIssue::column(Self) -> Int
+pub fn TemplateLintIssue::line(Self) -> Int
+pub fn TemplateLintIssue::message(Self) -> String
+pub fn TemplateLintIssue::severity(Self) -> LintSeverity
+pub fn TemplateLintIssue::source_line(Self) -> String
+
+pub struct TemplateStats {
+  mut node_count : Int
+  mut text_nodes : Int
+  mut variable_nodes : Int
+  mut if_nodes : Int
+  mut for_nodes : Int
+  mut filter_count : Int
+  mut max_depth : Int
+  mut literal_chars : Int
+} derive(Eq, @debug.Debug)
+pub fn TemplateStats::filter_count(Self) -> Int
+pub fn TemplateStats::for_nodes(Self) -> Int
+pub fn TemplateStats::if_nodes(Self) -> Int
+pub fn TemplateStats::literal_chars(Self) -> Int
+pub fn TemplateStats::max_depth(Self) -> Int
+pub fn TemplateStats::node_count(Self) -> Int
+pub fn TemplateStats::text_nodes(Self) -> Int
+pub fn TemplateStats::variable_nodes(Self) -> Int
 
 pub(all) enum Token {
   Text(String)

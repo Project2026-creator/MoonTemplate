@@ -20,10 +20,10 @@ moon coverage report -f summary
 moon coverage analyze
 ```
 
-The repository currently contains 30 library and diagnostic tests; CLI tests are
-also compiled in the native package. Coverage is reported by CI and recorded as
-a summary rather than used as a brittle threshold while the parser is still
-growing.
+The repository currently contains 54 library, diagnostic, inspection, bounded
+render, filter, CLI, and benchmark tests; CLI tests are also compiled in the
+native package. Coverage is reported by CI and recorded as a summary rather than
+used as a brittle threshold while the parser is still growing.
 
 ## Performance model and reproducibility
 
@@ -48,3 +48,11 @@ average time in its job log. Use `scripts/benchmark.ps1 10` for the equivalent
 Windows command. This keeps performance claims reproducible and tied to a
 stated MoonBit toolchain and host instead of publishing a non-comparable local
 timing.
+
+The library benchmark catalog runs 14 deterministic cases directly through the
+engine. It verifies exact output for product cards, release notes, localization,
+CSV rows, logs, Markdown, secure output, empty values, dense loops, Unicode
+slicing, truncation, and conditionals. Each result records output characters,
+expected characters, visited nodes, loop iterations, Unicode characters, and
+missing variables. `benchmark_report_json` emits these fields without timestamps
+or host-specific values, so CI artifacts remain diffable.

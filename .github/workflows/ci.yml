@@ -34,6 +34,7 @@ jobs:
       - name: moon info
         run: |
           moon info
+          python scripts/normalize_api_snapshot.py
           git diff --exit-code -- src/moontemplate/pkg.generated.mbti
 
       - name: moon build
@@ -71,6 +72,17 @@ jobs:
           echo "$output"
           echo "$output" | grep -F '"code":"TMPL_FILTER"'
           echo "$output" | grep -F '"source_line"'
+
+      - name: CLI inspection and bounded-render smoke test
+        run: |
+          check_output="$(moon run src/cli --target native -- --check --template 'Hello {{ name | trim }}')"
+          echo "$check_output"
+          echo "$check_output" | grep -F 'Template check passed'
+          stats_output="$(moon run src/cli --target native -- --stats --template 'Hi {{ name }}')"
+          echo "$stats_output"
+          echo "$stats_output" | grep -F '"node_count":2'
+          bounded_output="$(moon run src/cli --target native -- --max-output 20 --template 'Hi {{ name }}' --var name=MoonBit)"
+          echo "$bounded_output"
 
       - name: Native CLI benchmark
         run: bash scripts/benchmark.sh 10

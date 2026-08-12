@@ -4,7 +4,7 @@ test "syntax diagnostics report Unicode-aware line and column" {
   match result {
     Err(diagnostics) => {
       let diagnostic = diagnostics[0]
-      assert_eq(diagnostic.kind(), Syntax)
+      assert_true(diagnostic.kind() == Syntax)
       assert_eq(diagnostic.line(), 2)
       assert_eq(diagnostic.column(), 1)
       assert_eq(diagnostic.source_line(), "{{ missing")
@@ -19,7 +19,7 @@ test "lexical diagnostics report an unterminated comment" {
   match Engine::new_with_diagnostics("before\n{# not closed") {
     Err(diagnostics) => {
       let diagnostic = diagnostics[0]
-      assert_eq(diagnostic.kind(), Lexical)
+      assert_true(diagnostic.kind() == Lexical)
       assert_eq(diagnostic.line(), 2)
       assert_eq(diagnostic.source_line(), "{# not closed")
       assert_eq(diagnostic.code(), "TMPL_LEX")
@@ -33,7 +33,7 @@ test "filter diagnostics reject invalid parameter types" {
   match Engine::new_with_diagnostics("{{ name | truncate(\"five\") }}") {
     Err(diagnostics) => {
       let diagnostic = diagnostics[0]
-      assert_eq(diagnostic.kind(), Filter)
+      assert_true(diagnostic.kind() == Filter)
       assert_true(diagnostic.message().contains("truncate"))
       assert_eq(diagnostic.code(), "TMPL_FILTER")
     }
@@ -49,7 +49,7 @@ test "strict render diagnoses unknown legacy filters" {
   match engine.render_strict(context) {
     Err(diagnostics) => {
       let diagnostic = diagnostics[0]
-      assert_eq(diagnostic.kind(), Filter)
+      assert_true(diagnostic.kind() == Filter)
       assert_eq(diagnostic.line(), 0)
       assert_eq(diagnostic.column(), 0)
     }

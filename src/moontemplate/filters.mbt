@@ -38,6 +38,59 @@ fn slugify(value : String) -> String {
 }
 
 ///|
+fn length_filter(value : String) -> String {
+  value.char_length().to_string()
+}
+
+///|
+fn collapse_whitespace(value : String) -> String {
+  let mut output = ""
+  let mut pending_space = false
+  for c in value {
+    if c.is_ascii_whitespace() {
+      if output != "" {
+        pending_space = true
+      }
+    } else {
+      if pending_space {
+        output += " "
+        pending_space = false
+      }
+      output += c.to_string()
+    }
+  }
+  output
+}
+
+///|
+fn capitalize_filter(value : String) -> String {
+  let mut output = ""
+  let mut first = true
+  for c in value {
+    if first {
+      output += c.to_string().to_upper()
+      first = false
+    } else {
+      output += c.to_string()
+    }
+  }
+  output
+}
+
+///|
+fn newline_to_br(value : String) -> String {
+  let mut output = ""
+  for c in value {
+    if c == '\n' {
+      output += "<br>"
+    } else {
+      output += c.to_string()
+    }
+  }
+  output
+}
+
+///|
 /// A deliberately small argument model for the supported parameterized filters.
 /// Keeping this private lets the public AST continue to store filter expressions
 /// as strings while still giving the renderer typed values after validation.
@@ -223,6 +276,34 @@ fn validate_filter_expression(raw : String) -> Result[Unit, String] {
           _ => Err("default expects one string argument")
         }
       }
+    "prefix" | "suffix" =>
+      if args.length() != 1 {
+        Err("{name} expects one string argument")
+      } else {
+        match args[0] {
+          TextArgument(_) => Ok(())
+          _ => Err("{name} expects one string argument")
+        }
+      }
+    "pad_left" | "pad_right" =>
+      if args.length() != 2 {
+        Err("{name} expects a width and one-character fill")
+      } else {
+        match (args[0], args[1]) {
+          (NumberArgument(width), TextArgument(fill)) if width >= 0 &&
+            fill.char_length() == 1 => Ok(())
+          _ => Err("{name} expects a non-negative width and one-character fill")
+        }
+      }
+    "slice" =>
+      if args.length() != 2 {
+        Err("slice expects two integer arguments")
+      } else {
+        match (args[0], args[1]) {
+          (NumberArgument(_), NumberArgument(_)) => Ok(())
+          _ => Err("slice expects two integer arguments")
+        }
+      }
     _ => Err("Unknown parameterized filter")
   }
 }
@@ -272,8 +353,60 @@ fn apply_filter_spec(value : String, raw : String) -> Result[String, String] {
           }
         _ => Err("default expects one string argument")
       }
+    "prefix" =>
+      match args[0] {
+        TextArgument(prefix) => Ok(prefix + value)
+        _ => Err("prefix expects one string argument")
+      }
+    "suffix" =>
+      match args[0] {
+        TextArgument(suffix) => Ok(value + suffix)
+        _ => Err("suffix expects one string argument")
+      }
+    "pad_left" | "pad_right" =>
+      match (args[0], args[1]) {
+        (NumberArgument(width), TextArgument(fill)) => {
+          let padding = width - value.char_length()
+          if padding <= 0 {
+            Ok(value)
+          } else {
+            let mut repeated = ""
+            for _ in 0..<padding {
+              repeated += fill
+            }
+            if name == "pad_left" {
+              Ok(repeated + value)
+            } else {
+              Ok(value + repeated)
+            }
+          }
+        }
+        _ => Err("{name} expects a non-negative width and one-character fill")
+      }
+    "slice" =>
+      match (args[0], args[1]) {
+        (NumberArgument(start), NumberArgument(length)) =>
+          Ok(slice_unicode(value, start, length))
+        _ => Err("slice expects two integer arguments")
+      }
     _ => Ok(value)
   }
+}
+
+///|
+fn slice_unicode(value : String, start : Int, length : Int) -> String {
+  if start < 0 || length <= 0 {
+    return ""
+  }
+  let begin = match value.offset_of_nth_char(start) {
+    Some(offset) => offset
+    None => return ""
+  }
+  let end = match value.offset_of_nth_char(start + length) {
+    Some(offset) => offset
+    None => value.length()
+  }
+  value[begin:end].to_owned()
 }
 
 ///|
@@ -284,4 +417,8 @@ fn register_builtin_filters(filters : Map[String, (String) -> String]) -> Unit {
   filters.set("escape_html", escape_html)
   filters.set("escape_json", escape_json)
   filters.set("slugify", slugify)
+  filters.set("length", length_filter)
+  filters.set("collapse_whitespace", collapse_whitespace)
+  filters.set("capitalize", capitalize_filter)
+  filters.set("newline_to_br", newline_to_br)
 }

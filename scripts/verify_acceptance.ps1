@@ -27,6 +27,7 @@ try {
   Invoke-Step "moon fmt --check" { moon fmt --check }
   Invoke-Step "moon info" {
     moon info
+    python scripts/normalize_api_snapshot.py
     git diff --exit-code -- src/moontemplate/pkg.generated.mbti
   }
   Invoke-Step "moon build" { moon build }
