@@ -74,8 +74,12 @@ def main() -> int:
         "moon info",
         "moon build",
         "moon check --deny-warn",
+        "moon check --target wasm-gc --deny-warn",
+        "moon check --target js --deny-warn",
         "moon check --target native --deny-warn",
         "moon test --deny-warn",
+        "moon test --target wasm-gc --deny-warn",
+        "moon test --target js --deny-warn",
         "moon test --target native --deny-warn",
         "bash scripts/benchmark.sh 10",
     ]

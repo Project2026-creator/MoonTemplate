@@ -32,7 +32,11 @@ try {
   }
   Invoke-Step "moon build" { moon build }
   Invoke-Step "moon check --deny-warn" { moon check --deny-warn }
+  Invoke-Step "moon check --target wasm-gc --deny-warn" { moon check --target wasm-gc --deny-warn }
+  Invoke-Step "moon check --target js --deny-warn" { moon check --target js --deny-warn }
   Invoke-Step "moon test --deny-warn" { moon test --deny-warn }
+  Invoke-Step "moon test --target wasm-gc --deny-warn" { moon test --target wasm-gc --deny-warn }
+  Invoke-Step "moon test --target js --deny-warn" { moon test --target js --deny-warn }
   Invoke-Step "repository compliance report" { python scripts/check_repo_compliance.py }
 
   if (Test-NativeCompiler) {

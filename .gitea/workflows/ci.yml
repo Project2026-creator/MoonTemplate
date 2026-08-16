@@ -39,11 +39,23 @@ jobs:
       - name: moon check --deny-warn
         run: moon check --deny-warn
 
+      - name: moon check --target wasm-gc --deny-warn
+        run: moon check --target wasm-gc --deny-warn
+
+      - name: moon check --target js --deny-warn
+        run: moon check --target js --deny-warn
+
       - name: moon check --target native --deny-warn
         run: moon check --target native --deny-warn
 
       - name: moon test --deny-warn
         run: moon test --deny-warn
+
+      - name: moon test --target wasm-gc --deny-warn
+        run: moon test --target wasm-gc --deny-warn
+
+      - name: moon test --target js --deny-warn
+        run: moon test --target js --deny-warn
 
       - name: moon test --target native --deny-warn
         run: moon test --target native --deny-warn

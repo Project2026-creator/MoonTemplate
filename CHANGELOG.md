@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.6] - 2026-08-16
+
+- Migrate the CLI package to the current stable `pkgtype` configuration.
+- Add explicit wasm-gc, JavaScript, and native CI checks and tests.
+- Refresh local acceptance scripts and documentation for the current toolchain.
+
 ## [0.2.5] - 2026-08-11
 ### Added
 - Non-nesting `{# ... #}` comments and ASCII whitespace-control markers.

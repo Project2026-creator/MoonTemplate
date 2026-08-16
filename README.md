@@ -181,8 +181,9 @@ machine-readable report API (`run_benchmark_suite` and
 ## Quality Gates
 
 CI installs the current stable MoonBit toolchain from the official installer.
-The organizer-recommended acceptance baseline is MoonBit `0.10.3`; CI prints
-the exact installed version and checks the committed API snapshot.
+The organizer feedback originally cited MoonBit `0.10.3`; current stable
+toolchains use `pkgtype(kind: "executable")` in `moon.pkg`. CI prints the exact
+installed version and checks the committed API snapshot.
 
 Local verification:
 
@@ -192,13 +193,19 @@ moon info
 moon build
 moon check --deny-warn
 moon test --deny-warn
+moon check --target wasm-gc --deny-warn
+moon test --target wasm-gc --deny-warn
+moon check --target js --deny-warn
+moon test --target js --deny-warn
 moon check --target native --deny-warn
 moon test --target native --deny-warn
 moon test --deny-warn --enable-coverage
 moon coverage report -f summary
 ```
 
-The native commands require a C compiler (`build-essential` on the CI runner).
+The library is checked and tested on wasm-gc, JavaScript, and native. The CLI
+is intentionally native-only because it uses process arguments and filesystem
+I/O. Native commands require a C compiler (`build-essential` on the CI runner).
 
 Repository acceptance helpers:
 

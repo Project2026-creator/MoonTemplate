@@ -1,6 +1,6 @@
 # MoonTemplate Acceptance Checklist
 
-Status updated on August 13, 2026.
+Status updated on August 16, 2026.
 
 | Item | Status | Notes |
 | --- | --- | --- |
@@ -13,8 +13,8 @@ Status updated on August 13, 2026.
 | Source规模 | Ready | Current `src/**/*.mbt` footprint is approximately 3.6k functional MoonBit lines, with roughly 3.0k implementation lines and 0.6k test lines. |
 | Filters | Ready | Parser and engine both support filter pipelines; built-in and custom filters are covered by tests. |
 | Control-flow edges | Ready | `if` / `else` / `for` plus missing-block error handling are covered by tests. |
-| CLI | Ready | Native CLI accepts files, inline templates, repeated variables, variable files, text/JSON diagnostics, lint/stat modes, and resource limits. |
-| CI | Ready | GitHub and Gitea workflows include `moon fmt --check`, `moon info`, `moon build`, `moon check --deny-warn`, and `moon test --deny-warn`. |
+| CLI | Ready | Native CLI accepts files, inline templates, repeated variables, variable files, text/JSON diagnostics, lint/stat modes, and resource limits. It is intentionally native-only because it uses process arguments and filesystem I/O. |
+| CI | Ready | GitHub and Gitea workflows include formatting, API snapshot, build, strict wasm-gc/JavaScript/native checks and tests, coverage, CLI smoke tests, and benchmarks. |
 | Coverage and performance evidence | Ready | CI emits coverage summaries and runs the tracked 10-iteration native workload; the engine also has 14 deterministic benchmark cases and stable JSON evidence. |
 | Build artifact hygiene | Ready | `_build/` and temporary outputs are excluded from version control. |
 | Public API snapshot | Ready | `src/moontemplate/pkg.generated.mbti` is tracked and checked in CI. |

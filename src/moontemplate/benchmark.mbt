@@ -139,8 +139,8 @@ pub fn benchmark_cases() -> Array[BenchmarkCase] {
       category: "documentation",
       description: "Render a release heading and a bullet list",
       template: "## {{ version }}\n{% for item in changes %}- {{ item | trim }}\n{% endfor %}",
-      context_entries: [("version", "0.2.5"), ("changes", "Lexer, Parser, CLI")],
-      expected_output: "## 0.2.5\n- Lexer\n- Parser\n- CLI\n",
+      context_entries: [("version", "0.2.6"), ("changes", "Lexer, Parser, CLI")],
+      expected_output: "## 0.2.6\n- Lexer\n- Parser\n- CLI\n",
       limits: RenderLimits::new(400, 10, 4),
     },
     {
