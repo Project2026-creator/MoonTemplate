@@ -6,6 +6,20 @@ import {
 }
 
 // Values
+pub fn assert_safe_source(SecurityPolicy, String) -> Result[Unit, String]
+
+pub fn batch_error_report(Array[BatchResult]) -> String
+
+pub fn batch_failures(Array[BatchResult]) -> Array[BatchResult]
+
+pub fn batch_outputs(Array[BatchResult]) -> Array[(String, String)]
+
+pub fn batch_render_with_pipeline(Array[BatchItem], RenderPipeline) -> Array[BatchResult]
+
+pub fn batch_successes(Array[BatchResult]) -> Array[BatchResult]
+
+pub fn batch_validate(Array[BatchItem]) -> Array[(String, Array[Diagnostic])]
+
 pub fn benchmark_all_passed(Array[BenchmarkResult]) -> Bool
 
 pub fn benchmark_cases() -> Array[BenchmarkCase]
@@ -16,17 +30,454 @@ pub fn benchmark_total_iterations(Array[BenchmarkResult]) -> Int
 
 pub fn benchmark_total_output_chars(Array[BenchmarkResult]) -> Int
 
+pub fn bundle_from_pairs(Array[(String, String)]) -> Result[TemplateBundle, String]
+
+pub fn cache_render(TemplateCache, String, String, Context) -> Result[String, String]
+
+pub fn catalog_from_pairs(String, Array[(String, String, String)]) -> LocaleCatalog
+
+pub fn compare_summaries(RenderSummary, RenderSummary) -> Array[(String, Int)]
+
+pub fn context_diff(Context, Context) -> Array[String]
+
+pub fn context_filter_keys(Context, (String) -> Bool) -> Context
+
+pub fn context_from_columns(Array[String], Array[String]) -> Context
+
+pub fn context_from_lines(String) -> Result[Context, String]
+
+pub fn context_from_map(Map[String, String]) -> Context
+
+pub fn context_from_strings(Array[String]) -> Result[Context, String]
+
+pub fn context_map_values(Context, (String) -> String) -> Context
+
+pub fn context_overlay(Context, Map[String, String]) -> Context
+
+pub fn context_pick(Context, String) -> Context
+
+pub fn context_rename(Context, Array[(String, String)]) -> Context
+
+pub fn context_rows(Array[String], Array[Array[String]]) -> Array[Context]
+
+pub fn context_to_lines(Context) -> String
+
+pub fn context_to_sorted_pairs(Context) -> Array[(String, String)]
+
+pub fn csv_quote(String) -> String
+
+pub fn diagnostic_summary(Array[Diagnostic]) -> String
+
+pub fn diagnostic_text(Diagnostic) -> String
+
+pub fn diagnostics_count_by_kind(Array[Diagnostic]) -> Array[(String, Int)]
+
+pub fn diagnostics_json(Array[Diagnostic]) -> String
+
+pub fn diagnostics_text(Array[Diagnostic]) -> String
+
+pub fn format_badge(String, String) -> String
+
+pub fn format_csv(Array[String], Array[Array[String]]) -> String
+
+pub fn format_csv_row(Array[String]) -> String
+
+pub fn format_diff(Context, Context) -> String
+
+pub fn format_env(Context) -> String
+
+pub fn format_html_document(String, String, String) -> String
+
+pub fn format_ini(String, Context) -> String
+
+pub fn format_json_lines(Context) -> String
+
+pub fn format_key_value(Context, String, String) -> String
+
+pub fn format_log(String, String, Context) -> String
+
+pub fn format_markdown_callout(String, String) -> String
+
+pub fn format_markdown_definition_list(Array[(String, String)]) -> String
+
+pub fn format_plain_list(Array[String], String, String) -> String
+
+pub fn format_shell_assignments(Context) -> String
+
+pub fn format_summary_table(RenderSummary) -> String
+
+pub fn format_table_rows(Array[Array[String]], String) -> String
+
+pub fn format_tree(Array[(Int, String)]) -> String
+
+pub fn format_xml_attributes(Context) -> String
+
+pub fn format_xml_element(String, Context, String) -> String
+
+pub fn html_attributes(Context) -> String
+
+pub fn html_comment(String) -> String
+
+pub fn html_document(String, String) -> String
+
+pub fn html_escape_attribute(String) -> String
+
+pub fn html_list(Array[String]) -> String
+
+pub fn html_meta(String, String) -> String
+
+pub fn html_script_json(Context) -> String
+
+pub fn html_tag(String, Context, String) -> String
+
+pub fn inspect_source(String) -> Result[TemplateStats, Array[Diagnostic]]
+
 pub fn inspect_template(String, Array[String]) -> Result[TemplateInspection, Array[Diagnostic]]
 
+pub fn json_array(Array[String]) -> String
+
+pub fn json_context_with_prefix(Context, String) -> String
+
+pub fn json_escape_html_safe(String) -> String
+
+pub fn json_is_quoted(String) -> Bool
+
+pub fn json_lines(Array[(String, String)]) -> String
+
+pub fn json_object(Context) -> String
+
+pub fn json_quote(String) -> String
+
+pub fn json_unquote(String) -> String
+
 pub fn lint_template(String, Array[String]) -> Result[Array[TemplateLintIssue], Array[Diagnostic]]
+
+pub fn locale_chain(String) -> Array[String]
+
+pub fn localized_render(Engine, LocaleCatalog, String, Context) -> String
+
+pub fn manifest_from_engine(String, String, Engine) -> ProjectManifest
+
+pub fn markdown_bullets(Array[String]) -> String
+
+pub fn markdown_code(String, String) -> String
+
+pub fn markdown_heading(String, Int) -> String
+
+pub fn markdown_link(String, String) -> String
+
+pub fn markdown_numbered(Array[String]) -> String
+
+pub fn markdown_paragraph(String) -> String
+
+pub fn markdown_quote(String) -> String
+
+pub fn markdown_table(Array[String], Array[Array[String]]) -> String
+
+pub fn markdown_toc(Document) -> String
+
+pub fn pipeline_collapse_spaces() -> (String) -> String
+
+pub fn pipeline_ensure_trailing_newline() -> (String) -> String
+
+pub fn pipeline_limit(Int) -> (String) -> String
+
+pub fn pipeline_prefix(String) -> (String) -> String
+
+pub fn pipeline_suffix(String) -> (String) -> String
+
+pub fn pipeline_trim() -> (String) -> String
+
+pub fn plan_from_names(Array[String]) -> RenderPlan
+
+pub fn plan_required_variables(RenderPlan, TemplateBundle) -> Array[String]
+
+pub fn plan_validate(RenderPlan, TemplateBundle) -> Array[String]
+
+pub fn policy_acceptance_report(String, Context) -> String
+
+pub fn policy_batch_check(Array[String]) -> Array[Bool]
+
+pub fn policy_cache_key(String, Context) -> String
+
+pub fn policy_check(String, Context) -> Result[Unit, String]
+
+pub fn policy_compare_sources(String, String) -> String
+
+pub fn policy_context_complete(String, Context) -> Bool
+
+pub fn policy_context_fingerprint(Context) -> String
+
+pub fn policy_context_keys(String) -> Result[Array[String], Array[Diagnostic]]
+
+pub fn policy_filter_complete(String) -> Bool
+
+pub fn policy_filter_names() -> Array[String]
+
+pub fn policy_filter_report(String) -> String
+
+pub fn policy_gate_json(String, Context) -> String
+
+pub fn policy_gate_report(String, Context) -> String
+
+pub fn policy_is_builtin_filter(String) -> Bool
+
+pub fn policy_normalize_context(Context) -> Context
+
+pub fn policy_redacted_report(Context, Array[String]) -> String
+
+pub fn policy_release_gate(String, Context, Int) -> Result[String, String]
+
+pub fn policy_release_key(String, Context) -> String
+
+pub fn policy_render_cached(TemplateCache, String, Context) -> Result[String, String]
+
+pub fn policy_render_or_message(String, Context) -> String
+
+pub fn policy_report(String, Context) -> String
+
+pub fn policy_required_key_report(String, Context) -> String
+
+pub fn policy_safe_render(String, Context) -> Result[String, String]
+
+pub fn policy_source_fingerprint(String) -> String
+
+pub fn policy_source_is_ascii(String) -> Bool
+
+pub fn policy_source_is_blank(String) -> Bool
+
+pub fn policy_source_line_count(String) -> Int
+
+pub fn policy_source_lines(String) -> Array[String]
+
+pub fn policy_static_gate(String, Context) -> Result[Unit, String]
+
+pub fn policy_template_id(String) -> String
+
+pub fn policy_template_summary(String) -> String
+
+pub fn policy_validate_depth(Engine, Int) -> Bool
+
+pub fn policy_validate_filters(Array[String]) -> Array[String]
+
+pub fn policy_validate_output(RenderReport, Int) -> Bool
+
+pub fn policy_validate_template_size(String, Int) -> Bool
+
+pub fn redact_context(Context, Array[String]) -> Context
+
+pub fn redact_value(String, Int) -> String
+
+pub fn registry_from_bundle(TemplateBundle, Int) -> TemplateRegistry
+
+pub fn render_batch(Array[BatchItem]) -> Array[BatchResult]
+
+pub fn render_checked(String, Context, ContextSchema) -> Result[String, String]
+
+pub fn render_csv(Engine, Array[String], Array[Array[String]]) -> String
+
+pub fn render_many(String, Array[Context]) -> Result[Array[String], String]
+
+pub fn render_many_with_limits(String, Array[Context], RenderLimits) -> Array[Result[RenderReport, RenderFailure]]
+
+pub fn render_named(TemplateBundle, String, Context, RenderPipeline) -> Result[String, String]
+
+pub fn render_rows(Engine, Array[String], Array[Array[String]]) -> Array[String]
+
+pub fn render_safe(String, Context, SecurityPolicy, RenderLimits) -> Result[RenderReport, String]
+
+pub fn render_string(String, Context) -> Result[String, String]
+
+pub fn render_template_file_name(String, Context) -> Result[String, String]
+
+pub fn render_through(Engine, Context, RenderPipeline) -> String
+
+pub fn report_audit(TemplateRegistry) -> String
+
+pub fn report_batch(Array[BatchResult]) -> String
+
+pub fn report_bundle(TemplateBundle) -> String
+
+pub fn report_capabilities() -> String
+
+pub fn report_checks(Array[(String, Bool)]) -> String
+
+pub fn report_compare(RenderSummary, RenderSummary) -> String
+
+pub fn report_context(Context) -> String
+
+pub fn report_counts(Array[(String, Int)]) -> String
+
+pub fn report_diff_lines(Context, Context) -> Array[String]
+
+pub fn report_engine(Engine) -> String
+
+pub fn report_error_list(Array[String]) -> String
+
+pub fn report_file_name(String) -> String
+
+pub fn report_from_template(String, Engine, Context) -> Document
+
+pub fn report_header(String) -> String
+
+pub fn report_json_status(String, Bool, String) -> String
+
+pub fn report_key_value(String, String) -> String
+
+pub fn report_lines(Array[String]) -> String
+
+pub fn report_locale(LocaleCatalog) -> String
+
+pub fn report_locale_fallback(LocaleCatalog, String) -> String
+
+pub fn report_package(ProjectManifest, Engine) -> String
+
+pub fn report_plan(RenderPlan) -> String
+
+pub fn report_schema(ContextSchema, Context) -> String
+
+pub fn report_security(SecurityPolicy, String) -> String
+
+pub fn report_source(String) -> String
+
+pub fn report_status(String, Bool) -> String
+
+pub fn report_success_list(Array[String]) -> String
+
+pub fn report_template_dependencies(Engine) -> String
+
+pub fn report_template_filters(Engine) -> String
+
+pub fn report_title_status(String, String) -> String
+
+pub fn report_validation(ValidationReport) -> String
+
+pub fn report_warning_list(Array[String]) -> String
 
 pub fn run_benchmark_case(BenchmarkCase) -> Result[BenchmarkResult, String]
 
 pub fn run_benchmark_suite() -> Result[Array[BenchmarkResult], String]
 
+pub fn runtime_capabilities() -> Array[String]
+
+pub fn safe_filename(String) -> String
+
+pub fn safe_header(String) -> String
+
+pub fn schema_for_engine(Engine) -> ContextSchema
+
+pub fn schema_report(ContextSchema, Context) -> String
+
+pub fn source_dependencies(String) -> Result[Array[String], Array[Diagnostic]]
+
+pub fn source_filters(String) -> Result[Array[String], Array[Diagnostic]]
+
+pub fn source_lint(String) -> Result[Array[TemplateLintIssue], Array[Diagnostic]]
+
+pub fn summarize_reports(Array[Result[RenderReport, RenderFailure]]) -> RenderSummary
+
+pub fn summary_json(RenderSummary) -> String
+
+pub fn text_center(String, Int, String) -> String
+
+pub fn text_char_at(String, Int) -> String?
+
+pub fn text_checksum(String) -> Int
+
+pub fn text_common_prefix(String, String) -> String
+
+pub fn text_common_suffix(String, String) -> String
+
+pub fn text_count(String, String) -> Int
+
+pub fn text_dedent(String) -> String
+
+pub fn text_drop(String, Int) -> String
+
+pub fn text_first_non_empty_line(String) -> String?
+
+pub fn text_indent(String, String) -> String
+
+pub fn text_is_ascii(String) -> Bool
+
+pub fn text_is_blank(String) -> Bool
+
+pub fn text_is_identifier(String) -> Bool
+
+pub fn text_is_integer(String) -> Bool
+
+pub fn text_join_non_empty(Array[String], String) -> String
+
+pub fn text_kebab(String) -> String
+
+pub fn text_line_count(String) -> Int
+
+pub fn text_lines(String) -> Array[String]
+
+pub fn text_lines_with_numbers(String) -> Array[String]
+
+pub fn text_normalize_newlines(String) -> String
+
+pub fn text_pad_left(String, Int, String) -> String
+
+pub fn text_pad_right(String, Int, String) -> String
+
+pub fn text_repeat(String, Int) -> String
+
+pub fn text_replace_all(String, String, String) -> String
+
+pub fn text_reverse(String) -> String
+
+pub fn text_slice(String, Int, Int) -> String
+
+pub fn text_snake(String) -> String
+
+pub fn text_take(String, Int) -> String
+
+pub fn text_title(String) -> String
+
+pub fn text_words(String) -> Array[String]
+
+pub fn text_wrap(String, Int) -> Array[String]
+
+pub fn validate_bundle(TemplateBundle, Context) -> Array[(String, ValidationReport)]
+
+pub fn validate_engine(Engine, Context) -> ValidationReport
+
+pub fn validate_identifier_list(Array[String]) -> Array[String]
+
+pub fn validate_limits(RenderLimits) -> Array[String]
+
+pub fn validate_required_context(Engine, Map[String, String]) -> Bool
+
+pub fn validate_source(String, Context) -> ValidationReport
+
+pub fn validate_unique_names(Array[String]) -> Array[String]
+
+pub fn validation_summary(Array[(String, ValidationReport)]) -> String
+
 // Errors
 
 // Types and methods
+pub struct BatchItem {
+  name : String
+  source : String
+  context : Context
+} derive(Eq, @debug.Debug)
+pub fn BatchItem::name(Self) -> String
+pub fn BatchItem::new(String, String, Context) -> Self
+pub fn BatchItem::source(Self) -> String
+
+pub struct BatchResult {
+  name : String
+  output : String
+  error : String?
+} derive(Eq, @debug.Debug)
+pub fn BatchResult::error(Self) -> String?
+pub fn BatchResult::is_ok(Self) -> Bool
+pub fn BatchResult::name(Self) -> String
+pub fn BatchResult::output(Self) -> String
+
 pub struct BenchmarkCase {
   name : String
   category : String
@@ -66,6 +517,33 @@ pub fn BenchmarkResult::passed(Self) -> Bool
 pub fn BenchmarkResult::to_json(Self) -> String
 pub fn BenchmarkResult::unicode_chars(Self) -> Int
 
+type CacheEntry
+
+pub struct Context {
+  values : Map[String, String]
+  mut frozen : Bool
+} derive(Eq, @debug.Debug)
+pub fn Context::contains(Self, String) -> Bool
+pub fn Context::freeze(Self) -> Self
+pub fn Context::from_pairs(Array[(String, String)]) -> Self
+pub fn Context::get(Self, String) -> String?
+pub fn Context::get_or(Self, String, String) -> String
+pub fn Context::is_frozen(Self) -> Bool
+pub fn Context::keys(Self) -> Array[String]
+pub fn Context::length(Self) -> Int
+pub fn Context::merge(Self, Self) -> Self
+pub fn Context::new() -> Self
+pub fn Context::remove(Self, String) -> Self
+pub fn Context::set(Self, String, String) -> Self
+pub fn Context::set_bool(Self, String, Bool) -> Self
+pub fn Context::set_if_absent(Self, String, String) -> Self
+pub fn Context::set_int(Self, String, Int) -> Self
+pub fn Context::subset(Self, Array[String]) -> Self
+pub fn Context::to_map(Self) -> Map[String, String]
+pub fn Context::validate(Self, Array[String]) -> Array[String]
+pub fn Context::with_capacity(Int) -> Self
+pub fn Context::with_prefix(Self, String) -> Self
+
 pub struct ContextAudit {
   missing : Array[String]
   unused : Array[String]
@@ -75,6 +553,20 @@ pub fn ContextAudit::missing(Self) -> Array[String]
 pub fn ContextAudit::provided_count(Self) -> Int
 pub fn ContextAudit::summary(Self) -> String
 pub fn ContextAudit::unused(Self) -> Array[String]
+
+pub struct ContextSchema {
+  required : Array[String]
+  defaults : Context
+  non_empty : Array[String]
+} derive(Eq, @debug.Debug)
+pub fn ContextSchema::accepts(Self, Context) -> Bool
+pub fn ContextSchema::apply_defaults(Self, Context) -> Context
+pub fn ContextSchema::default_value(Self, String, String) -> Self
+pub fn ContextSchema::new() -> Self
+pub fn ContextSchema::require(Self, String) -> Self
+pub fn ContextSchema::require_non_empty(Self, String) -> Self
+pub fn ContextSchema::required(Self) -> Array[String]
+pub fn ContextSchema::validate(Self, Context) -> Array[String]
 
 pub struct Diagnostic {
   kind : DiagnosticKind
@@ -98,6 +590,21 @@ pub(all) enum DiagnosticKind {
 } derive(Eq, @debug.Debug)
 pub fn DiagnosticKind::as_str(Self) -> String
 
+pub struct Document {
+  title : String
+  sections : Array[DocumentSection]
+  metadata : Context
+}
+pub fn Document::add_section(Self, String, Int, String) -> Self
+pub fn Document::new(String) -> Self
+pub fn Document::render_markdown(Self) -> String
+pub fn Document::render_metadata(Self) -> String
+pub fn Document::section_count(Self) -> Int
+pub fn Document::set_metadata(Self, String, String) -> Self
+pub fn Document::title(Self) -> String
+
+type DocumentSection
+
 pub struct Engine {
   nodes : Array[Node]
   filters : Map[String, (String) -> String]
@@ -112,6 +619,20 @@ pub fn Engine::render_strict(Self, Map[String, String]) -> Result[String, Array[
 pub fn Engine::render_with_limits(Self, Map[String, String], RenderLimits) -> Result[RenderReport, RenderFailure]
 pub fn Engine::required_variables(Self) -> Array[String]
 pub fn Engine::stats(Self) -> TemplateStats
+
+pub struct HtmlBuilder {
+  parts : Array[String]
+}
+pub fn HtmlBuilder::attribute(Self, String, String) -> Self
+pub fn HtmlBuilder::close(Self, String) -> Self
+pub fn HtmlBuilder::element(Self, String, String) -> Self
+pub fn HtmlBuilder::join(Self, String) -> Self
+pub fn HtmlBuilder::new() -> Self
+pub fn HtmlBuilder::open(Self, String) -> Self
+pub fn HtmlBuilder::open_with_attributes(Self, String, Array[(String, String)]) -> Self
+pub fn HtmlBuilder::raw(Self, String) -> Self
+pub fn HtmlBuilder::render(Self) -> String
+pub fn HtmlBuilder::text(Self, String) -> Self
 
 pub struct Lexer {
   input : String
@@ -131,6 +652,17 @@ pub(all) enum LintSeverity {
   Error
 } derive(Eq, @debug.Debug)
 
+pub struct LocaleCatalog {
+  entries : Map[String, Context]
+  fallback : String
+} derive(@debug.Debug)
+pub fn LocaleCatalog::add(Self, String, Context) -> Self
+pub fn LocaleCatalog::context(Self, String) -> Context
+pub fn LocaleCatalog::fallback(Self) -> String
+pub fn LocaleCatalog::locales(Self) -> Array[String]
+pub fn LocaleCatalog::new(String) -> Self
+pub fn LocaleCatalog::translate(Self, String, String, String) -> String
+
 pub(all) enum Node {
   Text(String)
   Variable(String, Array[String])
@@ -147,6 +679,25 @@ pub struct Parser {
 pub fn Parser::new(Array[Token]) -> Self
 pub fn Parser::parse(Self) -> Result[Array[Node], String]
 pub fn Parser::parse_with_diagnostics(Self) -> Result[Array[Node], Array[Diagnostic]]
+
+pub struct ProjectManifest {
+  name : String
+  version : String
+  mut description : String
+  features : Array[String]
+  targets : Array[String]
+} derive(Eq, @debug.Debug)
+pub fn ProjectManifest::describe(Self, String) -> Self
+pub fn ProjectManifest::feature(Self, String) -> Self
+pub fn ProjectManifest::features(Self) -> Array[String]
+pub fn ProjectManifest::name(Self) -> String
+pub fn ProjectManifest::new(String, String) -> Self
+pub fn ProjectManifest::target(Self, String) -> Self
+pub fn ProjectManifest::targets(Self) -> Array[String]
+pub fn ProjectManifest::to_context(Self) -> Context
+pub fn ProjectManifest::to_json(Self) -> String
+pub fn ProjectManifest::to_markdown(Self) -> String
+pub fn ProjectManifest::version(Self) -> String
 
 pub(all) enum RenderFailure {
   OutputLimitExceeded(Int, Int)
@@ -180,12 +731,105 @@ pub fn RenderMetrics::nodes_visited(Self) -> Int
 pub fn RenderMetrics::output_chars(Self) -> Int
 pub fn RenderMetrics::variables_resolved(Self) -> Int
 
+pub struct RenderPipeline {
+  stages : Array[(String, (String) -> String)]
+}
+pub fn RenderPipeline::add(Self, String, (String) -> String) -> Self
+pub fn RenderPipeline::apply(Self, String) -> String
+pub fn RenderPipeline::apply_to(Self, Engine, Context) -> String
+pub fn RenderPipeline::length(Self) -> Int
+pub fn RenderPipeline::names(Self) -> Array[String]
+pub fn RenderPipeline::new() -> Self
+pub fn RenderPipeline::remove(Self, String) -> Bool
+
+pub struct RenderPlan {
+  names : Array[String]
+  mut limits : RenderLimits
+  mut pipeline : RenderPipeline
+}
+pub fn RenderPlan::add_name(Self, String) -> Self
+pub fn RenderPlan::describe(Self) -> String
+pub fn RenderPlan::limits(Self) -> RenderLimits
+pub fn RenderPlan::names(Self) -> Array[String]
+pub fn RenderPlan::new() -> Self
+pub fn RenderPlan::render(Self, TemplateBundle, Context) -> Array[BatchResult]
+pub fn RenderPlan::with_limits(Self, RenderLimits) -> Self
+pub fn RenderPlan::with_pipeline(Self, RenderPipeline) -> Self
+
 pub struct RenderReport {
   output : String
   metrics : RenderMetrics
 } derive(Eq, @debug.Debug)
 pub fn RenderReport::metrics(Self) -> RenderMetrics
 pub fn RenderReport::output(Self) -> String
+
+pub struct RenderSummary {
+  mut documents : Int
+  mut successful : Int
+  mut failed : Int
+  mut output_chars : Int
+  mut missing_variables : Int
+  mut iterations : Int
+} derive(Eq, @debug.Debug)
+pub fn RenderSummary::documents(Self) -> Int
+pub fn RenderSummary::failed(Self) -> Int
+pub fn RenderSummary::iterations(Self) -> Int
+pub fn RenderSummary::missing_variables(Self) -> Int
+pub fn RenderSummary::new() -> Self
+pub fn RenderSummary::output_chars(Self) -> Int
+pub fn RenderSummary::record_failure(Self) -> Self
+pub fn RenderSummary::record_success(Self, RenderReport) -> Self
+pub fn RenderSummary::success_rate(Self) -> String
+pub fn RenderSummary::successful(Self) -> Int
+pub fn RenderSummary::to_context(Self) -> Context
+
+pub struct SecurityPolicy {
+  allowed_filters : Array[String]
+  mut max_template_chars : Int
+  mut reject_unknown_filters : Bool
+} derive(Eq, @debug.Debug)
+pub fn SecurityPolicy::accepts(Self, String) -> Bool
+pub fn SecurityPolicy::allow_filter(Self, String) -> Self
+pub fn SecurityPolicy::default() -> Self
+pub fn SecurityPolicy::new(Int) -> Self
+pub fn SecurityPolicy::validate(Self, String) -> Array[Diagnostic]
+pub fn SecurityPolicy::without_unknown_filter_rejection(Self) -> Self
+
+pub struct TemplateBundle {
+  templates : Map[String, Engine]
+  order : Array[String]
+}
+pub fn TemplateBundle::add(Self, String, String) -> Result[Unit, String]
+pub fn TemplateBundle::add_engine(Self, String, Engine) -> Result[Unit, String]
+pub fn TemplateBundle::contains(Self, String) -> Bool
+pub fn TemplateBundle::get(Self, String) -> Engine?
+pub fn TemplateBundle::length(Self) -> Int
+pub fn TemplateBundle::names(Self) -> Array[String]
+pub fn TemplateBundle::new() -> Self
+pub fn TemplateBundle::remove(Self, String) -> Bool
+pub fn TemplateBundle::render(Self, String, Map[String, String]) -> Result[String, String]
+pub fn TemplateBundle::render_all(Self, Context) -> Array[(String, String)]
+pub fn TemplateBundle::render_with_context(Self, String, Context) -> Result[String, String]
+pub fn TemplateBundle::stats(Self) -> TemplateStats
+
+pub struct TemplateCache {
+  entries : Array[CacheEntry]
+  capacity : Int
+  mut hits : Int
+  mut misses : Int
+}
+pub fn TemplateCache::capacity(Self) -> Int
+pub fn TemplateCache::clear(Self) -> Unit
+pub fn TemplateCache::compile(Self, String, String) -> Result[Engine, String]
+pub fn TemplateCache::get(Self, String) -> Engine?
+pub fn TemplateCache::hit_rate(Self) -> String
+pub fn TemplateCache::hits(Self) -> Int
+pub fn TemplateCache::insert(Self, String, Engine) -> Bool
+pub fn TemplateCache::keys(Self) -> Array[String]
+pub fn TemplateCache::len(Self) -> Int
+pub fn TemplateCache::misses(Self) -> Int
+pub fn TemplateCache::new(Int) -> Self
+pub fn TemplateCache::remove(Self, String) -> Bool
 
 pub struct TemplateInspection {
   stats : TemplateStats
@@ -213,6 +857,24 @@ pub fn TemplateLintIssue::line(Self) -> Int
 pub fn TemplateLintIssue::message(Self) -> String
 pub fn TemplateLintIssue::severity(Self) -> LintSeverity
 pub fn TemplateLintIssue::source_line(Self) -> String
+
+pub struct TemplateRegistry {
+  bundle : TemplateBundle
+  aliases : Map[String, String]
+  cache : TemplateCache
+}
+pub fn TemplateRegistry::audit(Self) -> Array[String]
+pub fn TemplateRegistry::cache_hit_rate(Self) -> String
+pub fn TemplateRegistry::cache_keys(Self) -> Array[String]
+pub fn TemplateRegistry::compile_cached(Self, String, String) -> Result[Engine, String]
+pub fn TemplateRegistry::contains(Self, String) -> Bool
+pub fn TemplateRegistry::names(Self) -> Array[String]
+pub fn TemplateRegistry::new(Int) -> Self
+pub fn TemplateRegistry::register(Self, String, String) -> Result[Unit, String]
+pub fn TemplateRegistry::remove(Self, String) -> Bool
+pub fn TemplateRegistry::render(Self, String, Context) -> Result[String, String]
+pub fn TemplateRegistry::resolve(Self, String) -> String
+pub fn TemplateRegistry::shortcut(Self, String, String) -> Bool
 
 pub struct TemplateStats {
   mut node_count : Int
@@ -244,6 +906,21 @@ pub(all) enum Token {
   In
   EOF
 } derive(Eq, @debug.Debug)
+
+pub struct ValidationReport {
+  errors : Array[String]
+  warnings : Array[String]
+  infos : Array[String]
+} derive(Eq, @debug.Debug)
+pub fn ValidationReport::error(Self, String) -> Self
+pub fn ValidationReport::errors(Self) -> Array[String]
+pub fn ValidationReport::info(Self, String) -> Self
+pub fn ValidationReport::infos(Self) -> Array[String]
+pub fn ValidationReport::new() -> Self
+pub fn ValidationReport::total(Self) -> Int
+pub fn ValidationReport::valid(Self) -> Bool
+pub fn ValidationReport::warning(Self, String) -> Self
+pub fn ValidationReport::warnings(Self) -> Array[String]
 
 // Type aliases
 

@@ -5,7 +5,6 @@ MoonTemplate is a MoonBit-native text template engine for generating HTML, email
 [![MoonBit](https://img.shields.io/badge/MoonBit-current%20stable-orange?style=flat-square)](https://www.moonbitlang.com/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=flat-square)](LICENSE)
 [![GitHub CI](https://img.shields.io/badge/CI-GitHub%20Actions-success?style=flat-square)](.github/workflows/ci.yml)
-[![GitLink CI](https://img.shields.io/badge/CI-Gitea%20Actions-success?style=flat-square)](.gitea/workflows/ci.yml)
 
 ## Why This Project
 
@@ -20,7 +19,7 @@ MoonTemplate targets the common “generate structured text from data” problem
 - email and notification rendering
 - code scaffolding and boilerplate generation
 
-The implementation is intentionally small, readable, and reviewable, but it already covers the core engineering surface expected from an OSC2026 acceptance repository: public source, reproducible checks, real tests, CI, a CLI entry point, API snapshots, and source-attribution documentation.
+The implementation is split into focused runtime and adapter modules with reproducible checks, a native CLI, API snapshots, deterministic benchmarks, and a documented extension surface.
 
 ## Feature Set
 
@@ -38,6 +37,7 @@ The implementation is intentionally small, readable, and reviewable, but it alre
 - A deterministic benchmark catalog covering web, documentation, data, security, Unicode, and boundary workloads
 - Native CLI for file-based or inline rendering
 - Structured lexical, syntax, and filter diagnostics
+- Context composition, template bundles, bounded caches, batch rendering, schemas, localization, and HTML/JSON/Markdown adapters
 - Public API snapshot tracked in [`src/moontemplate/pkg.generated.mbti`](src/moontemplate/pkg.generated.mbti)
 
 ## Template Syntax
@@ -178,6 +178,13 @@ The library also contains a 14-case deterministic workload catalog and a
 machine-readable report API (`run_benchmark_suite` and
 `benchmark_report_json`) for CI evidence.
 
+## Architecture
+
+The library is organized around a lexer/parser/AST core, an `Engine` renderer,
+optional policy and inspection layers, and application adapters. Contexts and
+bundles are explicit values; caches, limits, and pipelines are configurable and
+have no hidden global state.
+
 ## Quality Gates
 
 CI installs the current stable MoonBit toolchain from the official installer.
@@ -207,7 +214,7 @@ The library is checked and tested on wasm-gc, JavaScript, and native. The CLI
 is intentionally native-only because it uses process arguments and filesystem
 I/O. Native commands require a C compiler (`build-essential` on the CI runner).
 
-Repository acceptance helpers:
+Repository maintenance helpers:
 
 - [`docs/official-requirements.md`](docs/official-requirements.md)
 - [`docs/acceptance-checklist.md`](docs/acceptance-checklist.md)
@@ -217,10 +224,17 @@ Repository acceptance helpers:
 - [`scripts/verify_acceptance.ps1`](scripts/verify_acceptance.ps1)
 - [`scripts/check_repo_compliance.py`](scripts/check_repo_compliance.py)
 
+## Benchmarks
+
+The checked-in benchmark catalog contains 14 deterministic workloads across web,
+documentation, data, security, Unicode, and boundary cases. Each case records
+exact output and structural metrics; it makes no host-independent timing claim.
+See [`docs/benchmark-evidence.md`](docs/benchmark-evidence.md) and run
+`moon test --deny-warn` for the reproducible evidence suite.
+
 ## Repository Links
 
 - GitHub: <https://github.com/Project2026-creator/MoonTemplate>
-- GitLink: <https://gitlink.org.cn/Hero001/moontemplate>
 - Mooncakes package name: `Project2026-creator/moontemplate`
 
 ## License

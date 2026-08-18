@@ -110,7 +110,8 @@ def main() -> int:
         all(required_files.values())
         and all(report["workflow_checks"].values())
         and not report["tracked_build_artifacts"]
-        and report["moonbit_source_lines"] >= 3500
+        and report["moonbit_source_lines"] >= 8000
+        and report["moonbit_implementation_lines"] >= 6500
     )
     return 0 if ok else 1
 
