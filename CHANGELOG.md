@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.7
+
+- Add production runtime modules for contexts, bundles, caching, batch rendering, schemas, localization, safe HTML/JSON/Markdown output, reporting, and release policies.
+- Expand boundary coverage to 117 deterministic tests across wasm-gc, JavaScript, and native targets.
+- Raise repository compliance evidence to 8,000+ MoonBit source lines with 6,500+ implementation lines.
+
 ## [0.2.6] - 2026-08-16
 
 - Migrate the CLI package to the current stable `pkgtype` configuration.
