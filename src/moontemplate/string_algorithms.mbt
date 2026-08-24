@@ -5,7 +5,7 @@ pub fn text_reverse(value : String) -> String {
   for c in value {
     chars.push(c)
   }
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for index in 0..<chars.length() {
     result.write_char(chars[chars.length() - index - 1])
   }
@@ -32,7 +32,7 @@ pub fn text_take(value : String, count : Int) -> String {
   if count <= 0 {
     return ""
   }
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   let mut seen = 0
   for c in value {
     if seen >= count {
@@ -49,7 +49,7 @@ pub fn text_drop(value : String, count : Int) -> String {
   if count <= 0 {
     return value
   }
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   let mut seen = 0
   for c in value {
     if seen >= count {
@@ -119,7 +119,7 @@ pub fn text_snake(value : String) -> String {
 
 ///|
 pub fn text_title(value : String) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   let mut start = true
   for c in value {
     if c.is_ascii_whitespace() {

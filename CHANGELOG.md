@@ -1,16 +1,22 @@
 # Changelog
 
-## 0.2.7
+## 0.2.8
+
+- Refresh the runtime for MoonBit 0.10.10 and remove deprecated builder APIs.
+- Add policy, cache, redaction, source-boundary, and readiness-report tests.
+- Keep project documentation focused on application use, reproducible checks, and license scope.
+
+## [0.2.7] - 2026-08-18
 
 - Add production runtime modules for contexts, bundles, caching, batch rendering, schemas, localization, safe HTML/JSON/Markdown output, reporting, and release policies.
-- Expand boundary coverage to 117 deterministic tests across wasm-gc, JavaScript, and native targets.
-- Raise repository compliance evidence to 8,000+ MoonBit source lines with 6,500+ implementation lines.
+- Expand boundary coverage across wasm-gc, JavaScript, and native targets.
+- Add deterministic policy, cache, diagnostics, and adapter tests for production workflows.
 
 ## [0.2.6] - 2026-08-16
 
 - Migrate the CLI package to the current stable `pkgtype` configuration.
 - Add explicit wasm-gc, JavaScript, and native CI checks and tests.
-- Refresh local acceptance scripts and documentation for the current toolchain.
+- Refresh local quality scripts and documentation for the current toolchain.
 
 ## [0.2.5] - 2026-08-11
 ### Added
@@ -36,7 +42,7 @@
 - A tracked native CLI benchmark workload with Linux and Windows runners.
 - Real filter pipeline parsing and execution with built-in `trim`, `uppercase`, and `lowercase` filters.
 - A native CLI that renders template files or inline templates with repeated `--var key=value` arguments.
-- Acceptance self-check assets: workflow gates, compliance scripts, source-attribution notes, and official requirement tracking.
+- Repository quality assets: workflow gates, project health checks, source-attribution notes, and reproducible benchmark evidence.
 
 ### Changed
 - Upgraded the quality gate to modern MoonBit checks: `moon fmt --check`, `moon info`, `moon check --deny-warn`, and `moon test --deny-warn`.
@@ -54,7 +60,7 @@
 - Complete AST parsing and compilation pipeline.
 - Full support for `{% if %}` and `{% for %}` control flows.
 - Extensible filter engine (`{{ var | filter }}`).
-- Gitea CI workflow configuration for automated testing on GitLink.
+- Gitea CI workflow configuration for automated testing on compatible Git hosts.
 - Comprehensive `README.md` and documentation overhaul.
 
 ### Fixed

@@ -106,7 +106,7 @@ pub fn batch_outputs(results : Array[BatchResult]) -> Array[(String, String)] {
 
 ///|
 pub fn batch_error_report(results : Array[BatchResult]) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for item in results {
     match item.error {
       Some(error) => {

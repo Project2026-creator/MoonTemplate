@@ -108,7 +108,7 @@ pub fn html_list(items : Array[String]) -> String {
 
 ///|
 pub fn html_attributes(values : Context) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for pair in context_to_sorted_pairs(values) {
     let (key, value) = pair
     result.write_char(' ')

@@ -28,7 +28,7 @@ pub fn context_from_lines(source : String) -> Result[Context, String] {
 
 ///|
 pub fn context_to_lines(context : Context) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for pair in context_to_sorted_pairs(context) {
     let (key, value) = pair
     result.write_string(key)

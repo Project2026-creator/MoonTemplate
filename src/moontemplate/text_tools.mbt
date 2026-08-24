@@ -160,7 +160,7 @@ pub fn text_replace_all(value : String, old : String, new : String) -> String {
 
 ///|
 pub fn text_common_prefix(left : String, right : String) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   let a = []
   let b = []
   for c in left {

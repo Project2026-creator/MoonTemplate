@@ -20,10 +20,10 @@ moon coverage report -f summary
 moon coverage analyze
 ```
 
-The repository currently contains 54 library, diagnostic, inspection, bounded
-render, filter, CLI, and benchmark tests; CLI tests are also compiled in the
-native package. Coverage is reported by CI and recorded as a summary rather than
-used as a brittle threshold while the parser is still growing.
+The suite covers library, diagnostic, inspection, bounded-render, filter, CLI,
+and benchmark behavior; the native package also compiles the CLI tests. CI
+reports coverage by target as a diagnostic signal while the parser and runtime
+continue to evolve.
 
 ## Performance model and reproducibility
 

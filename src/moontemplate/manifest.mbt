@@ -1,6 +1,6 @@
 ///|
 /// Manifest helpers expose a stable machine-readable summary for packaging,
-/// release notes, and acceptance evidence.
+/// release notes, and operational evidence.
 pub struct ProjectManifest {
   name : String
   version : String

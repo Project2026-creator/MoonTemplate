@@ -194,8 +194,6 @@ pub fn plan_required_variables(RenderPlan, TemplateBundle) -> Array[String]
 
 pub fn plan_validate(RenderPlan, TemplateBundle) -> Array[String]
 
-pub fn policy_acceptance_report(String, Context) -> String
-
 pub fn policy_batch_check(Array[String]) -> Array[Bool]
 
 pub fn policy_cache_key(String, Context) -> String
@@ -223,6 +221,8 @@ pub fn policy_gate_report(String, Context) -> String
 pub fn policy_is_builtin_filter(String) -> Bool
 
 pub fn policy_normalize_context(Context) -> Context
+
+pub fn policy_readiness_report(String, Context) -> String
 
 pub fn policy_redacted_report(Context, Array[String]) -> String
 

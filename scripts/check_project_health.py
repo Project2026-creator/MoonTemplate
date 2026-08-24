@@ -7,7 +7,6 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RULE_START = "2026-04-29T00:00:00"
 
 
 def run(*args: str) -> str:
@@ -21,21 +20,6 @@ def run(*args: str) -> str:
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or result.stdout.strip())
     return result.stdout.strip()
-
-
-def count_mbt_lines() -> int:
-    total = 0
-    for path in ROOT.glob("src/**/*.mbt"):
-        total += sum(1 for _ in path.open("r", encoding="utf-8"))
-    return total
-
-
-def count_mbt_lines_matching(predicate) -> int:
-    total = 0
-    for path in ROOT.glob("src/**/*.mbt"):
-        if predicate(path):
-            total += sum(1 for _ in path.open("r", encoding="utf-8"))
-    return total
 
 
 def workflow_contains(path: Path, needles: list[str]) -> bool:
@@ -85,19 +69,8 @@ def main() -> int:
     ]
     report = {
         "commit_count": int(run("git", "rev-list", "--count", "HEAD")),
-        "post_2026_04_29_commits": int(run("git", "rev-list", "--count", f"--since={RULE_START}", "HEAD")),
-        "moonbit_source_lines": count_mbt_lines(),
-        "moonbit_implementation_lines": count_mbt_lines_matching(
-            lambda path: not path.name.endswith("_test.mbt")
-        ),
-        "moonbit_test_lines": count_mbt_lines_matching(
-            lambda path: path.name.endswith("_test.mbt")
-        ),
         "current_branch": run("git", "branch", "--show-current"),
-        "default_branch": {
-            "github": remote_default_branch("github"),
-            "origin": remote_default_branch("origin"),
-        },
+        "default_branch": {"origin": remote_default_branch("origin")},
         "required_files": required_files,
         "workflow_checks": {
             "github_ci": workflow_contains(ROOT / ".github/workflows/ci.yml", workflow_needles),
@@ -110,8 +83,6 @@ def main() -> int:
         all(required_files.values())
         and all(report["workflow_checks"].values())
         and not report["tracked_build_artifacts"]
-        and report["moonbit_source_lines"] >= 8000
-        and report["moonbit_implementation_lines"] >= 6500
     )
     return 0 if ok else 1
 

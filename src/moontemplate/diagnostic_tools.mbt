@@ -23,7 +23,7 @@ pub fn diagnostic_text(diagnostic : Diagnostic) -> String {
 
 ///|
 pub fn diagnostics_text(diagnostics : Array[Diagnostic]) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for diagnostic in diagnostics {
     result.write_string(diagnostic_text(diagnostic))
     result.write_char('\n')
@@ -33,7 +33,7 @@ pub fn diagnostics_text(diagnostics : Array[Diagnostic]) -> String {
 
 ///|
 pub fn diagnostics_json(diagnostics : Array[Diagnostic]) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   result.write_char('[')
   for index, diagnostic in diagnostics {
     if index > 0 {
@@ -55,7 +55,7 @@ pub fn diagnostics_json(diagnostics : Array[Diagnostic]) -> String {
 ///|
 pub fn diagnostic_summary(diagnostics : Array[Diagnostic]) -> String {
   let counts = diagnostics_count_by_kind(diagnostics)
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for index, pair in counts {
     if index > 0 {
       result.write_string(", ")

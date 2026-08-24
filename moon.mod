@@ -1,6 +1,6 @@
 name = "Project2026-creator/moontemplate"
 
-version = "0.2.7"
+version = "0.2.8"
 
 import {
   "moonbitlang/async@0.19.4",

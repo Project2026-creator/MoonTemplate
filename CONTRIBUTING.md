@@ -4,7 +4,7 @@ MoonTemplate is maintained as a competition-quality MoonBit library, so every ch
 
 1. Fork the repository and branch from `main`.
 2. Add or update tests whenever parser, engine, CLI, or docs behavior changes.
-3. Run the local acceptance gate before opening a pull request:
+3. Run the local quality gate before opening a pull request:
    `moon fmt --check`
    `moon info`
    `moon check --deny-warn`

@@ -1,5 +1,5 @@
 ///|
-/// A deterministic workload used for regression and acceptance evidence.
+/// A deterministic workload used for regression and release evidence.
 pub struct BenchmarkCase {
   name : String
   category : String
@@ -113,7 +113,7 @@ pub fn BenchmarkResult::missing_variables(self : BenchmarkResult) -> Int {
 }
 
 ///|
-/// The acceptance workload catalog. Inputs are deliberately small and readable.
+/// The workload catalog. Inputs are deliberately small and readable.
 pub fn benchmark_cases() -> Array[BenchmarkCase] {
   [
     {

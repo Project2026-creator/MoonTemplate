@@ -63,7 +63,7 @@ test "individual benchmark execution retains expected output" {
 }
 
 ///|
-test "benchmark report exports machine-readable acceptance evidence" {
+test "benchmark report exports machine-readable review evidence" {
   let results = run_benchmark_suite().unwrap()
   assert_true(benchmark_all_passed(results))
   assert_true(benchmark_total_output_chars(results) > 0)

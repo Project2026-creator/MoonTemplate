@@ -214,15 +214,13 @@ The library is checked and tested on wasm-gc, JavaScript, and native. The CLI
 is intentionally native-only because it uses process arguments and filesystem
 I/O. Native commands require a C compiler (`build-essential` on the CI runner).
 
-Repository maintenance helpers:
+Development quality tools:
 
-- [`docs/official-requirements.md`](docs/official-requirements.md)
-- [`docs/acceptance-checklist.md`](docs/acceptance-checklist.md)
 - [`docs/source-attribution.md`](docs/source-attribution.md)
 - [`docs/performance.md`](docs/performance.md)
 - [`docs/benchmark-evidence.md`](docs/benchmark-evidence.md)
-- [`scripts/verify_acceptance.ps1`](scripts/verify_acceptance.ps1)
-- [`scripts/check_repo_compliance.py`](scripts/check_repo_compliance.py)
+- [`scripts/verify_project.ps1`](scripts/verify_project.ps1)
+- [`scripts/check_project_health.py`](scripts/check_project_health.py)
 
 ## Benchmarks
 

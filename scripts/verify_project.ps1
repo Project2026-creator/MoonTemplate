@@ -37,7 +37,7 @@ try {
   Invoke-Step "moon test --deny-warn" { moon test --deny-warn }
   Invoke-Step "moon test --target wasm-gc --deny-warn" { moon test --target wasm-gc --deny-warn }
   Invoke-Step "moon test --target js --deny-warn" { moon test --target js --deny-warn }
-  Invoke-Step "repository compliance report" { python scripts/check_repo_compliance.py }
+  Invoke-Step "project health report" { python scripts/check_project_health.py }
 
   if (Test-NativeCompiler) {
     Invoke-Step "moon check --target native --deny-warn" { moon check --target native --deny-warn }

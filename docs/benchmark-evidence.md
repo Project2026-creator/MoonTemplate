@@ -19,7 +19,7 @@ bounded renderer used by applications.
 Every result checks exact output and records `output_chars`, `expected_chars`,
 `nodes_visited`, `iterations`, `unicode_chars`, and `missing_variables`.
 `benchmark_report_json(results)` emits stable JSON without timestamps or host
-paths, making it suitable for a CI artifact or an acceptance screenshot.
+paths, making it suitable for a CI artifact or a reproducible review record.
 
 Run the library evidence locally:
 

@@ -53,7 +53,7 @@ pub fn Document::title(self : Document) -> String {
 
 ///|
 pub fn Document::render_markdown(self : Document) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   if self.title.trim() != "" {
     result.write_string("# ")
     result.write_string(self.title)
@@ -72,7 +72,7 @@ pub fn Document::render_markdown(self : Document) -> String {
 
 ///|
 pub fn Document::render_metadata(self : Document) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for pair in context_to_sorted_pairs(self.metadata) {
     let (key, value) = pair
     result.write_string(key)
@@ -96,7 +96,7 @@ pub fn markdown_paragraph(text : String) -> String {
 
 ///|
 pub fn markdown_bullets(items : Array[String]) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for item in items {
     result.write_string("- ")
     result.write_string(item)
@@ -107,7 +107,7 @@ pub fn markdown_bullets(items : Array[String]) -> String {
 
 ///|
 pub fn markdown_numbered(items : Array[String]) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for _, item in items {
     result.write_string("{index + 1}. ")
     result.write_string(item)
@@ -131,7 +131,7 @@ pub fn markdown_table(
   headers : Array[String],
   rows : Array[Array[String]],
 ) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   result.write_char('|')
   for header in headers {
     result.write_char(' ')
@@ -165,7 +165,7 @@ pub fn markdown_link(label : String, url : String) -> String {
 
 ///|
 pub fn markdown_toc(document : Document) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for section in document.sections {
     let anchor = safe_filename(section.heading).to_lower()
     result.write_string(text_repeat("  ", section.level - 1))

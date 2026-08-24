@@ -292,7 +292,7 @@ pub fn policy_filter_report(source : String) -> String {
 }
 
 ///|
-pub fn policy_acceptance_report(source : String, context : Context) -> String {
+pub fn policy_readiness_report(source : String, context : Context) -> String {
   report_checks([
     ("syntax", policy_check(source, context) is Ok(_)),
     ("context", policy_context_complete(source, context)),

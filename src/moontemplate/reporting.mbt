@@ -1,5 +1,5 @@
 ///|
-/// Reporting helpers for CI logs, acceptance evidence, and operator dashboards.
+/// Reporting helpers for CI logs, operational evidence, and operator dashboards.
 pub fn report_header(title : String) -> String {
   markdown_heading(title, 1)
 }
@@ -11,7 +11,7 @@ pub fn report_status(label : String, passed : Bool) -> String {
 
 ///|
 pub fn report_checks(checks : Array[(String, Bool)]) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for pair in checks {
     let (label, passed) = pair
     result.write_string(report_status(label, passed))
@@ -47,7 +47,7 @@ pub fn report_context(context : Context) -> String {
 
 ///|
 pub fn report_validation(report : ValidationReport) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   result.write_string(report_status("validation", report.valid()))
   result.write_char('\n')
   for message in report.errors() {

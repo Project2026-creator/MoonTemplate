@@ -2,7 +2,7 @@
 /// JSON helpers intentionally operate on strings so the template engine can
 /// remain backend independent while still producing valid structured output.
 pub fn json_quote(value : String) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   result.write_char('"')
   for c in value {
     match c {
@@ -22,7 +22,7 @@ pub fn json_quote(value : String) -> String {
 
 ///|
 pub fn json_object(context : Context) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   result.write_char('{')
   let mut first = true
   for pair in context_to_sorted_pairs(context) {
@@ -41,7 +41,7 @@ pub fn json_object(context : Context) -> String {
 
 ///|
 pub fn json_array(values : Array[String]) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   result.write_char('[')
   for index, value in values {
     if index > 0 {
@@ -55,7 +55,7 @@ pub fn json_array(values : Array[String]) -> String {
 
 ///|
 pub fn json_lines(values : Array[(String, String)]) -> String {
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   for index, pair in values {
     if index > 0 {
       result.write_char('\n')
@@ -79,7 +79,7 @@ pub fn json_unquote(value : String) -> String {
     return value
   }
   let body = value[1:value.length() - 1]
-  let result = StringBuilder::new()
+  let result = StringBuilder()
   let mut escaped = false
   for c in body {
     if escaped {
