@@ -13,9 +13,9 @@ struct CliOptions {
   diagnostics_format : DiagnosticsFormat
   check_only : Bool
   show_stats : Bool
-  max_output_chars : Int?
-  max_iterations : Int?
-  max_depth : Int?
+  max_output_chars : Int32?
+  max_iterations : Int32?
+  max_depth : Int32?
 } derive(Debug, Eq)
 
 ///|
@@ -41,9 +41,9 @@ fn parse_cli_args(args : Array[String]) -> Result[CliOptions, String] {
   let mut diagnostics_format = TextDiagnostics
   let mut check_only = false
   let mut show_stats = false
-  let mut max_output_chars : Int? = None
-  let mut max_iterations : Int? = None
-  let mut max_depth : Int? = None
+  let mut max_output_chars : Int32? = None
+  let mut max_iterations : Int32? = None
+  let mut max_depth : Int32? = None
   let mut index = 0
   while index < args.length() {
     match args[index] {
@@ -151,9 +151,9 @@ fn parse_cli_args(args : Array[String]) -> Result[CliOptions, String] {
 ///|
 fn parse_cli_limit(
   args : Array[String],
-  index : Int,
+  index : Int32,
   flag : String,
-) -> (Result[Int, String], Int) {
+) -> (Result[Int32, String], Int32) {
   if index + 1 >= args.length() {
     return (Err("Missing value for " + flag), index + 1)
   }
@@ -166,7 +166,7 @@ fn parse_cli_limit(
 }
 
 ///|
-fn parse_non_negative_int(raw : String) -> Result[Int, Unit] {
+fn parse_non_negative_int(raw : String) -> Result[Int32, Unit] {
   if raw == "" {
     return Err(())
   }

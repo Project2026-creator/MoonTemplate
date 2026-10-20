@@ -16,7 +16,7 @@ fn escape_html(value : String) -> String {
 
 ///|
 fn escape_json(value : String) -> String {
-  value.to_json().stringify()
+  Json(value).stringify()
 }
 
 ///|
@@ -96,7 +96,7 @@ fn newline_to_br(value : String) -> String {
 /// as strings while still giving the renderer typed values after validation.
 priv enum FilterArgument {
   TextArgument(String)
-  NumberArgument(Int)
+  NumberArgument(Int32)
 }
 
 ///|
@@ -104,7 +104,7 @@ fn decode_filter_string(raw : String) -> Result[String, String] {
   if raw.length() < 2 || !raw.has_prefix("\"") || !raw.has_suffix("\"") {
     return Err("Filter string arguments must use double quotes")
   }
-  let inner = raw.sub(start=1, end=raw.length() - 1)
+  let inner = raw.exact_view(start=1, end=raw.length() - 1)
   let mut value = ""
   let mut escaped = false
   for c in inner {
@@ -133,7 +133,7 @@ fn decode_filter_string(raw : String) -> Result[String, String] {
 }
 
 ///|
-fn parse_filter_integer(raw : String) -> Result[Int, String] {
+fn parse_filter_integer(raw : String) -> Result[Int32, String] {
   let value = raw.trim().to_owned()
   if value == "" {
     return Err("Filter integer arguments cannot be empty")
@@ -197,7 +197,7 @@ fn parse_filter_call(
       if name == "" || !rest.has_suffix(")") {
         return Err("Filter call must end with ')' ")
       }
-      let body = rest.sub(end=rest.length() - 1).trim()
+      let body = rest.exact_view(end=rest.length() - 1).trim()
       let args = []
       if !body.is_empty() {
         let mut current = ""
@@ -309,7 +309,7 @@ fn validate_filter_expression(raw : String) -> Result[Unit, String] {
 }
 
 ///|
-fn truncate_unicode(value : String, limit : Int) -> String {
+fn truncate_unicode(value : String, limit : Int32) -> String {
   if limit <= 0 {
     return ""
   }
@@ -317,7 +317,7 @@ fn truncate_unicode(value : String, limit : Int) -> String {
     return value
   }
   match value.offset_of_nth_char(limit) {
-    Some(offset) => value.sub(end=offset).to_owned()
+    Some(offset) => value.exact_view(end=offset).to_owned()
     None => value
   }
 }
@@ -394,7 +394,7 @@ fn apply_filter_spec(value : String, raw : String) -> Result[String, String] {
 }
 
 ///|
-fn slice_unicode(value : String, start : Int, length : Int) -> String {
+fn slice_unicode(value : String, start : Int32, length : Int32) -> String {
   if start < 0 || length <= 0 {
     return ""
   }

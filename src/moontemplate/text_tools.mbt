@@ -1,6 +1,6 @@
 ///|
 /// Stable text utilities used by filters, adapters, and generated documents.
-pub fn text_repeat(value : String, count : Int) -> String {
+pub fn text_repeat(value : String, count : Int32) -> String {
   if count <= 0 {
     return ""
   }
@@ -61,8 +61,8 @@ pub fn text_lines(value : String) -> Array[String] {
 }
 
 ///|
-pub fn text_line_count(value : String) -> Int {
-  value.split("\n").length()
+pub fn text_line_count(value : String) -> Int32 {
+  value.split("\n").count()
 }
 
 ///|
@@ -76,7 +76,7 @@ pub fn text_first_non_empty_line(value : String) -> String? {
 }
 
 ///|
-pub fn text_wrap(value : String, width : Int) -> Array[String] {
+pub fn text_wrap(value : String, width : Int32) -> Array[String] {
   if width <= 0 {
     return if value == "" { [] } else { [value] }
   }
@@ -105,7 +105,7 @@ pub fn text_wrap(value : String, width : Int) -> Array[String] {
 }
 
 ///|
-pub fn text_pad_left(value : String, width : Int, fill : String) -> String {
+pub fn text_pad_left(value : String, width : Int32, fill : String) -> String {
   let missing = width - value.char_length()
   if missing <= 0 || fill == "" {
     return value
@@ -114,7 +114,7 @@ pub fn text_pad_left(value : String, width : Int, fill : String) -> String {
 }
 
 ///|
-pub fn text_pad_right(value : String, width : Int, fill : String) -> String {
+pub fn text_pad_right(value : String, width : Int32, fill : String) -> String {
   let missing = width - value.char_length()
   if missing <= 0 || fill == "" {
     return value
@@ -123,7 +123,7 @@ pub fn text_pad_right(value : String, width : Int, fill : String) -> String {
 }
 
 ///|
-pub fn text_center(value : String, width : Int, fill : String) -> String {
+pub fn text_center(value : String, width : Int32, fill : String) -> String {
   let missing = width - value.char_length()
   if missing <= 0 || fill == "" {
     return value
@@ -133,7 +133,7 @@ pub fn text_center(value : String, width : Int, fill : String) -> String {
 }
 
 ///|
-pub fn text_count(value : String, needle : String) -> Int {
+pub fn text_count(value : String, needle : String) -> Int32 {
   if needle == "" {
     return 0
   }

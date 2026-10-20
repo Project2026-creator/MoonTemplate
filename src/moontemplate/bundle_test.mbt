@@ -1,16 +1,16 @@
 ///|
 test "bundle add replace and render" {
-  let bundle = TemplateBundle::new()
+  let bundle = @moontemplate.TemplateBundle::new()
   assert_eq(bundle.add("hello", "Hello {{ name }}"), Ok(()))
   assert_eq(bundle.add("hello", "Hi {{ name }}"), Ok(()))
-  let context = Context::new().set("name", "Moon")
+  let context = @moontemplate.Context::new().set("name", "Moon")
   assert_eq(bundle.render_with_context("hello", context), Ok("Hi Moon"))
   assert_eq(bundle.names(), ["hello"])
 }
 
 ///|
 test "bundle rejects empty names and unknown templates" {
-  let bundle = TemplateBundle::new()
+  let bundle = @moontemplate.TemplateBundle::new()
   match bundle.add("", "text") {
     Ok(_) => fail("expected name error")
     Err(_) => ()
@@ -23,15 +23,18 @@ test "bundle rejects empty names and unknown templates" {
 
 ///|
 test "bundle renders all in insertion order" {
-  let bundle = bundle_from_pairs([("b", "B{{ x }}"), ("a", "A{{ x }}")]).unwrap()
-  let outputs = bundle.render_all(Context::new().set("x", "!"))
+  let bundle = @moontemplate.bundle_from_pairs([
+    ("b", "B{{ x }}"),
+    ("a", "A{{ x }}"),
+  ]).unwrap()
+  let outputs = bundle.render_all(@moontemplate.Context::new().set("x", "!"))
   assert_eq(outputs, [("b", "B!"), ("a", "A!")])
   assert_eq(bundle.length(), 2)
 }
 
 ///|
 test "bundle remove and aggregate stats" {
-  let bundle = bundle_from_pairs([("a", "A"), ("b", "{{ x }}")]).unwrap()
+  let bundle = @moontemplate.bundle_from_pairs([("a", "A"), ("b", "{{ x }}")]).unwrap()
   assert_true(bundle.remove("a"))
   assert_false(bundle.remove("a"))
   assert_eq(bundle.names(), ["b"])
@@ -40,29 +43,35 @@ test "bundle remove and aggregate stats" {
 
 ///|
 test "batch rendering retains failures" {
-  let good = BatchItem::new(
+  let good = @moontemplate.BatchItem::new(
     "good",
     "Hello {{ name }}",
-    Context::new().set("name", "ok"),
+    @moontemplate.Context::new().set("name", "ok"),
   )
-  let bad = BatchItem::new("bad", "{% if broken %}", Context::new())
-  let results = render_batch([good, bad])
+  let bad = @moontemplate.BatchItem::new(
+    "bad",
+    "{% if broken %}",
+    @moontemplate.Context::new(),
+  )
+  let results = @moontemplate.render_batch([good, bad])
   assert_eq(results.length(), 2)
   assert_true(results[0].is_ok())
   assert_false(results[1].is_ok())
-  assert_eq(batch_successes(results).length(), 1)
-  assert_eq(batch_failures(results).length(), 1)
+  assert_eq(@moontemplate.batch_successes(results).length(), 1)
+  assert_eq(@moontemplate.batch_failures(results).length(), 1)
 }
 
 ///|
 test "batch validation and output projection" {
-  let results = render_batch([
-    BatchItem::new("one", "1", Context::new()),
-    BatchItem::new("two", "2", Context::new()),
+  let results = @moontemplate.render_batch([
+    @moontemplate.BatchItem::new("one", "1", @moontemplate.Context::new()),
+    @moontemplate.BatchItem::new("two", "2", @moontemplate.Context::new()),
   ])
-  assert_eq(batch_outputs(results), [("one", "1"), ("two", "2")])
+  assert_eq(@moontemplate.batch_outputs(results), [("one", "1"), ("two", "2")])
   assert_eq(
-    batch_validate([BatchItem::new("bad", "{{", Context::new())]).length(),
+    @moontemplate.batch_validate([
+      @moontemplate.BatchItem::new("bad", "{{", @moontemplate.Context::new()),
+    ]).length(),
     1,
   )
 }

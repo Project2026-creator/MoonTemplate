@@ -1,6 +1,6 @@
 ///|
 test "template stats describe nested rendering structure" {
-  let engine = Engine::new(
+  let engine = @moontemplate.Engine::new(
     "Hello {{ name | trim }}{% if active %}Y{% else %}N{% endif %}{% for item in items %}{{ item }}{% endfor %}",
   ).unwrap()
   let stats = engine.stats()
@@ -16,7 +16,7 @@ test "template stats describe nested rendering structure" {
 
 ///|
 test "template dependencies exclude loop locals" {
-  let engine = Engine::new(
+  let engine = @moontemplate.Engine::new(
     "{{ title }}{% for item in items %}{{ item }}{% endfor %}",
   ).unwrap()
   let required = engine.required_variables()
@@ -28,7 +28,7 @@ test "template dependencies exclude loop locals" {
 
 ///|
 test "lint reports unknown filters with stable code" {
-  let issues = lint_template("{{ name | missing }}", ["trim"]).unwrap()
+  let issues = @moontemplate.lint_template("{{ name | missing }}", ["trim"]).unwrap()
   assert_eq(issues.length(), 1)
   assert_true(issues[0].severity() == Warning)
   assert_eq(issues[0].code(), "TMPL_UNKNOWN_FILTER")
@@ -38,7 +38,7 @@ test "lint reports unknown filters with stable code" {
 
 ///|
 test "lint reports empty templates as informational" {
-  let issues = lint_template("", []).unwrap()
+  let issues = @moontemplate.lint_template("", []).unwrap()
   assert_eq(issues.length(), 1)
   assert_true(issues[0].severity() == Info)
   assert_eq(issues[0].code(), "TMPL_EMPTY_TEMPLATE")
@@ -46,7 +46,7 @@ test "lint reports empty templates as informational" {
 
 ///|
 test "lint preserves parser diagnostics for malformed templates" {
-  match lint_template("{% if enabled %}unfinished", []) {
+  match @moontemplate.lint_template("{% if enabled %}unfinished", []) {
     Err(diagnostics) => assert_true(diagnostics[0].kind() == Syntax)
     Ok(_) => fail("Expected malformed template diagnostics")
   }

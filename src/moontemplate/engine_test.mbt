@@ -1,6 +1,6 @@
 ///|
 test "engine render variable" {
-  match Engine::new("Hello, {{ user }}!") {
+  match @moontemplate.Engine::new("Hello, {{ user }}!") {
     Ok(engine) => {
       let ctx : Map[String, String] = Map([])
       ctx.set("user", "MoonBit")
@@ -14,7 +14,9 @@ test "engine render variable" {
 ///|
 test "engine render if condition" {
   match
-    Engine::new("Start {% if show %}VISIBLE{% else %}HIDDEN{% endif %} End") {
+    @moontemplate.Engine::new(
+      "Start {% if show %}VISIBLE{% else %}HIDDEN{% endif %} End",
+    ) {
     Ok(engine) => {
       let ctx : Map[String, String] = Map([])
       ctx.set("show", "true")
@@ -27,7 +29,10 @@ test "engine render if condition" {
 
 ///|
 test "engine render for loop" {
-  match Engine::new("Items: {% for item in list %}{{ item }} {% endfor %}") {
+  match
+    @moontemplate.Engine::new(
+      "Items: {% for item in list %}{{ item }} {% endfor %}",
+    ) {
     Ok(engine) => {
       let ctx : Map[String, String] = Map([])
       ctx.set("list", "apple, banana, cherry")
@@ -40,7 +45,8 @@ test "engine render for loop" {
 
 ///|
 test "engine render filter pipeline and custom filters" {
-  match Engine::new("Hello, {{ user | trim | uppercase | suffix }}!") {
+  match
+    @moontemplate.Engine::new("Hello, {{ user | trim | uppercase | suffix }}!") {
     Ok(engine) => {
       engine.register_filter("suffix", fn(value) { value + "!" })
       let ctx : Map[String, String] = Map([])
@@ -55,7 +61,7 @@ test "engine render filter pipeline and custom filters" {
 ///|
 test "engine false branch and empty iterable" {
   match
-    Engine::new(
+    @moontemplate.Engine::new(
       "{% if show %}yes{% else %}no{% endif %} {% for item in list %}{{ item }}{% endfor %}",
     ) {
     Ok(engine) => {
@@ -71,14 +77,14 @@ test "engine false branch and empty iterable" {
 
 ///|
 test "engine missing variables render as empty" {
-  let engine = Engine::new("A{{ missing }}B").unwrap()
+  let engine = @moontemplate.Engine::new("A{{ missing }}B").unwrap()
   let ctx : Map[String, String] = Map([])
   assert_eq(engine.render(ctx), "AB")
 }
 
 ///|
 test "engine filters preserve empty input" {
-  let engine = Engine::new("{{ missing | trim | uppercase }}").unwrap()
+  let engine = @moontemplate.Engine::new("{{ missing | trim | uppercase }}").unwrap()
   let ctx : Map[String, String] = Map([])
   assert_eq(engine.render(ctx), "")
 }

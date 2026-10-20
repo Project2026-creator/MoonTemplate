@@ -1,27 +1,27 @@
 ///|
 pub struct Parser {
   tokens : Array[Token]
-  mut pos : Int
-  positions : Array[Int]
+  mut pos : Int32
+  positions : Array[Int32]
   source : String
 }
 
 ///|
 pub fn Parser::new(tokens : Array[Token]) -> Parser {
-  { tokens, pos: 0, positions: [], source: "" }
+  { tokens, pos: 0, positions: [], source: "", }
 }
 
 ///|
 fn Parser::new_with_positions(
   tokens : Array[Token],
-  positions : Array[Int],
+  positions : Array[Int32],
   source : String,
 ) -> Parser {
-  { tokens, pos: 0, positions, source }
+  { tokens, pos: 0, positions, source, }
 }
 
 ///|
-fn Parser::current_offset(self : Parser) -> Int {
+fn Parser::current_offset(self : Parser) -> Int32 {
   if self.pos < self.positions.length() {
     self.positions[self.pos]
   } else {
@@ -70,7 +70,7 @@ fn Parser::peek(self : Parser) -> Token {
 }
 
 ///|
-fn Parser::peek_n(self : Parser, offset : Int) -> Token {
+fn Parser::peek_n(self : Parser, offset : Int32) -> Token {
   let index = self.pos + offset
   if index >= self.tokens.length() {
     EOF

@@ -1,6 +1,6 @@
 ///|
 test "lexer basic text" {
-  let lexer = Lexer::new("hello world")
+  let lexer = @moontemplate.Lexer::new("hello world")
   let tokens = lexer.tokenize()
   assert_true(tokens[0] == Text("hello world"))
   assert_true(tokens[1] == EOF)
@@ -8,7 +8,7 @@ test "lexer basic text" {
 
 ///|
 test "lexer variable" {
-  let lexer = Lexer::new("hello {{ name }}!")
+  let lexer = @moontemplate.Lexer::new("hello {{ name }}!")
   let tokens = lexer.tokenize()
   assert_true(tokens[0] == Text("hello "))
   assert_true(tokens[1] == VarStart)
@@ -19,7 +19,7 @@ test "lexer variable" {
 
 ///|
 test "lexer filter pipeline" {
-  let lexer = Lexer::new("{{ name|trim|uppercase }}")
+  let lexer = @moontemplate.Lexer::new("{{ name|trim|uppercase }}")
   let tokens = lexer.tokenize()
   assert_true(
     tokens ==

@@ -8,8 +8,14 @@ pub struct ContextSchema {
 } derive(Debug, Eq)
 
 ///|
+pub extend ContextSchema with Debug::{to_repr}
+
+///|
+pub extend ContextSchema with Eq::{not_equal, equal}
+
+///|
 pub fn ContextSchema::new() -> ContextSchema {
-  { required: [], defaults: Context::new(), non_empty: [] }
+  { required: [], defaults: Context::new(), non_empty: [], }
 }
 
 ///|

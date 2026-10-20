@@ -7,6 +7,9 @@ pub struct LocaleCatalog {
 } derive(Debug)
 
 ///|
+pub extend LocaleCatalog with Debug::{to_repr}
+
+///|
 pub fn LocaleCatalog::new(fallback : String) -> LocaleCatalog {
   {
     entries: Map([], capacity=4),

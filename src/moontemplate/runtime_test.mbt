@@ -1,42 +1,48 @@
 ///|
 test "high level render helpers" {
-  let context = Context::new().set("name", "Moon")
-  assert_eq(render_string("Hi {{ name }}", context), Ok("Hi Moon"))
-  let schema = ContextSchema::new().require("name")
-  assert_eq(render_checked("Hi {{ name }}", context, schema), Ok("Hi Moon"))
-  let outputs = render_many("{{ name }}", [
+  let context = @moontemplate.Context::new().set("name", "Moon")
+  assert_eq(
+    @moontemplate.render_string("Hi {{ name }}", context),
+    Ok("Hi Moon"),
+  )
+  let schema = @moontemplate.ContextSchema::new().require("name")
+  assert_eq(
+    @moontemplate.render_checked("Hi {{ name }}", context, schema),
+    Ok("Hi Moon"),
+  )
+  let outputs = @moontemplate.render_many("{{ name }}", [
     context,
-    Context::new().set("name", "Bit"),
+    @moontemplate.Context::new().set("name", "Bit"),
   ]).unwrap()
   assert_eq(outputs, ["Moon", "Bit"])
 }
 
 ///|
 test "safe runtime applies policy and limits" {
-  let context = Context::new().set("name", "ok")
-  let report = render_safe(
+  let context = @moontemplate.Context::new().set("name", "ok")
+  let report = @moontemplate.render_safe(
     "{{ name }}",
     context,
-    SecurityPolicy::default(),
-    RenderLimits::default(),
+    @moontemplate.SecurityPolicy::default(),
+    @moontemplate.RenderLimits::default(),
   ).unwrap()
   assert_eq(report.output(), "ok")
   match
-    render_safe(
+    @moontemplate.render_safe(
       "{{ name | nope }}",
       context,
-      SecurityPolicy::default(),
-      RenderLimits::default(),
+      @moontemplate.SecurityPolicy::default(),
+      @moontemplate.RenderLimits::default(),
     ) {
     Ok(_) => fail("expected unsafe filter")
     Err(message) => assert_true(message.contains("TMPL_FILTER"))
   }
   match
-    render_safe(
+    @moontemplate.render_safe(
       "long",
-      Context::new(),
-      SecurityPolicy::default(),
-      RenderLimits::new(1, 2, 2),
+      @moontemplate.Context::new(),
+      @moontemplate.SecurityPolicy::default(),
+      @moontemplate.RenderLimits::new(1, 2, 2),
     ) {
     Ok(_) => fail("expected output limit")
     Err(message) => assert_true(message.contains("output"))
@@ -45,29 +51,34 @@ test "safe runtime applies policy and limits" {
 
 ///|
 test "runtime inspection and dependencies" {
-  assert_eq(source_dependencies("{{ name }}").unwrap(), ["name"])
-  assert_eq(source_filters("{{ name | trim }}").unwrap(), ["trim"])
-  assert_eq(inspect_source("hello").unwrap().literal_chars(), 5)
+  assert_eq(@moontemplate.source_dependencies("{{ name }}").unwrap(), ["name"])
+  assert_eq(@moontemplate.source_filters("{{ name | trim }}").unwrap(), ["trim"])
+  assert_eq(@moontemplate.inspect_source("hello").unwrap().literal_chars(), 5)
   assert_true(
-    source_lint("{{ x | unknown }}").unwrap()[0].message().contains("Unknown"),
+    @moontemplate.source_lint("{{ x | unknown }}").unwrap()[0]
+    .message()
+    .contains("Unknown"),
   )
-  assert_true(runtime_capabilities().contains("batch-rendering"))
+  assert_true(@moontemplate.runtime_capabilities().contains("batch-rendering"))
 }
 
 ///|
 test "runtime named rendering and batch limits" {
-  let bundle = bundle_from_pairs([("a", "A {{ x }}")]).unwrap()
-  let output = render_named(
+  let bundle = @moontemplate.bundle_from_pairs([("a", "A {{ x }}")]).unwrap()
+  let output = @moontemplate.render_named(
     bundle,
     "a",
-    Context::new().set("x", "1"),
-    RenderPipeline::new(),
+    @moontemplate.Context::new().set("x", "1"),
+    @moontemplate.RenderPipeline::new(),
   ).unwrap()
   assert_eq(output, "A 1")
-  let reports = render_many_with_limits(
+  let reports = @moontemplate.render_many_with_limits(
     "{{ x }}",
-    [Context::new().set("x", "a"), Context::new().set("x", "b")],
-    RenderLimits::default(),
+    [
+      @moontemplate.Context::new().set("x", "a"),
+      @moontemplate.Context::new().set("x", "b"),
+    ],
+    @moontemplate.RenderLimits::default(),
   )
   assert_eq(reports.length(), 2)
   assert_eq(reports[0].unwrap().output(), "a")
@@ -75,12 +86,16 @@ test "runtime named rendering and batch limits" {
 
 ///|
 test "runtime rejects empty template file names" {
-  match render_template_file_name("", Context::new()) {
+  match
+    @moontemplate.render_template_file_name("", @moontemplate.Context::new()) {
     Ok(_) => fail("expected empty name")
     Err(error) => assert_true(error.contains("empty"))
   }
   assert_true(
-    render_template_file_name("welcome", Context::new())
+    @moontemplate.render_template_file_name(
+      "welcome",
+      @moontemplate.Context::new(),
+    )
     .unwrap()
     .contains("welcome"),
   )

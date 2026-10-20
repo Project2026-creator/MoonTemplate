@@ -187,10 +187,11 @@ have no hidden global state.
 
 ## Quality Gates
 
-CI installs the current stable MoonBit toolchain from the official installer.
-The organizer feedback originally cited MoonBit `0.10.3`; current stable
-toolchains use `pkgtype(kind: "executable")` in `moon.pkg`. CI prints the exact
-installed version and checks the committed API snapshot.
+Use MoonBit `0.10.16` or a newer compatible toolchain. This repository is
+verified with `moonc v0.10.16+b1a0e846e`; integer annotations use `Int32`,
+trait methods are attached explicitly, and black-box tests qualify package APIs.
+CI installs the current stable MoonBit toolchain from the official installer,
+prints the exact installed version, and checks the committed API snapshot.
 
 Local verification:
 

@@ -12,13 +12,19 @@ pub(all) enum Token {
 } derive(Debug, Eq)
 
 ///|
+pub extend Token with Debug::{to_repr}
+
+///|
+pub extend Token with Eq::{not_equal, equal}
+
+///|
 pub struct Lexer {
   input : String
-  mut pos : Int
+  mut pos : Int32
   mut in_tag : Bool
   mut trim_next_text : Bool
   mut lexical_error : String?
-  mut lexical_error_offset : Int
+  mut lexical_error_offset : Int32
 }
 
 ///|
@@ -58,7 +64,7 @@ fn Lexer::skip_comment(self : Lexer) -> Unit {
 }
 
 ///|
-fn Lexer::peek(self : Lexer, n : Int) -> String {
+fn Lexer::peek(self : Lexer, n : Int32) -> String {
   if self.pos + n > self.input.length() {
     self.input[self.pos:self.input.length()].to_owned()
   } else {
@@ -226,7 +232,7 @@ pub fn Lexer::tokenize(self : Lexer) -> Array[Token] {
 ///|
 fn Lexer::tokenize_with_positions(
   self : Lexer,
-) -> (Array[Token], Array[Int], String?, Int) {
+) -> (Array[Token], Array[Int32], String?, Int32) {
   let tokens = []
   let positions = []
   while true {

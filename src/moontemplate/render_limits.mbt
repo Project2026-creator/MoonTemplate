@@ -1,16 +1,22 @@
 ///|
 /// Resource limits for untrusted or user-authored templates.
 pub struct RenderLimits {
-  max_output_chars : Int
-  max_iterations : Int
-  max_depth : Int
+  max_output_chars : Int32
+  max_iterations : Int32
+  max_depth : Int32
 } derive(Debug, Eq)
 
 ///|
+pub extend RenderLimits with Debug::{to_repr}
+
+///|
+pub extend RenderLimits with Eq::{not_equal, equal}
+
+///|
 pub fn RenderLimits::new(
-  max_output_chars : Int,
-  max_iterations : Int,
-  max_depth : Int,
+  max_output_chars : Int32,
+  max_iterations : Int32,
+  max_depth : Int32,
 ) -> RenderLimits {
   {
     max_output_chars: non_negative(max_output_chars),
@@ -25,22 +31,22 @@ pub fn RenderLimits::default() -> RenderLimits {
 }
 
 ///|
-pub fn RenderLimits::max_output_chars(self : RenderLimits) -> Int {
+pub fn RenderLimits::max_output_chars(self : RenderLimits) -> Int32 {
   self.max_output_chars
 }
 
 ///|
-pub fn RenderLimits::max_iterations(self : RenderLimits) -> Int {
+pub fn RenderLimits::max_iterations(self : RenderLimits) -> Int32 {
   self.max_iterations
 }
 
 ///|
-pub fn RenderLimits::max_depth(self : RenderLimits) -> Int {
+pub fn RenderLimits::max_depth(self : RenderLimits) -> Int32 {
   self.max_depth
 }
 
 ///|
-fn non_negative(value : Int) -> Int {
+fn non_negative(value : Int32) -> Int32 {
   if value < 0 {
     0
   } else {
@@ -51,41 +57,47 @@ fn non_negative(value : Int) -> Int {
 ///|
 /// Runtime counters returned with a bounded render.
 pub struct RenderMetrics {
-  mut output_chars : Int
-  mut nodes_visited : Int
-  mut iterations : Int
-  mut max_depth : Int
-  mut variables_resolved : Int
-  mut missing_variables : Int
+  mut output_chars : Int32
+  mut nodes_visited : Int32
+  mut iterations : Int32
+  mut max_depth : Int32
+  mut variables_resolved : Int32
+  mut missing_variables : Int32
 } derive(Debug, Eq)
 
 ///|
-pub fn RenderMetrics::output_chars(self : RenderMetrics) -> Int {
+pub extend RenderMetrics with Debug::{to_repr}
+
+///|
+pub extend RenderMetrics with Eq::{not_equal, equal}
+
+///|
+pub fn RenderMetrics::output_chars(self : RenderMetrics) -> Int32 {
   self.output_chars
 }
 
 ///|
-pub fn RenderMetrics::nodes_visited(self : RenderMetrics) -> Int {
+pub fn RenderMetrics::nodes_visited(self : RenderMetrics) -> Int32 {
   self.nodes_visited
 }
 
 ///|
-pub fn RenderMetrics::iterations(self : RenderMetrics) -> Int {
+pub fn RenderMetrics::iterations(self : RenderMetrics) -> Int32 {
   self.iterations
 }
 
 ///|
-pub fn RenderMetrics::max_depth(self : RenderMetrics) -> Int {
+pub fn RenderMetrics::max_depth(self : RenderMetrics) -> Int32 {
   self.max_depth
 }
 
 ///|
-pub fn RenderMetrics::variables_resolved(self : RenderMetrics) -> Int {
+pub fn RenderMetrics::variables_resolved(self : RenderMetrics) -> Int32 {
   self.variables_resolved
 }
 
 ///|
-pub fn RenderMetrics::missing_variables(self : RenderMetrics) -> Int {
+pub fn RenderMetrics::missing_variables(self : RenderMetrics) -> Int32 {
   self.missing_variables
 }
 
@@ -95,6 +107,12 @@ pub struct RenderReport {
   output : String
   metrics : RenderMetrics
 } derive(Debug, Eq)
+
+///|
+pub extend RenderReport with Debug::{to_repr}
+
+///|
+pub extend RenderReport with Eq::{not_equal, equal}
 
 ///|
 pub fn RenderReport::output(self : RenderReport) -> String {
@@ -109,10 +127,16 @@ pub fn RenderReport::metrics(self : RenderReport) -> RenderMetrics {
 ///|
 /// Failure raised when a render would exceed a caller-supplied limit.
 pub(all) enum RenderFailure {
-  OutputLimitExceeded(Int, Int) // configured limit, current output
-  IterationLimitExceeded(Int) // configured limit
-  DepthLimitExceeded(Int) // configured limit
+  OutputLimitExceeded(Int32, Int32) // configured limit, current output
+  IterationLimitExceeded(Int32) // configured limit
+  DepthLimitExceeded(Int32) // configured limit
 } derive(Debug, Eq)
+
+///|
+pub extend RenderFailure with Debug::{to_repr}
+
+///|
+pub extend RenderFailure with Eq::{not_equal, equal}
 
 ///|
 /// Render while enforcing output, loop, and nesting budgets.
@@ -130,7 +154,7 @@ pub fn Engine::render_with_limits(
     missing_variables: 0,
   }
   match self.render_bounded_nodes(self.nodes, context, limits, metrics, 0) {
-    Ok(output) => Ok({ output, metrics })
+    Ok(output) => Ok({ output, metrics, })
     Err(failure) => Err(failure)
   }
 }
@@ -142,7 +166,7 @@ fn Engine::render_bounded_nodes(
   context : Map[String, String],
   limits : RenderLimits,
   metrics : RenderMetrics,
-  depth : Int,
+  depth : Int32,
 ) -> Result[String, RenderFailure] {
   if depth > limits.max_depth() {
     return Err(DepthLimitExceeded(limits.max_depth()))

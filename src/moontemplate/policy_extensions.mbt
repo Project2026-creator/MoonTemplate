@@ -24,17 +24,17 @@ pub fn policy_validate_filters(names : Array[String]) -> Array[String] {
 }
 
 ///|
-pub fn policy_validate_template_size(source : String, maximum : Int) -> Bool {
+pub fn policy_validate_template_size(source : String, maximum : Int32) -> Bool {
   maximum >= 0 && source.char_length() <= maximum
 }
 
 ///|
-pub fn policy_validate_depth(engine : Engine, maximum : Int) -> Bool {
+pub fn policy_validate_depth(engine : Engine, maximum : Int32) -> Bool {
   maximum >= 0 && engine.stats().max_depth() <= maximum
 }
 
 ///|
-pub fn policy_validate_output(report : RenderReport, maximum : Int) -> Bool {
+pub fn policy_validate_output(report : RenderReport, maximum : Int32) -> Bool {
   maximum >= 0 && report.metrics().output_chars() <= maximum
 }
 
@@ -99,7 +99,7 @@ pub fn policy_batch_check(sources : Array[String]) -> Array[Bool] {
 pub fn policy_release_gate(
   source : String,
   context : Context,
-  maximum_chars : Int,
+  maximum_chars : Int32,
 ) -> Result[String, String] {
   if !policy_validate_template_size(source, maximum_chars) {
     return Err("Template exceeds release size policy")
@@ -247,7 +247,7 @@ pub fn policy_source_lines(source : String) -> Array[String] {
 }
 
 ///|
-pub fn policy_source_line_count(source : String) -> Int {
+pub fn policy_source_line_count(source : String) -> Int32 {
   text_line_count(source)
 }
 

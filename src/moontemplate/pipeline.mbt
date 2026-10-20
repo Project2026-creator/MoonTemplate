@@ -11,7 +11,7 @@ type PipelineStage = (String, (String) -> String)
 
 ///|
 pub fn RenderPipeline::new() -> RenderPipeline {
-  { stages: [] }
+  { stages: [], }
 }
 
 ///|
@@ -27,7 +27,7 @@ pub fn RenderPipeline::add(
 }
 
 ///|
-pub fn RenderPipeline::length(self : RenderPipeline) -> Int {
+pub fn RenderPipeline::length(self : RenderPipeline) -> Int32 {
   self.stages.length()
 }
 
@@ -113,7 +113,7 @@ pub fn pipeline_suffix(suffix : String) -> (String) -> String {
 }
 
 ///|
-pub fn pipeline_limit(max_chars : Int) -> (String) -> String {
+pub fn pipeline_limit(max_chars : Int32) -> (String) -> String {
   fn(value) {
     if max_chars <= 0 {
       ""

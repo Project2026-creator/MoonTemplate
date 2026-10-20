@@ -223,7 +223,7 @@ pub fn format_plain_list(
 }
 
 ///|
-pub fn format_tree(items : Array[(Int, String)]) -> String {
+pub fn format_tree(items : Array[(Int32, String)]) -> String {
   let result = StringBuilder()
   for pair in items {
     let (level, value) = pair

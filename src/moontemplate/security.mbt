@@ -2,9 +2,15 @@
 /// Policy helpers for rendering user-controlled templates safely.
 pub struct SecurityPolicy {
   allowed_filters : Array[String]
-  mut max_template_chars : Int
+  mut max_template_chars : Int32
   mut reject_unknown_filters : Bool
 } derive(Debug, Eq)
+
+///|
+pub extend SecurityPolicy with Debug::{to_repr}
+
+///|
+pub extend SecurityPolicy with Eq::{not_equal, equal}
 
 ///|
 pub fn SecurityPolicy::default() -> SecurityPolicy {
@@ -18,7 +24,7 @@ pub fn SecurityPolicy::default() -> SecurityPolicy {
 }
 
 ///|
-pub fn SecurityPolicy::new(max_template_chars : Int) -> SecurityPolicy {
+pub fn SecurityPolicy::new(max_template_chars : Int32) -> SecurityPolicy {
   let policy = SecurityPolicy::default()
   policy.max_template_chars = if max_template_chars < 0 {
     0
@@ -96,7 +102,7 @@ pub fn SecurityPolicy::accepts(self : SecurityPolicy, source : String) -> Bool {
 }
 
 ///|
-pub fn redact_value(value : String, visible_suffix : Int) -> String {
+pub fn redact_value(value : String, visible_suffix : Int32) -> String {
   let count = value.char_length() - visible_suffix
   if count <= 0 {
     return value

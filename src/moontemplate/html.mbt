@@ -6,7 +6,7 @@ pub struct HtmlBuilder {
 
 ///|
 pub fn HtmlBuilder::new() -> HtmlBuilder {
-  { parts: [] }
+  { parts: [], }
 }
 
 ///|

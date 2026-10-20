@@ -2,13 +2,19 @@
 /// Application-facing metrics for comparing rendering workloads without
 /// relying on wall-clock timing or host-specific counters.
 pub struct RenderSummary {
-  mut documents : Int
-  mut successful : Int
-  mut failed : Int
-  mut output_chars : Int
-  mut missing_variables : Int
-  mut iterations : Int
+  mut documents : Int32
+  mut successful : Int32
+  mut failed : Int32
+  mut output_chars : Int32
+  mut missing_variables : Int32
+  mut iterations : Int32
 } derive(Debug, Eq)
+
+///|
+pub extend RenderSummary with Debug::{to_repr}
+
+///|
+pub extend RenderSummary with Eq::{not_equal, equal}
 
 ///|
 pub fn RenderSummary::new() -> RenderSummary {
@@ -44,32 +50,32 @@ pub fn RenderSummary::record_failure(self : RenderSummary) -> RenderSummary {
 }
 
 ///|
-pub fn RenderSummary::documents(self : RenderSummary) -> Int {
+pub fn RenderSummary::documents(self : RenderSummary) -> Int32 {
   self.documents
 }
 
 ///|
-pub fn RenderSummary::successful(self : RenderSummary) -> Int {
+pub fn RenderSummary::successful(self : RenderSummary) -> Int32 {
   self.successful
 }
 
 ///|
-pub fn RenderSummary::failed(self : RenderSummary) -> Int {
+pub fn RenderSummary::failed(self : RenderSummary) -> Int32 {
   self.failed
 }
 
 ///|
-pub fn RenderSummary::output_chars(self : RenderSummary) -> Int {
+pub fn RenderSummary::output_chars(self : RenderSummary) -> Int32 {
   self.output_chars
 }
 
 ///|
-pub fn RenderSummary::missing_variables(self : RenderSummary) -> Int {
+pub fn RenderSummary::missing_variables(self : RenderSummary) -> Int32 {
   self.missing_variables
 }
 
 ///|
-pub fn RenderSummary::iterations(self : RenderSummary) -> Int {
+pub fn RenderSummary::iterations(self : RenderSummary) -> Int32 {
   self.iterations
 }
 
@@ -121,7 +127,7 @@ pub fn summarize_reports(
 pub fn compare_summaries(
   left : RenderSummary,
   right : RenderSummary,
-) -> Array[(String, Int)] {
+) -> Array[(String, Int32)] {
   [
     ("documents", left.documents() - right.documents()),
     ("successful", left.successful() - right.successful()),

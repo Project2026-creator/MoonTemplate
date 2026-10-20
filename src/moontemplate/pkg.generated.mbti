@@ -26,9 +26,9 @@ pub fn benchmark_cases() -> Array[BenchmarkCase]
 
 pub fn benchmark_report_json(Array[BenchmarkResult]) -> String
 
-pub fn benchmark_total_iterations(Array[BenchmarkResult]) -> Int
+pub fn benchmark_total_iterations(Array[BenchmarkResult]) -> Int32
 
-pub fn benchmark_total_output_chars(Array[BenchmarkResult]) -> Int
+pub fn benchmark_total_output_chars(Array[BenchmarkResult]) -> Int32
 
 pub fn bundle_from_pairs(Array[(String, String)]) -> Result[TemplateBundle, String]
 
@@ -36,7 +36,7 @@ pub fn cache_render(TemplateCache, String, String, Context) -> Result[String, St
 
 pub fn catalog_from_pairs(String, Array[(String, String, String)]) -> LocaleCatalog
 
-pub fn compare_summaries(RenderSummary, RenderSummary) -> Array[(String, Int)]
+pub fn compare_summaries(RenderSummary, RenderSummary) -> Array[(String, Int32)]
 
 pub fn context_diff(Context, Context) -> Array[String]
 
@@ -70,7 +70,7 @@ pub fn diagnostic_summary(Array[Diagnostic]) -> String
 
 pub fn diagnostic_text(Diagnostic) -> String
 
-pub fn diagnostics_count_by_kind(Array[Diagnostic]) -> Array[(String, Int)]
+pub fn diagnostics_count_by_kind(Array[Diagnostic]) -> Array[(String, Int32)]
 
 pub fn diagnostics_json(Array[Diagnostic]) -> String
 
@@ -108,7 +108,7 @@ pub fn format_summary_table(RenderSummary) -> String
 
 pub fn format_table_rows(Array[Array[String]], String) -> String
 
-pub fn format_tree(Array[(Int, String)]) -> String
+pub fn format_tree(Array[(Int32, String)]) -> String
 
 pub fn format_xml_attributes(Context) -> String
 
@@ -162,7 +162,7 @@ pub fn markdown_bullets(Array[String]) -> String
 
 pub fn markdown_code(String, String) -> String
 
-pub fn markdown_heading(String, Int) -> String
+pub fn markdown_heading(String, Int32) -> String
 
 pub fn markdown_link(String, String) -> String
 
@@ -180,7 +180,7 @@ pub fn pipeline_collapse_spaces() -> (String) -> String
 
 pub fn pipeline_ensure_trailing_newline() -> (String) -> String
 
-pub fn pipeline_limit(Int) -> (String) -> String
+pub fn pipeline_limit(Int32) -> (String) -> String
 
 pub fn pipeline_prefix(String) -> (String) -> String
 
@@ -226,7 +226,7 @@ pub fn policy_readiness_report(String, Context) -> String
 
 pub fn policy_redacted_report(Context, Array[String]) -> String
 
-pub fn policy_release_gate(String, Context, Int) -> Result[String, String]
+pub fn policy_release_gate(String, Context, Int32) -> Result[String, String]
 
 pub fn policy_release_key(String, Context) -> String
 
@@ -246,7 +246,7 @@ pub fn policy_source_is_ascii(String) -> Bool
 
 pub fn policy_source_is_blank(String) -> Bool
 
-pub fn policy_source_line_count(String) -> Int
+pub fn policy_source_line_count(String) -> Int32
 
 pub fn policy_source_lines(String) -> Array[String]
 
@@ -256,19 +256,19 @@ pub fn policy_template_id(String) -> String
 
 pub fn policy_template_summary(String) -> String
 
-pub fn policy_validate_depth(Engine, Int) -> Bool
+pub fn policy_validate_depth(Engine, Int32) -> Bool
 
 pub fn policy_validate_filters(Array[String]) -> Array[String]
 
-pub fn policy_validate_output(RenderReport, Int) -> Bool
+pub fn policy_validate_output(RenderReport, Int32) -> Bool
 
-pub fn policy_validate_template_size(String, Int) -> Bool
+pub fn policy_validate_template_size(String, Int32) -> Bool
 
 pub fn redact_context(Context, Array[String]) -> Context
 
-pub fn redact_value(String, Int) -> String
+pub fn redact_value(String, Int32) -> String
 
-pub fn registry_from_bundle(TemplateBundle, Int) -> TemplateRegistry
+pub fn registry_from_bundle(TemplateBundle, Int32) -> TemplateRegistry
 
 pub fn render_batch(Array[BatchItem]) -> Array[BatchResult]
 
@@ -306,7 +306,7 @@ pub fn report_compare(RenderSummary, RenderSummary) -> String
 
 pub fn report_context(Context) -> String
 
-pub fn report_counts(Array[(String, Int)]) -> String
+pub fn report_counts(Array[(String, Int32)]) -> String
 
 pub fn report_diff_lines(Context, Context) -> Array[String]
 
@@ -378,21 +378,21 @@ pub fn summarize_reports(Array[Result[RenderReport, RenderFailure]]) -> RenderSu
 
 pub fn summary_json(RenderSummary) -> String
 
-pub fn text_center(String, Int, String) -> String
+pub fn text_center(String, Int32, String) -> String
 
-pub fn text_char_at(String, Int) -> String?
+pub fn text_char_at(String, Int32) -> String?
 
-pub fn text_checksum(String) -> Int
+pub fn text_checksum(String) -> Int32
 
 pub fn text_common_prefix(String, String) -> String
 
 pub fn text_common_suffix(String, String) -> String
 
-pub fn text_count(String, String) -> Int
+pub fn text_count(String, String) -> Int32
 
 pub fn text_dedent(String) -> String
 
-pub fn text_drop(String, Int) -> String
+pub fn text_drop(String, Int32) -> String
 
 pub fn text_first_non_empty_line(String) -> String?
 
@@ -410,7 +410,7 @@ pub fn text_join_non_empty(Array[String], String) -> String
 
 pub fn text_kebab(String) -> String
 
-pub fn text_line_count(String) -> Int
+pub fn text_line_count(String) -> Int32
 
 pub fn text_lines(String) -> Array[String]
 
@@ -418,27 +418,27 @@ pub fn text_lines_with_numbers(String) -> Array[String]
 
 pub fn text_normalize_newlines(String) -> String
 
-pub fn text_pad_left(String, Int, String) -> String
+pub fn text_pad_left(String, Int32, String) -> String
 
-pub fn text_pad_right(String, Int, String) -> String
+pub fn text_pad_right(String, Int32, String) -> String
 
-pub fn text_repeat(String, Int) -> String
+pub fn text_repeat(String, Int32) -> String
 
 pub fn text_replace_all(String, String, String) -> String
 
 pub fn text_reverse(String) -> String
 
-pub fn text_slice(String, Int, Int) -> String
+pub fn text_slice(String, Int32, Int32) -> String
 
 pub fn text_snake(String) -> String
 
-pub fn text_take(String, Int) -> String
+pub fn text_take(String, Int32) -> String
 
 pub fn text_title(String) -> String
 
 pub fn text_words(String) -> Array[String]
 
-pub fn text_wrap(String, Int) -> Array[String]
+pub fn text_wrap(String, Int32) -> Array[String]
 
 pub fn validate_bundle(TemplateBundle, Context) -> Array[(String, ValidationReport)]
 
@@ -464,19 +464,25 @@ pub struct BatchItem {
   source : String
   context : Context
 } derive(Eq, @debug.Debug)
+pub fn BatchItem::equal(Self, Self) -> Bool
 pub fn BatchItem::name(Self) -> String
 pub fn BatchItem::new(String, String, Context) -> Self
+pub fn BatchItem::not_equal(Self, Self) -> Bool
 pub fn BatchItem::source(Self) -> String
+pub fn BatchItem::to_repr(Self) -> @debug.Repr
 
 pub struct BatchResult {
   name : String
   output : String
   error : String?
 } derive(Eq, @debug.Debug)
+pub fn BatchResult::equal(Self, Self) -> Bool
 pub fn BatchResult::error(Self) -> String?
 pub fn BatchResult::is_ok(Self) -> Bool
 pub fn BatchResult::name(Self) -> String
+pub fn BatchResult::not_equal(Self, Self) -> Bool
 pub fn BatchResult::output(Self) -> String
+pub fn BatchResult::to_repr(Self) -> @debug.Repr
 
 pub struct BenchmarkCase {
   name : String
@@ -490,32 +496,38 @@ pub struct BenchmarkCase {
 pub fn BenchmarkCase::category(Self) -> String
 pub fn BenchmarkCase::context(Self) -> Map[String, String]
 pub fn BenchmarkCase::description(Self) -> String
+pub fn BenchmarkCase::equal(Self, Self) -> Bool
 pub fn BenchmarkCase::expected_output(Self) -> String
 pub fn BenchmarkCase::limits(Self) -> RenderLimits
 pub fn BenchmarkCase::name(Self) -> String
+pub fn BenchmarkCase::not_equal(Self, Self) -> Bool
 pub fn BenchmarkCase::template(Self) -> String
+pub fn BenchmarkCase::to_repr(Self) -> @debug.Repr
 
 pub struct BenchmarkResult {
   name : String
   category : String
   passed : Bool
-  output_chars : Int
-  expected_chars : Int
-  nodes_visited : Int
-  iterations : Int
-  unicode_chars : Int
-  missing_variables : Int
+  output_chars : Int32
+  expected_chars : Int32
+  nodes_visited : Int32
+  iterations : Int32
+  unicode_chars : Int32
+  missing_variables : Int32
 } derive(Eq, @debug.Debug)
 pub fn BenchmarkResult::category(Self) -> String
-pub fn BenchmarkResult::expected_chars(Self) -> Int
-pub fn BenchmarkResult::iterations(Self) -> Int
-pub fn BenchmarkResult::missing_variables(Self) -> Int
+pub fn BenchmarkResult::equal(Self, Self) -> Bool
+pub fn BenchmarkResult::expected_chars(Self) -> Int32
+pub fn BenchmarkResult::iterations(Self) -> Int32
+pub fn BenchmarkResult::missing_variables(Self) -> Int32
 pub fn BenchmarkResult::name(Self) -> String
-pub fn BenchmarkResult::nodes_visited(Self) -> Int
-pub fn BenchmarkResult::output_chars(Self) -> Int
+pub fn BenchmarkResult::nodes_visited(Self) -> Int32
+pub fn BenchmarkResult::not_equal(Self, Self) -> Bool
+pub fn BenchmarkResult::output_chars(Self) -> Int32
 pub fn BenchmarkResult::passed(Self) -> Bool
 pub fn BenchmarkResult::to_json(Self) -> String
-pub fn BenchmarkResult::unicode_chars(Self) -> Int
+pub fn BenchmarkResult::to_repr(Self) -> @debug.Repr
+pub fn BenchmarkResult::unicode_chars(Self) -> Int32
 
 type CacheEntry
 
@@ -524,34 +536,40 @@ pub struct Context {
   mut frozen : Bool
 } derive(Eq, @debug.Debug)
 pub fn Context::contains(Self, String) -> Bool
+pub fn Context::equal(Self, Self) -> Bool
 pub fn Context::freeze(Self) -> Self
 pub fn Context::from_pairs(Array[(String, String)]) -> Self
 pub fn Context::get(Self, String) -> String?
 pub fn Context::get_or(Self, String, String) -> String
 pub fn Context::is_frozen(Self) -> Bool
 pub fn Context::keys(Self) -> Array[String]
-pub fn Context::length(Self) -> Int
+pub fn Context::length(Self) -> Int32
 pub fn Context::merge(Self, Self) -> Self
 pub fn Context::new() -> Self
+pub fn Context::not_equal(Self, Self) -> Bool
 pub fn Context::remove(Self, String) -> Self
 pub fn Context::set(Self, String, String) -> Self
 pub fn Context::set_bool(Self, String, Bool) -> Self
 pub fn Context::set_if_absent(Self, String, String) -> Self
-pub fn Context::set_int(Self, String, Int) -> Self
+pub fn Context::set_int(Self, String, Int32) -> Self
 pub fn Context::subset(Self, Array[String]) -> Self
 pub fn Context::to_map(Self) -> Map[String, String]
+pub fn Context::to_repr(Self) -> @debug.Repr
 pub fn Context::validate(Self, Array[String]) -> Array[String]
-pub fn Context::with_capacity(Int) -> Self
+pub fn Context::with_capacity(Int32) -> Self
 pub fn Context::with_prefix(Self, String) -> Self
 
 pub struct ContextAudit {
   missing : Array[String]
   unused : Array[String]
-  provided_count : Int
+  provided_count : Int32
 } derive(Eq, @debug.Debug)
+pub fn ContextAudit::equal(Self, Self) -> Bool
 pub fn ContextAudit::missing(Self) -> Array[String]
-pub fn ContextAudit::provided_count(Self) -> Int
+pub fn ContextAudit::not_equal(Self, Self) -> Bool
+pub fn ContextAudit::provided_count(Self) -> Int32
 pub fn ContextAudit::summary(Self) -> String
+pub fn ContextAudit::to_repr(Self) -> @debug.Repr
 pub fn ContextAudit::unused(Self) -> Array[String]
 
 pub struct ContextSchema {
@@ -562,26 +580,32 @@ pub struct ContextSchema {
 pub fn ContextSchema::accepts(Self, Context) -> Bool
 pub fn ContextSchema::apply_defaults(Self, Context) -> Context
 pub fn ContextSchema::default_value(Self, String, String) -> Self
+pub fn ContextSchema::equal(Self, Self) -> Bool
 pub fn ContextSchema::new() -> Self
+pub fn ContextSchema::not_equal(Self, Self) -> Bool
 pub fn ContextSchema::require(Self, String) -> Self
 pub fn ContextSchema::require_non_empty(Self, String) -> Self
 pub fn ContextSchema::required(Self) -> Array[String]
+pub fn ContextSchema::to_repr(Self) -> @debug.Repr
 pub fn ContextSchema::validate(Self, Context) -> Array[String]
 
 pub struct Diagnostic {
   kind : DiagnosticKind
   message : String
-  line : Int
-  column : Int
+  line : Int32
+  column : Int32
   source_line : String
 } derive(Eq, @debug.Debug)
 pub fn Diagnostic::code(Self) -> String
-pub fn Diagnostic::column(Self) -> Int
+pub fn Diagnostic::column(Self) -> Int32
+pub fn Diagnostic::equal(Self, Self) -> Bool
 pub fn Diagnostic::kind(Self) -> DiagnosticKind
-pub fn Diagnostic::line(Self) -> Int
+pub fn Diagnostic::line(Self) -> Int32
 pub fn Diagnostic::message(Self) -> String
-pub fn Diagnostic::new(DiagnosticKind, String, Int, Int, String) -> Self
+pub fn Diagnostic::new(DiagnosticKind, String, Int32, Int32, String) -> Self
+pub fn Diagnostic::not_equal(Self, Self) -> Bool
 pub fn Diagnostic::source_line(Self) -> String
+pub fn Diagnostic::to_repr(Self) -> @debug.Repr
 
 pub(all) enum DiagnosticKind {
   Lexical
@@ -589,17 +613,20 @@ pub(all) enum DiagnosticKind {
   Filter
 } derive(Eq, @debug.Debug)
 pub fn DiagnosticKind::as_str(Self) -> String
+pub fn DiagnosticKind::equal(Self, Self) -> Bool
+pub fn DiagnosticKind::not_equal(Self, Self) -> Bool
+pub fn DiagnosticKind::to_repr(Self) -> @debug.Repr
 
 pub struct Document {
   title : String
   sections : Array[DocumentSection]
   metadata : Context
 }
-pub fn Document::add_section(Self, String, Int, String) -> Self
+pub fn Document::add_section(Self, String, Int32, String) -> Self
 pub fn Document::new(String) -> Self
 pub fn Document::render_markdown(Self) -> String
 pub fn Document::render_metadata(Self) -> String
-pub fn Document::section_count(Self) -> Int
+pub fn Document::section_count(Self) -> Int32
 pub fn Document::set_metadata(Self, String, String) -> Self
 pub fn Document::title(Self) -> String
 
@@ -636,11 +663,11 @@ pub fn HtmlBuilder::text(Self, String) -> Self
 
 pub struct Lexer {
   input : String
-  mut pos : Int
+  mut pos : Int32
   mut in_tag : Bool
   mut trim_next_text : Bool
   mut lexical_error : String?
-  mut lexical_error_offset : Int
+  mut lexical_error_offset : Int32
 }
 pub fn Lexer::new(String) -> Self
 pub fn Lexer::next_token(Self) -> Token
@@ -651,6 +678,9 @@ pub(all) enum LintSeverity {
   Warning
   Error
 } derive(Eq, @debug.Debug)
+pub fn LintSeverity::equal(Self, Self) -> Bool
+pub fn LintSeverity::not_equal(Self, Self) -> Bool
+pub fn LintSeverity::to_repr(Self) -> @debug.Repr
 
 pub struct LocaleCatalog {
   entries : Map[String, Context]
@@ -661,6 +691,7 @@ pub fn LocaleCatalog::context(Self, String) -> Context
 pub fn LocaleCatalog::fallback(Self) -> String
 pub fn LocaleCatalog::locales(Self) -> Array[String]
 pub fn LocaleCatalog::new(String) -> Self
+pub fn LocaleCatalog::to_repr(Self) -> @debug.Repr
 pub fn LocaleCatalog::translate(Self, String, String, String) -> String
 
 pub(all) enum Node {
@@ -669,11 +700,14 @@ pub(all) enum Node {
   If(String, Array[Node], Array[Node])
   For(String, String, Array[Node])
 } derive(Eq, @debug.Debug)
+pub fn Node::equal(Self, Self) -> Bool
+pub fn Node::not_equal(Self, Self) -> Bool
+pub fn Node::to_repr(Self) -> @debug.Repr
 
 pub struct Parser {
   tokens : Array[Token]
-  mut pos : Int
-  positions : Array[Int]
+  mut pos : Int32
+  positions : Array[Int32]
   source : String
 }
 pub fn Parser::new(Array[Token]) -> Self
@@ -688,48 +722,60 @@ pub struct ProjectManifest {
   targets : Array[String]
 } derive(Eq, @debug.Debug)
 pub fn ProjectManifest::describe(Self, String) -> Self
+pub fn ProjectManifest::equal(Self, Self) -> Bool
 pub fn ProjectManifest::feature(Self, String) -> Self
 pub fn ProjectManifest::features(Self) -> Array[String]
 pub fn ProjectManifest::name(Self) -> String
 pub fn ProjectManifest::new(String, String) -> Self
+pub fn ProjectManifest::not_equal(Self, Self) -> Bool
 pub fn ProjectManifest::target(Self, String) -> Self
 pub fn ProjectManifest::targets(Self) -> Array[String]
 pub fn ProjectManifest::to_context(Self) -> Context
 pub fn ProjectManifest::to_json(Self) -> String
 pub fn ProjectManifest::to_markdown(Self) -> String
+pub fn ProjectManifest::to_repr(Self) -> @debug.Repr
 pub fn ProjectManifest::version(Self) -> String
 
 pub(all) enum RenderFailure {
-  OutputLimitExceeded(Int, Int)
-  IterationLimitExceeded(Int)
-  DepthLimitExceeded(Int)
+  OutputLimitExceeded(Int32, Int32)
+  IterationLimitExceeded(Int32)
+  DepthLimitExceeded(Int32)
 } derive(Eq, @debug.Debug)
+pub fn RenderFailure::equal(Self, Self) -> Bool
+pub fn RenderFailure::not_equal(Self, Self) -> Bool
+pub fn RenderFailure::to_repr(Self) -> @debug.Repr
 
 pub struct RenderLimits {
-  max_output_chars : Int
-  max_iterations : Int
-  max_depth : Int
+  max_output_chars : Int32
+  max_iterations : Int32
+  max_depth : Int32
 } derive(Eq, @debug.Debug)
 pub fn RenderLimits::default() -> Self
-pub fn RenderLimits::max_depth(Self) -> Int
-pub fn RenderLimits::max_iterations(Self) -> Int
-pub fn RenderLimits::max_output_chars(Self) -> Int
-pub fn RenderLimits::new(Int, Int, Int) -> Self
+pub fn RenderLimits::equal(Self, Self) -> Bool
+pub fn RenderLimits::max_depth(Self) -> Int32
+pub fn RenderLimits::max_iterations(Self) -> Int32
+pub fn RenderLimits::max_output_chars(Self) -> Int32
+pub fn RenderLimits::new(Int32, Int32, Int32) -> Self
+pub fn RenderLimits::not_equal(Self, Self) -> Bool
+pub fn RenderLimits::to_repr(Self) -> @debug.Repr
 
 pub struct RenderMetrics {
-  mut output_chars : Int
-  mut nodes_visited : Int
-  mut iterations : Int
-  mut max_depth : Int
-  mut variables_resolved : Int
-  mut missing_variables : Int
+  mut output_chars : Int32
+  mut nodes_visited : Int32
+  mut iterations : Int32
+  mut max_depth : Int32
+  mut variables_resolved : Int32
+  mut missing_variables : Int32
 } derive(Eq, @debug.Debug)
-pub fn RenderMetrics::iterations(Self) -> Int
-pub fn RenderMetrics::max_depth(Self) -> Int
-pub fn RenderMetrics::missing_variables(Self) -> Int
-pub fn RenderMetrics::nodes_visited(Self) -> Int
-pub fn RenderMetrics::output_chars(Self) -> Int
-pub fn RenderMetrics::variables_resolved(Self) -> Int
+pub fn RenderMetrics::equal(Self, Self) -> Bool
+pub fn RenderMetrics::iterations(Self) -> Int32
+pub fn RenderMetrics::max_depth(Self) -> Int32
+pub fn RenderMetrics::missing_variables(Self) -> Int32
+pub fn RenderMetrics::nodes_visited(Self) -> Int32
+pub fn RenderMetrics::not_equal(Self, Self) -> Bool
+pub fn RenderMetrics::output_chars(Self) -> Int32
+pub fn RenderMetrics::to_repr(Self) -> @debug.Repr
+pub fn RenderMetrics::variables_resolved(Self) -> Int32
 
 pub struct RenderPipeline {
   stages : Array[(String, (String) -> String)]
@@ -737,7 +783,7 @@ pub struct RenderPipeline {
 pub fn RenderPipeline::add(Self, String, (String) -> String) -> Self
 pub fn RenderPipeline::apply(Self, String) -> String
 pub fn RenderPipeline::apply_to(Self, Engine, Context) -> String
-pub fn RenderPipeline::length(Self) -> Int
+pub fn RenderPipeline::length(Self) -> Int32
 pub fn RenderPipeline::names(Self) -> Array[String]
 pub fn RenderPipeline::new() -> Self
 pub fn RenderPipeline::remove(Self, String) -> Bool
@@ -760,38 +806,47 @@ pub struct RenderReport {
   output : String
   metrics : RenderMetrics
 } derive(Eq, @debug.Debug)
+pub fn RenderReport::equal(Self, Self) -> Bool
 pub fn RenderReport::metrics(Self) -> RenderMetrics
+pub fn RenderReport::not_equal(Self, Self) -> Bool
 pub fn RenderReport::output(Self) -> String
+pub fn RenderReport::to_repr(Self) -> @debug.Repr
 
 pub struct RenderSummary {
-  mut documents : Int
-  mut successful : Int
-  mut failed : Int
-  mut output_chars : Int
-  mut missing_variables : Int
-  mut iterations : Int
+  mut documents : Int32
+  mut successful : Int32
+  mut failed : Int32
+  mut output_chars : Int32
+  mut missing_variables : Int32
+  mut iterations : Int32
 } derive(Eq, @debug.Debug)
-pub fn RenderSummary::documents(Self) -> Int
-pub fn RenderSummary::failed(Self) -> Int
-pub fn RenderSummary::iterations(Self) -> Int
-pub fn RenderSummary::missing_variables(Self) -> Int
+pub fn RenderSummary::documents(Self) -> Int32
+pub fn RenderSummary::equal(Self, Self) -> Bool
+pub fn RenderSummary::failed(Self) -> Int32
+pub fn RenderSummary::iterations(Self) -> Int32
+pub fn RenderSummary::missing_variables(Self) -> Int32
 pub fn RenderSummary::new() -> Self
-pub fn RenderSummary::output_chars(Self) -> Int
+pub fn RenderSummary::not_equal(Self, Self) -> Bool
+pub fn RenderSummary::output_chars(Self) -> Int32
 pub fn RenderSummary::record_failure(Self) -> Self
 pub fn RenderSummary::record_success(Self, RenderReport) -> Self
 pub fn RenderSummary::success_rate(Self) -> String
-pub fn RenderSummary::successful(Self) -> Int
+pub fn RenderSummary::successful(Self) -> Int32
 pub fn RenderSummary::to_context(Self) -> Context
+pub fn RenderSummary::to_repr(Self) -> @debug.Repr
 
 pub struct SecurityPolicy {
   allowed_filters : Array[String]
-  mut max_template_chars : Int
+  mut max_template_chars : Int32
   mut reject_unknown_filters : Bool
 } derive(Eq, @debug.Debug)
 pub fn SecurityPolicy::accepts(Self, String) -> Bool
 pub fn SecurityPolicy::allow_filter(Self, String) -> Self
 pub fn SecurityPolicy::default() -> Self
-pub fn SecurityPolicy::new(Int) -> Self
+pub fn SecurityPolicy::equal(Self, Self) -> Bool
+pub fn SecurityPolicy::new(Int32) -> Self
+pub fn SecurityPolicy::not_equal(Self, Self) -> Bool
+pub fn SecurityPolicy::to_repr(Self) -> @debug.Repr
 pub fn SecurityPolicy::validate(Self, String) -> Array[Diagnostic]
 pub fn SecurityPolicy::without_unknown_filter_rejection(Self) -> Self
 
@@ -803,7 +858,7 @@ pub fn TemplateBundle::add(Self, String, String) -> Result[Unit, String]
 pub fn TemplateBundle::add_engine(Self, String, Engine) -> Result[Unit, String]
 pub fn TemplateBundle::contains(Self, String) -> Bool
 pub fn TemplateBundle::get(Self, String) -> Engine?
-pub fn TemplateBundle::length(Self) -> Int
+pub fn TemplateBundle::length(Self) -> Int32
 pub fn TemplateBundle::names(Self) -> Array[String]
 pub fn TemplateBundle::new() -> Self
 pub fn TemplateBundle::remove(Self, String) -> Bool
@@ -814,21 +869,21 @@ pub fn TemplateBundle::stats(Self) -> TemplateStats
 
 pub struct TemplateCache {
   entries : Array[CacheEntry]
-  capacity : Int
-  mut hits : Int
-  mut misses : Int
+  capacity : Int32
+  mut hits : Int32
+  mut misses : Int32
 }
-pub fn TemplateCache::capacity(Self) -> Int
+pub fn TemplateCache::capacity(Self) -> Int32
 pub fn TemplateCache::clear(Self) -> Unit
 pub fn TemplateCache::compile(Self, String, String) -> Result[Engine, String]
 pub fn TemplateCache::get(Self, String) -> Engine?
 pub fn TemplateCache::hit_rate(Self) -> String
-pub fn TemplateCache::hits(Self) -> Int
+pub fn TemplateCache::hits(Self) -> Int32
 pub fn TemplateCache::insert(Self, String, Engine) -> Bool
 pub fn TemplateCache::keys(Self) -> Array[String]
-pub fn TemplateCache::len(Self) -> Int
-pub fn TemplateCache::misses(Self) -> Int
-pub fn TemplateCache::new(Int) -> Self
+pub fn TemplateCache::len(Self) -> Int32
+pub fn TemplateCache::misses(Self) -> Int32
+pub fn TemplateCache::new(Int32) -> Self
 pub fn TemplateCache::remove(Self, String) -> Bool
 
 pub struct TemplateInspection {
@@ -837,26 +892,32 @@ pub struct TemplateInspection {
   filter_names : Array[String]
   lint_issues : Array[TemplateLintIssue]
 } derive(Eq, @debug.Debug)
+pub fn TemplateInspection::equal(Self, Self) -> Bool
 pub fn TemplateInspection::filter_names(Self) -> Array[String]
 pub fn TemplateInspection::is_clean(Self) -> Bool
 pub fn TemplateInspection::lint_issues(Self) -> Array[TemplateLintIssue]
+pub fn TemplateInspection::not_equal(Self, Self) -> Bool
 pub fn TemplateInspection::required_variables(Self) -> Array[String]
 pub fn TemplateInspection::stats(Self) -> TemplateStats
+pub fn TemplateInspection::to_repr(Self) -> @debug.Repr
 
 pub struct TemplateLintIssue {
   severity : LintSeverity
   code : String
   message : String
-  line : Int
-  column : Int
+  line : Int32
+  column : Int32
   source_line : String
 } derive(Eq, @debug.Debug)
 pub fn TemplateLintIssue::code(Self) -> String
-pub fn TemplateLintIssue::column(Self) -> Int
-pub fn TemplateLintIssue::line(Self) -> Int
+pub fn TemplateLintIssue::column(Self) -> Int32
+pub fn TemplateLintIssue::equal(Self, Self) -> Bool
+pub fn TemplateLintIssue::line(Self) -> Int32
 pub fn TemplateLintIssue::message(Self) -> String
+pub fn TemplateLintIssue::not_equal(Self, Self) -> Bool
 pub fn TemplateLintIssue::severity(Self) -> LintSeverity
 pub fn TemplateLintIssue::source_line(Self) -> String
+pub fn TemplateLintIssue::to_repr(Self) -> @debug.Repr
 
 pub struct TemplateRegistry {
   bundle : TemplateBundle
@@ -869,7 +930,7 @@ pub fn TemplateRegistry::cache_keys(Self) -> Array[String]
 pub fn TemplateRegistry::compile_cached(Self, String, String) -> Result[Engine, String]
 pub fn TemplateRegistry::contains(Self, String) -> Bool
 pub fn TemplateRegistry::names(Self) -> Array[String]
-pub fn TemplateRegistry::new(Int) -> Self
+pub fn TemplateRegistry::new(Int32) -> Self
 pub fn TemplateRegistry::register(Self, String, String) -> Result[Unit, String]
 pub fn TemplateRegistry::remove(Self, String) -> Bool
 pub fn TemplateRegistry::render(Self, String, Context) -> Result[String, String]
@@ -877,23 +938,26 @@ pub fn TemplateRegistry::resolve(Self, String) -> String
 pub fn TemplateRegistry::shortcut(Self, String, String) -> Bool
 
 pub struct TemplateStats {
-  mut node_count : Int
-  mut text_nodes : Int
-  mut variable_nodes : Int
-  mut if_nodes : Int
-  mut for_nodes : Int
-  mut filter_count : Int
-  mut max_depth : Int
-  mut literal_chars : Int
+  mut node_count : Int32
+  mut text_nodes : Int32
+  mut variable_nodes : Int32
+  mut if_nodes : Int32
+  mut for_nodes : Int32
+  mut filter_count : Int32
+  mut max_depth : Int32
+  mut literal_chars : Int32
 } derive(Eq, @debug.Debug)
-pub fn TemplateStats::filter_count(Self) -> Int
-pub fn TemplateStats::for_nodes(Self) -> Int
-pub fn TemplateStats::if_nodes(Self) -> Int
-pub fn TemplateStats::literal_chars(Self) -> Int
-pub fn TemplateStats::max_depth(Self) -> Int
-pub fn TemplateStats::node_count(Self) -> Int
-pub fn TemplateStats::text_nodes(Self) -> Int
-pub fn TemplateStats::variable_nodes(Self) -> Int
+pub fn TemplateStats::equal(Self, Self) -> Bool
+pub fn TemplateStats::filter_count(Self) -> Int32
+pub fn TemplateStats::for_nodes(Self) -> Int32
+pub fn TemplateStats::if_nodes(Self) -> Int32
+pub fn TemplateStats::literal_chars(Self) -> Int32
+pub fn TemplateStats::max_depth(Self) -> Int32
+pub fn TemplateStats::node_count(Self) -> Int32
+pub fn TemplateStats::not_equal(Self, Self) -> Bool
+pub fn TemplateStats::text_nodes(Self) -> Int32
+pub fn TemplateStats::to_repr(Self) -> @debug.Repr
+pub fn TemplateStats::variable_nodes(Self) -> Int32
 
 pub(all) enum Token {
   Text(String)
@@ -906,18 +970,24 @@ pub(all) enum Token {
   In
   EOF
 } derive(Eq, @debug.Debug)
+pub fn Token::equal(Self, Self) -> Bool
+pub fn Token::not_equal(Self, Self) -> Bool
+pub fn Token::to_repr(Self) -> @debug.Repr
 
 pub struct ValidationReport {
   errors : Array[String]
   warnings : Array[String]
   infos : Array[String]
 } derive(Eq, @debug.Debug)
+pub fn ValidationReport::equal(Self, Self) -> Bool
 pub fn ValidationReport::error(Self, String) -> Self
 pub fn ValidationReport::errors(Self) -> Array[String]
 pub fn ValidationReport::info(Self, String) -> Self
 pub fn ValidationReport::infos(Self) -> Array[String]
 pub fn ValidationReport::new() -> Self
-pub fn ValidationReport::total(Self) -> Int
+pub fn ValidationReport::not_equal(Self, Self) -> Bool
+pub fn ValidationReport::to_repr(Self) -> @debug.Repr
+pub fn ValidationReport::total(Self) -> Int32
 pub fn ValidationReport::valid(Self) -> Bool
 pub fn ValidationReport::warning(Self, String) -> Self
 pub fn ValidationReport::warnings(Self) -> Array[String]

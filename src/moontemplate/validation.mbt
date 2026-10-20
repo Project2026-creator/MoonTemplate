@@ -7,8 +7,14 @@ pub struct ValidationReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend ValidationReport with Debug::{to_repr}
+
+///|
+pub extend ValidationReport with Eq::{not_equal, equal}
+
+///|
 pub fn ValidationReport::new() -> ValidationReport {
-  { errors: [], warnings: [], infos: [] }
+  { errors: [], warnings: [], infos: [], }
 }
 
 ///|
@@ -59,7 +65,7 @@ pub fn ValidationReport::valid(self : ValidationReport) -> Bool {
 }
 
 ///|
-pub fn ValidationReport::total(self : ValidationReport) -> Int {
+pub fn ValidationReport::total(self : ValidationReport) -> Int32 {
   self.errors.length() + self.warnings.length() + self.infos.length()
 }
 

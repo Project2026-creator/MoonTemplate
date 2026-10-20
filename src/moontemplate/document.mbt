@@ -10,13 +10,13 @@ pub struct Document {
 ///|
 struct DocumentSection {
   heading : String
-  level : Int
+  level : Int32
   body : String
 }
 
 ///|
 pub fn Document::new(title : String) -> Document {
-  { title, sections: [], metadata: Context::new() }
+  { title, sections: [], metadata: Context::new(), }
 }
 
 ///|
@@ -33,16 +33,16 @@ pub fn Document::set_metadata(
 pub fn Document::add_section(
   self : Document,
   heading : String,
-  level : Int,
+  level : Int32,
   body : String,
 ) -> Document {
   let safe_level = if level < 1 { 1 } else if level > 6 { 6 } else { level }
-  self.sections.push({ heading, level: safe_level, body })
+  self.sections.push({ heading, level: safe_level, body, })
   self
 }
 
 ///|
-pub fn Document::section_count(self : Document) -> Int {
+pub fn Document::section_count(self : Document) -> Int32 {
   self.sections.length()
 }
 
@@ -84,7 +84,7 @@ pub fn Document::render_metadata(self : Document) -> String {
 }
 
 ///|
-pub fn markdown_heading(text : String, level : Int) -> String {
+pub fn markdown_heading(text : String, level : Int32) -> String {
   let safe_level = if level < 1 { 1 } else if level > 6 { 6 } else { level }
   text_repeat("#", safe_level) + " " + text + "\n"
 }

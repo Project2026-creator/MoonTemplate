@@ -13,7 +13,7 @@ pub fn text_reverse(value : String) -> String {
 }
 
 ///|
-pub fn text_char_at(value : String, index : Int) -> String? {
+pub fn text_char_at(value : String, index : Int32) -> String? {
   if index < 0 {
     return None
   }
@@ -28,7 +28,7 @@ pub fn text_char_at(value : String, index : Int) -> String? {
 }
 
 ///|
-pub fn text_take(value : String, count : Int) -> String {
+pub fn text_take(value : String, count : Int32) -> String {
   if count <= 0 {
     return ""
   }
@@ -45,7 +45,7 @@ pub fn text_take(value : String, count : Int) -> String {
 }
 
 ///|
-pub fn text_drop(value : String, count : Int) -> String {
+pub fn text_drop(value : String, count : Int32) -> String {
   if count <= 0 {
     return value
   }
@@ -61,7 +61,7 @@ pub fn text_drop(value : String, count : Int) -> String {
 }
 
 ///|
-pub fn text_slice(value : String, start : Int, length : Int) -> String {
+pub fn text_slice(value : String, start : Int32, length : Int32) -> String {
   if start < 0 || length <= 0 {
     return ""
   }
@@ -179,7 +179,7 @@ pub fn text_is_identifier(value : String) -> Bool {
 }
 
 ///|
-pub fn text_checksum(value : String) -> Int {
+pub fn text_checksum(value : String) -> Int32 {
   let mut hash = 7
   for c in value {
     hash = (hash * 31 + c.to_int()) % 1_000_003

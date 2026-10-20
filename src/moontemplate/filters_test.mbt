@@ -1,6 +1,6 @@
 ///|
 test "built-in filters escape markup and JSON strings" {
-  let engine = Engine::new(
+  let engine = @moontemplate.Engine::new(
     "{{ value | escape_html }}|{{ value | escape_json }}",
   ).unwrap()
   let ctx : Map[String, String] = Map([])
@@ -13,7 +13,7 @@ test "built-in filters escape markup and JSON strings" {
 
 ///|
 test "slugify normalizes separators and casing" {
-  let engine = Engine::new("{{ title | slugify }}").unwrap()
+  let engine = @moontemplate.Engine::new("{{ title | slugify }}").unwrap()
   let ctx : Map[String, String] = Map([])
   ctx.set("title", "  MoonBit -- Template Engine! ")
   assert_eq(engine.render(ctx), "moonbit-template-engine")
@@ -21,7 +21,7 @@ test "slugify normalizes separators and casing" {
 
 ///|
 test "built-in filters preserve empty values" {
-  let engine = Engine::new(
+  let engine = @moontemplate.Engine::new(
     "{{ missing | escape_html }}{{ missing | escape_json }}{{ missing | slugify }}",
   ).unwrap()
   let ctx : Map[String, String] = Map([])
@@ -30,7 +30,7 @@ test "built-in filters preserve empty values" {
 
 ///|
 test "text utility filters support Unicode and whitespace" {
-  let engine = Engine::new(
+  let engine = @moontemplate.Engine::new(
     "{{ title | length }}|{{ messy | collapse_whitespace }}|{{ title | capitalize }}|{{ body | newline_to_br }}",
   ).unwrap()
   let ctx : Map[String, String] = Map([])
@@ -42,7 +42,7 @@ test "text utility filters support Unicode and whitespace" {
 
 ///|
 test "parameterized prefix suffix and padding filters" {
-  let engine = Engine::new(
+  let engine = @moontemplate.Engine::new(
     "{{ id | prefix(\"ID-\") }}|{{ id | suffix(\"-ok\") }}|{{ id | pad_left(5, \"0\") }}|{{ id | pad_right(5, \".\") }}",
   ).unwrap()
   let ctx : Map[String, String] = Map([])
@@ -52,7 +52,7 @@ test "parameterized prefix suffix and padding filters" {
 
 ///|
 test "slice filter uses Unicode character indexes" {
-  let engine = Engine::new("{{ value | slice(1, 2) }}").unwrap()
+  let engine = @moontemplate.Engine::new("{{ value | slice(1, 2) }}").unwrap()
   let ctx : Map[String, String] = Map([])
   ctx.set("value", "模板引擎")
   assert_eq(engine.render(ctx), "板引")

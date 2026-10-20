@@ -1,6 +1,6 @@
 ///|
 test "template inspection combines structure dependencies filters and lint" {
-  let inspection = inspect_template(
+  let inspection = @moontemplate.inspect_template(
     "Hello {{ name | trim }}{% if enabled %}Y{% endif %}",
     ["trim"],
   ).unwrap()
@@ -17,7 +17,9 @@ test "template inspection combines structure dependencies filters and lint" {
 
 ///|
 test "template inspection preserves unknown filter warnings" {
-  let inspection = inspect_template("{{ name | custom }}", ["trim"]).unwrap()
+  let inspection = @moontemplate.inspect_template("{{ name | custom }}", [
+    "trim",
+  ]).unwrap()
   assert_true(!inspection.is_clean())
   assert_eq(inspection.lint_issues().length(), 1)
   assert_eq(inspection.lint_issues()[0].code(), "TMPL_UNKNOWN_FILTER")
@@ -25,7 +27,9 @@ test "template inspection preserves unknown filter warnings" {
 
 ///|
 test "context audit reports missing and unused keys" {
-  let engine = Engine::new("{{ title }}{% if active %}yes{% endif %}").unwrap()
+  let engine = @moontemplate.Engine::new(
+    "{{ title }}{% if active %}yes{% endif %}",
+  ).unwrap()
   let context : Map[String, String] = Map([])
   context.set("title", "MoonTemplate")
   context.set("unused", "diagnostic")
@@ -39,7 +43,7 @@ test "context audit reports missing and unused keys" {
 
 ///|
 test "context audit is empty for an exact context" {
-  let engine = Engine::new(
+  let engine = @moontemplate.Engine::new(
     "{{ title }}{% for item in items %}{{ item }}{% endfor %}",
   ).unwrap()
   let context : Map[String, String] = Map([])
@@ -53,7 +57,8 @@ test "context audit is empty for an exact context" {
 
 ///|
 test "inspection returns parser diagnostics instead of partial metadata" {
-  match inspect_template("{% for item in items %}unfinished", []) {
+  match
+    @moontemplate.inspect_template("{% for item in items %}unfinished", []) {
     Err(diagnostics) => assert_true(diagnostics[0].kind() == Syntax)
     Ok(_) => fail("Expected inspection to reject malformed templates")
   }
