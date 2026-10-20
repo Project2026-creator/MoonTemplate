@@ -1,7 +1,7 @@
 ///|
 test "full template rendering" {
   let tpl = "Hello, {{ user | trim }}! {% if admin %}You are an admin.{% else %}You are a guest.{% endif %}"
-  let engine = Engine::new(tpl).unwrap()
+  let engine = @moontemplate.Engine::new(tpl).unwrap()
 
   let ctx1 = Map([], capacity=2)
   ctx1.set("user", " Alice ")

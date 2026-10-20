@@ -25,9 +25,9 @@ function Test-NativeCompiler {
 Push-Location (Split-Path -Parent $PSScriptRoot)
 try {
   Invoke-Step "moon fmt --check" { moon fmt --check }
-  Invoke-Step "moon info" {
-    moon info
-    python scripts/normalize_api_snapshot.py
+  Invoke-Step "moon info" { moon info }
+  Invoke-Step "normalize API snapshot" { python scripts/normalize_api_snapshot.py }
+  Invoke-Step "API snapshot matches the index" {
     git diff --exit-code -- src/moontemplate/pkg.generated.mbti
   }
   Invoke-Step "moon build" { moon build }
@@ -42,8 +42,10 @@ try {
   if (Test-NativeCompiler) {
     Invoke-Step "moon check --target native --deny-warn" { moon check --target native --deny-warn }
     Invoke-Step "moon test --target native --deny-warn" { moon test --target native --deny-warn }
-    Invoke-Step "native CLI smoke test" {
+    Invoke-Step "native CLI inline smoke test" {
       moon run src/cli --target native -- --template "Hello {{ name | uppercase }}" --var name=moonbit
+    }
+    Invoke-Step "native CLI file smoke test" {
       moon run src/cli --target native -- --file examples/welcome.txt --var name=MoonBit
     }
   } else {

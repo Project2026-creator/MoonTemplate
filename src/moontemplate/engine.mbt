@@ -13,7 +13,7 @@ pub fn Engine::new(template : String) -> Result[Engine, String] {
     Ok(nodes) => {
       let filters : Map[String, (String) -> String] = Map([], capacity=4)
       register_builtin_filters(filters)
-      Ok({ nodes, filters })
+      Ok({ nodes, filters, })
     }
     Err(e) => Err(e)
   }
@@ -35,7 +35,7 @@ pub fn Engine::new_with_diagnostics(
         Ok(nodes) => {
           let filters : Map[String, (String) -> String] = Map([], capacity=4)
           register_builtin_filters(filters)
-          Ok({ nodes, filters })
+          Ok({ nodes, filters, })
         }
         Err(diagnostics) => Err(diagnostics)
       }

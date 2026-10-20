@@ -1,6 +1,6 @@
 ///|
 test "context construction and typed setters" {
-  let context = Context::new()
+  let context = @moontemplate.Context::new()
     .set("name", " MoonBit ")
     .set_bool("enabled", true)
     .set_int("count", 4)
@@ -14,12 +14,12 @@ test "context construction and typed setters" {
 
 ///|
 test "context merge and overlay are deterministic" {
-  let base = Context::from_pairs([("b", "2"), ("a", "1")])
-  let overlay = Context::from_pairs([("b", "new"), ("c", "3")])
-  let merged = Context::new().merge(base).merge(overlay)
+  let base = @moontemplate.Context::from_pairs([("b", "2"), ("a", "1")])
+  let overlay = @moontemplate.Context::from_pairs([("b", "new"), ("c", "3")])
+  let merged = @moontemplate.Context::new().merge(base).merge(overlay)
   assert_eq(merged.get_or("b", ""), "new")
   assert_eq(merged.keys(), ["a", "b", "c"])
-  assert_eq(context_to_sorted_pairs(merged), [
+  assert_eq(@moontemplate.context_to_sorted_pairs(merged), [
     ("a", "1"),
     ("b", "new"),
     ("c", "3"),
@@ -28,7 +28,7 @@ test "context merge and overlay are deterministic" {
 
 ///|
 test "context freeze prevents later writes" {
-  let context = Context::new().set("a", "1").freeze()
+  let context = @moontemplate.Context::new().set("a", "1").freeze()
   let _ = context.set("a", "2")
   let _ = context.set("b", "3")
   assert_true(context.is_frozen())
@@ -38,7 +38,10 @@ test "context freeze prevents later writes" {
 
 ///|
 test "context namespace and subset" {
-  let context = Context::from_pairs([("name", "Moon"), ("version", "1")])
+  let context = @moontemplate.Context::from_pairs([
+    ("name", "Moon"),
+    ("version", "1"),
+  ])
   let prefixed = context.with_prefix("release")
   assert_true(prefixed.contains("release.name"))
   assert_eq(prefixed.get_or("release.version", ""), "1")
@@ -48,21 +51,23 @@ test "context namespace and subset" {
 
 ///|
 test "context validation reports missing keys" {
-  let context = Context::from_pairs([("a", "1")])
+  let context = @moontemplate.Context::from_pairs([("a", "1")])
   assert_eq(context.validate(["a", "b", "c"]), ["b", "c"])
   assert_eq(context.validate(["a"]), [])
 }
 
 ///|
 test "context adapters parse comments and whitespace" {
-  let context = context_from_lines("# comment\n name=Moon\n\nversion=2\n").unwrap()
+  let context = @moontemplate.context_from_lines(
+    "# comment\n name=Moon\n\nversion=2\n",
+  ).unwrap()
   assert_eq(context.keys(), ["name", "version"])
-  assert_eq(context_to_lines(context), "name=Moon\nversion=2\n")
+  assert_eq(@moontemplate.context_to_lines(context), "name=Moon\nversion=2\n")
 }
 
 ///|
 test "context adapters reject malformed entries" {
-  match context_from_strings(["valid=yes", "broken"]) {
+  match @moontemplate.context_from_strings(["valid=yes", "broken"]) {
     Ok(_) => fail("expected invalid entry")
     Err(message) => assert_true(message.contains("broken"))
   }
@@ -70,21 +75,28 @@ test "context adapters reject malformed entries" {
 
 ///|
 test "context rows and transformations" {
-  let rows = context_rows(["name", "role"], [["Ada", "admin"], ["Lin", "user"]])
+  let rows = @moontemplate.context_rows(["name", "role"], [
+    ["Ada", "admin"],
+    ["Lin", "user"],
+  ])
   assert_eq(rows.length(), 2)
   assert_eq(rows[1].get_or("role", ""), "user")
-  let upper = context_map_values(rows[0], fn(value) { value.to_upper() })
+  let upper = @moontemplate.context_map_values(rows[0], fn(value) {
+    value.to_upper()
+  })
   assert_eq(upper.get_or("name", ""), "ADA")
-  let picked = context_filter_keys(upper, fn(key) { key == "role" })
+  let picked = @moontemplate.context_filter_keys(upper, fn(key) {
+    key == "role"
+  })
   assert_eq(picked.keys(), ["role"])
 }
 
 ///|
 test "context diff and rename" {
-  let left = Context::from_pairs([("a", "1"), ("b", "2")])
-  let right = Context::from_pairs([("a", "9"), ("c", "3")])
-  assert_eq(context_diff(left, right), ["a", "b", "c"])
-  let renamed = context_rename(left, [("a", "alpha")])
+  let left = @moontemplate.Context::from_pairs([("a", "1"), ("b", "2")])
+  let right = @moontemplate.Context::from_pairs([("a", "9"), ("c", "3")])
+  assert_eq(@moontemplate.context_diff(left, right), ["a", "b", "c"])
+  let renamed = @moontemplate.context_rename(left, [("a", "alpha")])
   assert_true(renamed.contains("alpha"))
   assert_false(renamed.contains("a"))
 }

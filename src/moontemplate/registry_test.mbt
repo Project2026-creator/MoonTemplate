@@ -1,11 +1,11 @@
 ///|
 test "registry defines aliases and renders" {
-  let registry = TemplateRegistry::new(2)
+  let registry = @moontemplate.TemplateRegistry::new(2)
   assert_eq(registry.register("welcome", "Hi {{ name }}"), Ok(()))
   assert_true(registry.shortcut("home", "welcome"))
   assert_true(registry.contains("home"))
   assert_eq(
-    registry.render("home", Context::new().set("name", "Moon")),
+    registry.render("home", @moontemplate.Context::new().set("name", "Moon")),
     Ok("Hi Moon"),
   )
   assert_eq(registry.names(), ["welcome"])
@@ -13,7 +13,7 @@ test "registry defines aliases and renders" {
 
 ///|
 test "registry cache records hits and misses" {
-  let registry = TemplateRegistry::new(1)
+  let registry = @moontemplate.TemplateRegistry::new(1)
   let _ = registry.compile_cached("a", "A")
   let _ = registry.compile_cached("a", "A")
   let _ = registry.compile_cached("b", "B")
@@ -23,8 +23,8 @@ test "registry cache records hits and misses" {
 
 ///|
 test "registry reports unknown names" {
-  let registry = TemplateRegistry::new(1)
-  match registry.render("missing", Context::new()) {
+  let registry = @moontemplate.TemplateRegistry::new(1)
+  match registry.render("missing", @moontemplate.Context::new()) {
     Ok(_) => fail("expected unknown registry entry")
     Err(error) => assert_true(error.contains("missing"))
   }
@@ -33,8 +33,8 @@ test "registry reports unknown names" {
 
 ///|
 test "manifest and engine metadata" {
-  let engine = Engine::new("{{ name | trim }}").unwrap()
-  let manifest = manifest_from_engine("demo", "1.0", engine)
+  let engine = @moontemplate.Engine::new("{{ name | trim }}").unwrap()
+  let manifest = @moontemplate.manifest_from_engine("demo", "1.0", engine)
   assert_eq(manifest.name(), "demo")
   assert_eq(manifest.version(), "1.0")
   assert_true(manifest.to_json().contains("demo"))

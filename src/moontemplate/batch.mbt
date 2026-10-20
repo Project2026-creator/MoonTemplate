@@ -8,6 +8,12 @@ pub struct BatchItem {
 } derive(Debug, Eq)
 
 ///|
+pub extend BatchItem with Debug::{to_repr}
+
+///|
+pub extend BatchItem with Eq::{not_equal, equal}
+
+///|
 pub struct BatchResult {
   name : String
   output : String
@@ -15,12 +21,18 @@ pub struct BatchResult {
 } derive(Debug, Eq)
 
 ///|
+pub extend BatchResult with Debug::{to_repr}
+
+///|
+pub extend BatchResult with Eq::{not_equal, equal}
+
+///|
 pub fn BatchItem::new(
   name : String,
   source : String,
   context : Context,
 ) -> BatchItem {
-  { name, source, context }
+  { name, source, context, }
 }
 
 ///|
@@ -65,7 +77,7 @@ pub fn render_batch(items : Array[BatchItem]) -> Array[BatchResult] {
           error: None,
         })
       Err(error) =>
-        results.push({ name: item.name, output: "", error: Some(error) })
+        results.push({ name: item.name, output: "", error: Some(error), })
     }
   }
   results
@@ -136,7 +148,7 @@ pub fn batch_render_with_pipeline(
           error: None,
         })
       Err(error) =>
-        results.push({ name: item.name, output: "", error: Some(error) })
+        results.push({ name: item.name, output: "", error: Some(error), })
     }
   }
   results

@@ -11,6 +11,12 @@ pub struct BenchmarkCase {
 } derive(Debug, Eq)
 
 ///|
+pub extend BenchmarkCase with Debug::{to_repr}
+
+///|
+pub extend BenchmarkCase with Eq::{not_equal, equal}
+
+///|
 pub fn BenchmarkCase::name(self : BenchmarkCase) -> String {
   self.name
 }
@@ -59,13 +65,19 @@ pub struct BenchmarkResult {
   name : String
   category : String
   passed : Bool
-  output_chars : Int
-  expected_chars : Int
-  nodes_visited : Int
-  iterations : Int
-  unicode_chars : Int
-  missing_variables : Int
+  output_chars : Int32
+  expected_chars : Int32
+  nodes_visited : Int32
+  iterations : Int32
+  unicode_chars : Int32
+  missing_variables : Int32
 } derive(Debug, Eq)
+
+///|
+pub extend BenchmarkResult with Debug::{to_repr}
+
+///|
+pub extend BenchmarkResult with Eq::{not_equal, equal}
 
 ///|
 pub fn BenchmarkResult::name(self : BenchmarkResult) -> String {
@@ -83,32 +95,32 @@ pub fn BenchmarkResult::passed(self : BenchmarkResult) -> Bool {
 }
 
 ///|
-pub fn BenchmarkResult::output_chars(self : BenchmarkResult) -> Int {
+pub fn BenchmarkResult::output_chars(self : BenchmarkResult) -> Int32 {
   self.output_chars
 }
 
 ///|
-pub fn BenchmarkResult::expected_chars(self : BenchmarkResult) -> Int {
+pub fn BenchmarkResult::expected_chars(self : BenchmarkResult) -> Int32 {
   self.expected_chars
 }
 
 ///|
-pub fn BenchmarkResult::nodes_visited(self : BenchmarkResult) -> Int {
+pub fn BenchmarkResult::nodes_visited(self : BenchmarkResult) -> Int32 {
   self.nodes_visited
 }
 
 ///|
-pub fn BenchmarkResult::iterations(self : BenchmarkResult) -> Int {
+pub fn BenchmarkResult::iterations(self : BenchmarkResult) -> Int32 {
   self.iterations
 }
 
 ///|
-pub fn BenchmarkResult::unicode_chars(self : BenchmarkResult) -> Int {
+pub fn BenchmarkResult::unicode_chars(self : BenchmarkResult) -> Int32 {
   self.unicode_chars
 }
 
 ///|
-pub fn BenchmarkResult::missing_variables(self : BenchmarkResult) -> Int {
+pub fn BenchmarkResult::missing_variables(self : BenchmarkResult) -> Int32 {
   self.missing_variables
 }
 
@@ -330,7 +342,7 @@ pub fn benchmark_all_passed(results : Array[BenchmarkResult]) -> Bool {
 }
 
 ///|
-pub fn benchmark_total_output_chars(results : Array[BenchmarkResult]) -> Int {
+pub fn benchmark_total_output_chars(results : Array[BenchmarkResult]) -> Int32 {
   let mut total = 0
   for result in results {
     total += result.output_chars()
@@ -339,7 +351,7 @@ pub fn benchmark_total_output_chars(results : Array[BenchmarkResult]) -> Int {
 }
 
 ///|
-pub fn benchmark_total_iterations(results : Array[BenchmarkResult]) -> Int {
+pub fn benchmark_total_iterations(results : Array[BenchmarkResult]) -> Int32 {
   let mut total = 0
   for result in results {
     total += result.iterations()
@@ -384,7 +396,7 @@ fn escape_benchmark_json(value : String) -> String {
 }
 
 ///|
-fn count_unicode(value : String) -> Int {
+fn count_unicode(value : String) -> Int32 {
   let mut count = 0
   for c in value {
     if c.to_int() > 127 {

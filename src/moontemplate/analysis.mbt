@@ -7,55 +7,67 @@ pub(all) enum LintSeverity {
 } derive(Debug, Eq)
 
 ///|
+pub extend LintSeverity with Debug::{to_repr}
+
+///|
+pub extend LintSeverity with Eq::{not_equal, equal}
+
+///|
 /// Structural facts collected from a parsed template.
 pub struct TemplateStats {
-  mut node_count : Int
-  mut text_nodes : Int
-  mut variable_nodes : Int
-  mut if_nodes : Int
-  mut for_nodes : Int
-  mut filter_count : Int
-  mut max_depth : Int
-  mut literal_chars : Int
+  mut node_count : Int32
+  mut text_nodes : Int32
+  mut variable_nodes : Int32
+  mut if_nodes : Int32
+  mut for_nodes : Int32
+  mut filter_count : Int32
+  mut max_depth : Int32
+  mut literal_chars : Int32
 } derive(Debug, Eq)
 
 ///|
-pub fn TemplateStats::node_count(self : TemplateStats) -> Int {
+pub extend TemplateStats with Debug::{to_repr}
+
+///|
+pub extend TemplateStats with Eq::{not_equal, equal}
+
+///|
+pub fn TemplateStats::node_count(self : TemplateStats) -> Int32 {
   self.node_count
 }
 
 ///|
-pub fn TemplateStats::text_nodes(self : TemplateStats) -> Int {
+pub fn TemplateStats::text_nodes(self : TemplateStats) -> Int32 {
   self.text_nodes
 }
 
 ///|
-pub fn TemplateStats::variable_nodes(self : TemplateStats) -> Int {
+pub fn TemplateStats::variable_nodes(self : TemplateStats) -> Int32 {
   self.variable_nodes
 }
 
 ///|
-pub fn TemplateStats::if_nodes(self : TemplateStats) -> Int {
+pub fn TemplateStats::if_nodes(self : TemplateStats) -> Int32 {
   self.if_nodes
 }
 
 ///|
-pub fn TemplateStats::for_nodes(self : TemplateStats) -> Int {
+pub fn TemplateStats::for_nodes(self : TemplateStats) -> Int32 {
   self.for_nodes
 }
 
 ///|
-pub fn TemplateStats::filter_count(self : TemplateStats) -> Int {
+pub fn TemplateStats::filter_count(self : TemplateStats) -> Int32 {
   self.filter_count
 }
 
 ///|
-pub fn TemplateStats::max_depth(self : TemplateStats) -> Int {
+pub fn TemplateStats::max_depth(self : TemplateStats) -> Int32 {
   self.max_depth
 }
 
 ///|
-pub fn TemplateStats::literal_chars(self : TemplateStats) -> Int {
+pub fn TemplateStats::literal_chars(self : TemplateStats) -> Int32 {
   self.literal_chars
 }
 
@@ -65,10 +77,16 @@ pub struct TemplateLintIssue {
   severity : LintSeverity
   code : String
   message : String
-  line : Int
-  column : Int
+  line : Int32
+  column : Int32
   source_line : String
 } derive(Debug, Eq)
+
+///|
+pub extend TemplateLintIssue with Debug::{to_repr}
+
+///|
+pub extend TemplateLintIssue with Eq::{not_equal, equal}
 
 ///|
 pub fn TemplateLintIssue::severity(self : TemplateLintIssue) -> LintSeverity {
@@ -86,12 +104,12 @@ pub fn TemplateLintIssue::message(self : TemplateLintIssue) -> String {
 }
 
 ///|
-pub fn TemplateLintIssue::line(self : TemplateLintIssue) -> Int {
+pub fn TemplateLintIssue::line(self : TemplateLintIssue) -> Int32 {
   self.line
 }
 
 ///|
-pub fn TemplateLintIssue::column(self : TemplateLintIssue) -> Int {
+pub fn TemplateLintIssue::column(self : TemplateLintIssue) -> Int32 {
   self.column
 }
 
@@ -119,7 +137,7 @@ pub fn Engine::stats(self : Engine) -> TemplateStats {
 ///|
 fn collect_stats(
   nodes : Array[Node],
-  depth : Int,
+  depth : Int32,
   stats : TemplateStats,
 ) -> Unit {
   if depth > stats.max_depth {
@@ -279,7 +297,7 @@ pub fn lint_template(
 }
 
 ///|
-fn lint_location(source : String, name : String) -> (Int, Int, String) {
+fn lint_location(source : String, name : String) -> (Int32, Int32, String) {
   let needle = "| \{name}"
   let mut line = 1
   for source_line in source.split("\n") {

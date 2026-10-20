@@ -7,24 +7,36 @@ pub(all) enum DiagnosticKind {
 } derive(Debug, Eq)
 
 ///|
+pub extend DiagnosticKind with Debug::{to_repr}
+
+///|
+pub extend DiagnosticKind with Eq::{not_equal, equal}
+
+///|
 /// A stable, source-oriented error that can be rendered as text or JSON.
 pub struct Diagnostic {
   kind : DiagnosticKind
   message : String
-  line : Int
-  column : Int
+  line : Int32
+  column : Int32
   source_line : String
 } derive(Debug, Eq)
+
+///|
+pub extend Diagnostic with Debug::{to_repr}
+
+///|
+pub extend Diagnostic with Eq::{not_equal, equal}
 
 ///|
 pub fn Diagnostic::new(
   kind : DiagnosticKind,
   message : String,
-  line : Int,
-  column : Int,
+  line : Int32,
+  column : Int32,
   source_line : String,
 ) -> Diagnostic {
-  { kind, message, line, column, source_line }
+  { kind, message, line, column, source_line, }
 }
 
 ///|
@@ -38,12 +50,12 @@ pub fn Diagnostic::message(self : Diagnostic) -> String {
 }
 
 ///|
-pub fn Diagnostic::line(self : Diagnostic) -> Int {
+pub fn Diagnostic::line(self : Diagnostic) -> Int32 {
   self.line
 }
 
 ///|
-pub fn Diagnostic::column(self : Diagnostic) -> Int {
+pub fn Diagnostic::column(self : Diagnostic) -> Int32 {
   self.column
 }
 
@@ -75,7 +87,7 @@ fn make_diagnostic(
   kind : DiagnosticKind,
   message : String,
   source : String,
-  offset : Int,
+  offset : Int32,
 ) -> Diagnostic {
   let safe_offset = if offset < 0 {
     0
@@ -104,10 +116,10 @@ fn make_diagnostic(
     }
     current += 1
   }
-  { kind, message, line, column, source_line }
+  { kind, message, line, column, source_line, }
 }
 
 ///|
 fn make_runtime_filter_diagnostic(message : String) -> Diagnostic {
-  { kind: Filter, message, line: 0, column: 0, source_line: "" }
+  { kind: Filter, message, line: 0, column: 0, source_line: "", }
 }

@@ -1,6 +1,6 @@
 ///|
 test "comments disappear without changing surrounding text" {
-  let engine = Engine::new("Hello {# secret #}{{ name }}!").unwrap()
+  let engine = @moontemplate.Engine::new("Hello {# secret #}{{ name }}!").unwrap()
   let ctx : Map[String, String] = Map([])
   ctx.set("name", "MoonBit")
   assert_eq(engine.render(ctx), "Hello MoonBit!")
@@ -8,7 +8,7 @@ test "comments disappear without changing surrounding text" {
 
 ///|
 test "variable trim markers remove adjacent ASCII whitespace" {
-  let engine = Engine::new("A  {{- name -}}  B").unwrap()
+  let engine = @moontemplate.Engine::new("A  {{- name -}}  B").unwrap()
   let ctx : Map[String, String] = Map([])
   ctx.set("name", "MoonBit")
   assert_eq(engine.render(ctx), "AMoonBitB")
@@ -16,7 +16,9 @@ test "variable trim markers remove adjacent ASCII whitespace" {
 
 ///|
 test "block trim markers preserve meaningful body text" {
-  let engine = Engine::new("A \n{%- if show -%}\n yes\n{%- endif -%}\nB").unwrap()
+  let engine = @moontemplate.Engine::new(
+    "A \n{%- if show -%}\n yes\n{%- endif -%}\nB",
+  ).unwrap()
   let ctx : Map[String, String] = Map([])
   ctx.set("show", "true")
   assert_eq(engine.render(ctx), "AyesB")
@@ -24,7 +26,9 @@ test "block trim markers preserve meaningful body text" {
 
 ///|
 test "replace filter accepts quoted arguments" {
-  let engine = Engine::new("{{ name | replace(\"Moon\",\"Bit\") }}").unwrap()
+  let engine = @moontemplate.Engine::new(
+    "{{ name | replace(\"Moon\",\"Bit\") }}",
+  ).unwrap()
   let ctx : Map[String, String] = Map([])
   ctx.set("name", "MoonTemplate")
   assert_eq(engine.render(ctx), "BitTemplate")
@@ -32,7 +36,7 @@ test "replace filter accepts quoted arguments" {
 
 ///|
 test "truncate filter uses a Unicode character limit" {
-  let engine = Engine::new("{{ value | truncate(5) }}").unwrap()
+  let engine = @moontemplate.Engine::new("{{ value | truncate(5) }}").unwrap()
   let ctx : Map[String, String] = Map([])
   ctx.set("value", "MoonBitTemplate")
   assert_eq(engine.render(ctx), "MoonB")
@@ -40,7 +44,7 @@ test "truncate filter uses a Unicode character limit" {
 
 ///|
 test "default filter handles missing and blank values" {
-  let engine = Engine::new(
+  let engine = @moontemplate.Engine::new(
     "{{ missing | default(\"fallback\") }}|{{ blank | default(\"fallback\") }}",
   ).unwrap()
   let ctx : Map[String, String] = Map([])
@@ -50,7 +54,7 @@ test "default filter handles missing and blank values" {
 
 ///|
 test "nested control flow remains compatible" {
-  let engine = Engine::new(
+  let engine = @moontemplate.Engine::new(
     "{% if outer %}{% if inner %}yes{% else %}inner-no{% endif %}{% else %}outer-no{% endif %}",
   ).unwrap()
   let ctx : Map[String, String] = Map([])

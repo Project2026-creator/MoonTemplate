@@ -3,9 +3,9 @@
 /// eviction is deterministic and easy to inspect in production diagnostics.
 pub struct TemplateCache {
   entries : Array[CacheEntry]
-  capacity : Int
-  mut hits : Int
-  mut misses : Int
+  capacity : Int32
+  mut hits : Int32
+  mut misses : Int32
 }
 
 ///|
@@ -15,7 +15,7 @@ struct CacheEntry {
 }
 
 ///|
-pub fn TemplateCache::new(capacity : Int) -> TemplateCache {
+pub fn TemplateCache::new(capacity : Int32) -> TemplateCache {
   {
     entries: [],
     capacity: if capacity < 0 {
@@ -29,22 +29,22 @@ pub fn TemplateCache::new(capacity : Int) -> TemplateCache {
 }
 
 ///|
-pub fn TemplateCache::capacity(self : TemplateCache) -> Int {
+pub fn TemplateCache::capacity(self : TemplateCache) -> Int32 {
   self.capacity
 }
 
 ///|
-pub fn TemplateCache::hits(self : TemplateCache) -> Int {
+pub fn TemplateCache::hits(self : TemplateCache) -> Int32 {
   self.hits
 }
 
 ///|
-pub fn TemplateCache::misses(self : TemplateCache) -> Int {
+pub fn TemplateCache::misses(self : TemplateCache) -> Int32 {
   self.misses
 }
 
 ///|
-pub fn TemplateCache::len(self : TemplateCache) -> Int {
+pub fn TemplateCache::len(self : TemplateCache) -> Int32 {
   self.entries.length()
 }
 
@@ -90,14 +90,14 @@ pub fn TemplateCache::insert(
   }
   for index in 0..<self.entries.length() {
     if self.entries[index].key == key {
-      self.entries[index] = { key, engine }
+      self.entries[index] = { key, engine, }
       return true
     }
   }
   if self.entries.length() >= self.capacity {
     let _ = self.entries.remove(0)
   }
-  self.entries.push({ key, engine })
+  self.entries.push({ key, engine, })
   true
 }
 

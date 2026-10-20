@@ -8,7 +8,7 @@ pub struct TemplateBundle {
 
 ///|
 pub fn TemplateBundle::new() -> TemplateBundle {
-  { templates: Map([], capacity=8), order: [] }
+  { templates: Map([], capacity=8), order: [], }
 }
 
 ///|
@@ -85,7 +85,7 @@ pub fn TemplateBundle::names(self : TemplateBundle) -> Array[String] {
 }
 
 ///|
-pub fn TemplateBundle::length(self : TemplateBundle) -> Int {
+pub fn TemplateBundle::length(self : TemplateBundle) -> Int32 {
   self.order.length()
 }
 

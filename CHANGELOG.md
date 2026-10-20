@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Restore strict checks on MoonBit 0.10.16 with explicit trait-method attachments,
+  qualified black-box test APIs, and replacements for deprecated JSON, string-view,
+  and iterator calls.
+- Refresh formatting and the generated API snapshot for `Int32` annotations while
+  preserving the existing rendering behavior and trait method call syntax.
+- Make the PowerShell quality gate stop on each failed API-generation or CLI
+  command instead of allowing a later successful command to hide the failure.
+
 ## 0.2.8
 
 - Refresh the runtime for MoonBit 0.10.10 and remove deprecated builder APIs.

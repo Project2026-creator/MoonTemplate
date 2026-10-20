@@ -2,7 +2,7 @@
 /// Helpers for turning structured diagnostics into stable CI and editor text.
 pub fn diagnostics_count_by_kind(
   diagnostics : Array[Diagnostic],
-) -> Array[(String, Int)] {
+) -> Array[(String, Int32)] {
   let mut lexical = 0
   let mut syntax = 0
   let mut filter = 0

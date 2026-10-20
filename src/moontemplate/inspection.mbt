@@ -8,6 +8,12 @@ pub struct TemplateInspection {
 } derive(Debug, Eq)
 
 ///|
+pub extend TemplateInspection with Debug::{to_repr}
+
+///|
+pub extend TemplateInspection with Eq::{not_equal, equal}
+
+///|
 pub fn TemplateInspection::stats(self : TemplateInspection) -> TemplateStats {
   self.stats
 }
@@ -65,8 +71,14 @@ pub fn inspect_template(
 pub struct ContextAudit {
   missing : Array[String]
   unused : Array[String]
-  provided_count : Int
+  provided_count : Int32
 } derive(Debug, Eq)
+
+///|
+pub extend ContextAudit with Debug::{to_repr}
+
+///|
+pub extend ContextAudit with Eq::{not_equal, equal}
 
 ///|
 pub fn ContextAudit::missing(self : ContextAudit) -> Array[String] {
@@ -79,7 +91,7 @@ pub fn ContextAudit::unused(self : ContextAudit) -> Array[String] {
 }
 
 ///|
-pub fn ContextAudit::provided_count(self : ContextAudit) -> Int {
+pub fn ContextAudit::provided_count(self : ContextAudit) -> Int32 {
   self.provided_count
 }
 
@@ -103,7 +115,7 @@ pub fn Engine::audit_context(
       unused.push(name)
     }
   }
-  { missing, unused, provided_count: context.length() }
+  { missing, unused, provided_count: context.length(), }
 }
 
 ///|

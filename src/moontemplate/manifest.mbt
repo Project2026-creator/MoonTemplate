@@ -10,8 +10,14 @@ pub struct ProjectManifest {
 } derive(Debug, Eq)
 
 ///|
+pub extend ProjectManifest with Debug::{to_repr}
+
+///|
+pub extend ProjectManifest with Eq::{not_equal, equal}
+
+///|
 pub fn ProjectManifest::new(name : String, version : String) -> ProjectManifest {
-  { name, version, description: "", features: [], targets: [] }
+  { name, version, description: "", features: [], targets: [], }
 }
 
 ///|

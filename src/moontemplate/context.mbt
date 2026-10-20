@@ -7,12 +7,18 @@ pub struct Context {
 } derive(Debug, Eq)
 
 ///|
+pub extend Context with Debug::{to_repr}
+
+///|
+pub extend Context with Eq::{not_equal, equal}
+
+///|
 pub fn Context::new() -> Context {
-  { values: Map([], capacity=8), frozen: false }
+  { values: Map([], capacity=8), frozen: false, }
 }
 
 ///|
-pub fn Context::with_capacity(capacity : Int) -> Context {
+pub fn Context::with_capacity(capacity : Int32) -> Context {
   {
     values: Map([], capacity=if capacity < 0 { 0 } else { capacity }),
     frozen: false,
@@ -56,7 +62,7 @@ pub fn Context::set_bool(self : Context, key : String, value : Bool) -> Context 
 }
 
 ///|
-pub fn Context::set_int(self : Context, key : String, value : Int) -> Context {
+pub fn Context::set_int(self : Context, key : String, value : Int32) -> Context {
   self.set(key, value.to_string())
 }
 
@@ -91,7 +97,7 @@ pub fn Context::remove(self : Context, key : String) -> Context {
 }
 
 ///|
-pub fn Context::length(self : Context) -> Int {
+pub fn Context::length(self : Context) -> Int32 {
   self.values.length()
 }
 

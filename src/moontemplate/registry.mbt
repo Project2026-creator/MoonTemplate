@@ -8,7 +8,7 @@ pub struct TemplateRegistry {
 }
 
 ///|
-pub fn TemplateRegistry::new(cache_capacity : Int) -> TemplateRegistry {
+pub fn TemplateRegistry::new(cache_capacity : Int32) -> TemplateRegistry {
   {
     bundle: TemplateBundle::new(),
     aliases: Map([], capacity=8),
@@ -119,7 +119,7 @@ pub fn TemplateRegistry::audit(self : TemplateRegistry) -> Array[String] {
 ///|
 pub fn registry_from_bundle(
   bundle : TemplateBundle,
-  cache_capacity : Int,
+  cache_capacity : Int32,
 ) -> TemplateRegistry {
   let registry = TemplateRegistry::new(cache_capacity)
   for name in bundle.names() {

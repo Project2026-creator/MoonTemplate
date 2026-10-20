@@ -1,6 +1,6 @@
 ///|
 test "syntax diagnostics report Unicode-aware line and column" {
-  let result = Engine::new_with_diagnostics("标题\n{{ missing")
+  let result = @moontemplate.Engine::new_with_diagnostics("标题\n{{ missing")
   match result {
     Err(diagnostics) => {
       let diagnostic = diagnostics[0]
@@ -16,7 +16,7 @@ test "syntax diagnostics report Unicode-aware line and column" {
 
 ///|
 test "lexical diagnostics report an unterminated comment" {
-  match Engine::new_with_diagnostics("before\n{# not closed") {
+  match @moontemplate.Engine::new_with_diagnostics("before\n{# not closed") {
     Err(diagnostics) => {
       let diagnostic = diagnostics[0]
       assert_true(diagnostic.kind() == Lexical)
@@ -30,7 +30,10 @@ test "lexical diagnostics report an unterminated comment" {
 
 ///|
 test "filter diagnostics reject invalid parameter types" {
-  match Engine::new_with_diagnostics("{{ name | truncate(\"five\") }}") {
+  match
+    @moontemplate.Engine::new_with_diagnostics(
+      "{{ name | truncate(\"five\") }}",
+    ) {
     Err(diagnostics) => {
       let diagnostic = diagnostics[0]
       assert_true(diagnostic.kind() == Filter)
@@ -43,7 +46,7 @@ test "filter diagnostics reject invalid parameter types" {
 
 ///|
 test "strict render diagnoses unknown legacy filters" {
-  let engine = Engine::new("{{ name | missing }}").unwrap()
+  let engine = @moontemplate.Engine::new("{{ name | missing }}").unwrap()
   let context : Map[String, String] = Map([])
   context.set("name", "MoonBit")
   match engine.render_strict(context) {

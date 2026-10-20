@@ -196,7 +196,7 @@ pub fn report_key_value(key : String, value : String) -> String {
 }
 
 ///|
-pub fn report_counts(values : Array[(String, Int)]) -> String {
+pub fn report_counts(values : Array[(String, Int32)]) -> String {
   let rows = []
   for pair in values {
     let (key, value) = pair
